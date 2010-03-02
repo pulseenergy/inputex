@@ -89,22 +89,28 @@ var TaskManager = {
       var json = YAHOO.lang.JSON.stringify(value);
       
       YAHOO.util.Dom.get('saveStatus').innerHTML = "saving...";
-      YAHOO.util.Connect.asyncRequest('POST', 'store.php', { 
+
+		alert("send the following json to your server :"+json);
+
+		// Exemple of a real world application :
+      /*YAHOO.util.Connect.asyncRequest('POST', 'store.php', { 
          success: function(o) {
-            var d = new Date();
-            YAHOO.util.Dom.get('saveStatus').innerHTML = "saved at "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+            
          }, 
          failure: function(o) {
             YAHOO.util.Dom.get('saveStatus').innerHTML = "error !";
          }
-      }, "data="+json);
+      }, "data="+json);*/
+
+		var d = new Date();
+      YAHOO.util.Dom.get('saveStatus').innerHTML = "saved at "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
    },
    
    /**
     * Ajax request to retreive the data
     */
    queryData: function() {
-      YAHOO.util.Connect.asyncRequest('GET', 'store.php', { 
+      YAHOO.util.Connect.asyncRequest('GET', 'store.json', { 
          success: function(o) {
             var childNodes = YAHOO.lang.JSON.parse(o.responseText);
             this.populateTree(childNodes);
