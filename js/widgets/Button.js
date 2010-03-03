@@ -7,9 +7,15 @@
  * @constructor
  * @param {Object} options The following options are available for Button :
  * <ul>
+ * 	<li><b>id</b>: id of the created A element (default is auto-generated)</li>
+ * 	<li><b>className</b>: CSS class added to the button (default is either "inputEx-Button-Link" or "inputEx-Button-Submit-Link", depending on "type")</li>
+ * 	<li><b>parentEl</b>: The DOM element where we should append the button</li>
+ * 	<li><b>type</b>: "link", "submit-link" or "submit"</li>
+ * 	<li><b>value</b>: text displayed inside the button</li>
+ * 	<li><b>disabled</b>: Disable the button after creation</li>
+ * 	<li><b>onClick</b>: Custom click event handler</li>
  * </ul>
  */
- 
 inputEx.widget.Button = function(options) {
    
    this.setOptions(options || {});
@@ -23,7 +29,9 @@ inputEx.widget.Button = function(options) {
 
 lang.augmentObject(inputEx.widget.Button.prototype,{
    
-   
+   /**
+ 	 * set the default options
+ 	 */
    setOptions: function(options) {
       
       this.options = {};
@@ -48,7 +56,11 @@ lang.augmentObject(inputEx.widget.Button.prototype,{
       
    },
    
-   
+   /**
+ 	 * render the button into the parent Element
+    * @param {DOMElement} parentEl The DOM element where the button should be rendered
+	 * @return {DOMElement} The created button
+	 */
    render: function(parentEl) {
       
       var innerSpan;
@@ -80,10 +92,21 @@ lang.augmentObject(inputEx.widget.Button.prototype,{
       return this.el;
    },
    
-   
+   /**
+ 	 * attach the listeners on "click" event and create the custom events
+	 */
    initEvents: function() {
-      
+
+      /**
+		 * Click Event facade (YUI custom event)
+ 		 * @event clickEvent
+		 */ 
       this.clickEvent = new util.CustomEvent("click");
+
+      /**
+		 * Submit Event facade (YUI custom event)
+ 		 * @event submitEvent
+		 */
       this.submitEvent = new util.CustomEvent("submit");
       
       
@@ -125,7 +148,9 @@ lang.augmentObject(inputEx.widget.Button.prototype,{
       
    },
    
-   
+   /**
+ 	 * Disable the button
+	 */
    disable: function() {
       
       this.disabled = true;
@@ -137,7 +162,9 @@ lang.augmentObject(inputEx.widget.Button.prototype,{
       }
    },
    
-   
+   /**
+ 	 * Enable the button
+	 */
    enable: function() {
       
       this.disabled = false;
