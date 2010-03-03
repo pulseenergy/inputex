@@ -6,7 +6,7 @@
  * <p>Examples:</p>
  * <ul>
  *    <li><a href='http://javascript.neyric.com/yql/js.php?url=http://gist.github.com/106503.txt'>http://javascript.neyric.com/yql/js.php?url=http://gist.github.com/106503.txt</a></li>
- *    <li><a href='http://javascript.neyric.com/yql/js.php?code=y.log(%22test%22)'>http://javascript.neyric.com/yql/js.php?code=y.log(%22test%22)</a></li>
+ *    <li><a href='http://javascript.neyric.com/yql/js.php?code=...jscode...'>http://javascript.neyric.com/yql/js.php?code=...jscode...</a></li>
  * </ul>
  * <p>We use a classic JSONP hack to get the results via a callback method.</p>
  * @class inputEx.YQL
@@ -41,7 +41,7 @@ inputEx.YQL = {
 	 * @param {Function} callback Callback function
 	 */
 	queryCode: function(codeStr, callback) {
-		var url = ("http://javascript.neyric.com/yql/js.php?code="+window.encodeURIComponent(codeStr)).replace(/'/g,"\\'");
+		var url = ("http://javascript.neyric.com/yql/js.php?code="+window.encodeURIComponent(codeStr)).replace(new RegExp("'","g"),"\\'");
 		var yql = "use '"+url+"' as yqlexconsole; select * from yqlexconsole;";
 		inputEx.YQL.query(yql,callback);
 	},
@@ -52,7 +52,7 @@ inputEx.YQL = {
 	 * @param {Function} callback Callback function
 	 */
 	queryUrl: function(codeUrl, callback) {
-	   var url = ("http://javascript.neyric.com/yql/js.php?url="+window.encodeURIComponent(codeUrl)).replace(/'/g,"\\'");
+	   var url = ("http://javascript.neyric.com/yql/js.php?url="+window.encodeURIComponent(codeUrl)).replace(new RegExp("'","g"),"\\'");
 		var yql = "use '"+url+"' as yqlexconsole; select * from yqlexconsole;";
 		inputEx.YQL.query(yql,callback);
 	},

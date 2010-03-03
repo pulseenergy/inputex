@@ -1,6 +1,6 @@
 /* 
 Distributed under the MIT License :
-Visit http://javascript.neyric.com/inputex for more informations
+Visit http://neyric.github.com/inputex for more informations
 
 Copyright (c) 2007-2010, Eric Abouaf <eric.abouaf at gmail.com>
 
@@ -83,7 +83,7 @@ inputEx = function(fieldOptions, parentField) {
 
 lang.augmentObject(inputEx, {
    
-   VERSION: "0.4.0",
+   VERSION: "0.5.0",
    
    /**
     * Url to the spacer image. This url schould be changed according to your project directories
@@ -5061,8 +5061,7 @@ lang.extend(inputEx.RadioField, inputEx.Field, {
 	 */
 	setOptions: function(options) {
 	   inputEx.RadioField.superclass.setOptions.call(this, options);
-
-      this.options.className = options.className ? options.className : 'inputEx-Field inputEx-RadioField';
+      
 	   if (lang.isUndefined(options.allowAny) || options.allowAny === false ) {
         this.options.allowAny = false;
       } else {
@@ -5075,6 +5074,14 @@ lang.extend(inputEx.RadioField, inputEx.Field, {
       this.options.choices = options.choices;
       // values == choices if not provided
 	   this.options.values = lang.isArray(options.values) ? options.values : options.choices;
+	   
+	   this.options.display = options.display === "vertically" ? "vertically" : "inline"; // default "inline"
+	   
+	   this.options.className = options.className ? options.className : 'inputEx-Field inputEx-RadioField';
+	   if (this.options.display === "vertically") {
+         this.options.className +=  ' inputEx-RadioField-Vertically';
+      }
+      
 	},
 	   
 	/**
@@ -5116,11 +5123,14 @@ lang.extend(inputEx.RadioField, inputEx.Field, {
            this.radioAny = inputEx.cn('input', { type: 'radio', name: this.options.name });
         }
 	     div.appendChild(this.radioAny);
-	     
+        
         this.anyField = new inputEx.StringField({value:this.options.allowAny.value});
+        this.anyField.disable();
+        
         Dom.setStyle(this.radioAny, "float","left");
         Dom.setStyle(this.anyField.getEl(), "float","left");
-        this.anyField.disable();
+        /* Hack for firefox 3.5+ */ 
+        if (YAHOO.env.ua.gecko >= 1.91) { Dom.setStyle(this.radioAny, "marginTop","0.2em"); }
         
         if (this.options.allowAny.separators) {
      	     sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[0] || '');

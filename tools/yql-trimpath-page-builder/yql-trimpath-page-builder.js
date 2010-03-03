@@ -66,7 +66,7 @@
     		 this.templatesPanel.render(document.body);
 
 
-          inputEx.spacerUrl = "http://javascript.neyric.com/inputex/images/space.gif";
+          inputEx.spacerUrl = "http://neyric.github.com/inputex/images/space.gif";
 		    this.templates = new inputEx.ListField({
     			listLabel: 'Templates',
     			elementType: {type: 'text', rows: 5, cols: 60 },
