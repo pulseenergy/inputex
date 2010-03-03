@@ -42,6 +42,7 @@ inputEx.RPC = {
                      form.hideMask();
                   }
                });
+					return false; // do NOT send the browser submit event
             }}
          ];
       }
