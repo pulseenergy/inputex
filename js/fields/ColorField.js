@@ -99,7 +99,7 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	
 	renderPalette: function() {
       
-      var defaultPalette, overlayBody, colorGrid;
+      var defaultPalette, overlayBody;
       
       // render once !
       if (this.paletteRendered) return;
@@ -120,8 +120,8 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 
       // Render the color grid
       overlayBody = document.getElementById(this.oOverlay.body.id);
-      colorGrid = this.renderColorGrid();
-      overlayBody.appendChild(colorGrid);
+      this.colorGrid = this.renderColorGrid();
+      overlayBody.appendChild(this.colorGrid);
 
       // Unsubscribe the event so this function is called only once
       this.button.unsubscribe("mousedown", this.renderPalette); 
@@ -143,20 +143,51 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	 */
 	renderColorGrid: function() {
 	   
-	   var grid = inputEx.cn('div', {className: 'inputEx-ColorField-Grid'});
+	   var grid, eventDelegation, square, i;
 	   
-	   for(var i = 0 ; i < this.length ; i++) {
+	   // container
+	   grid = inputEx.cn('div', {className: 'inputEx-ColorField-Grid'});
+	   
+	   // Is event delegation available ?
+	   // (YAHOO.util.Event.delegate method is in "event-delegate" YUI-module)
+	   eventDelegation = !lang.isUndefined(Event.delegate);
+	   
+	   for(i = 0 ; i < this.length ; i++) {
 	      
 	      //var square = inputEx.cn('div', {className: 'inputEx-ColorField-square'},{backgroundColor: this.colors[i], width:this.cellWidth+"px", height:this.cellHeight+"px", margin:this.cellMargin+"px" });
-	      var square = inputEx.cn('div', {className: 'inputEx-ColorField-square'},{backgroundColor: this.colors[i] });
+	      square = inputEx.cn('div', {className: 'inputEx-ColorField-square'},{backgroundColor: this.colors[i] });
 	   	grid.appendChild(square);
 	   	
-	   	Event.addListener(square, "mousedown", this.onColorClick, this, true );
+	   	// No event delegation available : add a listener on each square
+	   	if (!eventDelegation) {
+	   	  Event.addListener(square, "mousedown", function(e) {
+	   	     var el = Event.getTarget(e);
+	   	     this.onColorClick(e,el,grid);
+	   	  }, this, true );
+   	   }
 	   	
 	   	// <br clear='both'/> insertion to end a line
 	   	// ( + always after the last colored square)
 	   	if (i%this.cellPerLine === this.cellPerLine-1 || i === this.length-1) {
             grid.appendChild(inputEx.cn('br',{clear:'both'}));
+         }
+      }
+      
+      // Mousedown event delegation
+      if (eventDelegation) {
+         
+         if (!lang.isUndefined(YAHOO.util.Selector)) {
+            
+            Event.delegate(grid,"mousedown",this.onColorClick,"div.inputEx-ColorField-square",this,true);
+            
+         } else {
+            
+            Event.delegate(grid,"mousedown",this.onColorClick,function(el) {
+               if (el.nodeName === "DIV" && YAHOO.util.Dom.hasClass(el,'inputEx-ColorField-square')) {
+                  return el;
+               }
+            },this,true);
+            
          }
       }
       
@@ -167,13 +198,11 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	 * Handle a color selection
 	 * @param {Event} e The original click event
 	 */
-	onColorClick: function(e) {
-	   
-		var square = Event.getTarget(e);
+	onColorClick: function(e,square,container) {
 		
 		// Stop the event to prevent a selection
 		Event.stopEvent(e);
-	   		   	
+	   
 	   // Overlay closure
       this.oOverlay.hide();
        
@@ -209,7 +238,24 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	 */
 	close: function() {
 	  this.oOverlay.hide();
-	}
+	},
+	
+	/**
+    * Purge all event listeners and remove the component from the dom
+    */
+   destroy: function() {
+      
+      // colorEl listener
+      Event.purgeElement(this.colorEl);
+      
+      // remove squares' mousedown listener(s)
+      if (this.colorGrid) {
+         Event.purgeElement(this.colorGrid,true);
+      }
+      
+      inputEx.ColorField.superclass.destroy.call(this);
+      
+   }
 	  
 }); 
 	
