@@ -15,19 +15,19 @@ version 0.5.0 :
 
 - <!> Warning <!> important API changes:
    * remove "inputParams" syntax when defining fields inside a group or form definition
-			this means you no longer have to type { type: 'string', inputParams: { name: 'lastname' } }
-			but simply: { type: 'string', name: 'lastname' }
-			
-			The 'type' property is therefore prohibited as an attribute name for a Field.
-			
-   * form buttons extracted into a widget class : inputEx.widget.Button 
-			(3 types : 'submit', 'submit-link', 'link') 
-			
-			The inputEx-button module is REQUIRED for Form usage. (any page requiring js/Form.js should include js/widgets/button.js)
+     this means you no longer have to type { type: 'string', inputParams: { name: 'lastname' } }
+     but simply: { type: 'string', name: 'lastname' }
+     
+     The 'type' property is therefore prohibited as an attribute name for a Field.
 
-	 * Form buttons 'onClick' handlers should now return false to stop the submit event
-	
-	 * Form buttons 'onSubmit' handlers should now return false to stop the submit event
+   * form buttons extracted into a widget class : inputEx.widget.Button
+     (3 types : 'submit', 'submit-link', 'link') 
+
+     The inputEx-button module is REQUIRED for Form usage. (any page requiring js/Form.js should include js/widgets/button.js)
+
+   * Form buttons 'onClick' handlers should now return false to stop the submit event
+
+   * Form buttons 'onSubmit' handlers should now return false to stop the submit event
 
    * Adding setParentField/getParentField methods to all fields + 
      implementation in meta-fields: Group (+Form,Combine), InPlaceEdit, ListField, TreeField and TypeField

@@ -343,7 +343,12 @@ div.inputEx-ColorField-button {
 div.inputEx-ColorField-square {
    float:left;
    cursor: pointer;
+   width:15px;
+   height:15px;
+   margin:2px;
 }
+
+.inputEx-ColorField-Grid { padding:5px; }
 
 div.inputEx-ColorField div.yui-overlay div.bd {
    background:white no-repeat scroll 5px 5px;
