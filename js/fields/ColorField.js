@@ -153,14 +153,12 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	   	
 	   	Event.addListener(square, "mousedown", this.onColorClick, this, true );
 	   	
-	   	// <br /> insertion to start a new line
-	   	if (i%this.cellPerLine === this.cellPerLine-1) {
+	   	// <br clear='both'/> insertion to end a line
+	   	// ( + always after the last colored square)
+	   	if (i%this.cellPerLine === this.cellPerLine-1 || i === this.length-1) {
             grid.appendChild(inputEx.cn('br',{clear:'both'}));
          }
       }
-      
-      // final 'float' clear
-      grid.appendChild(inputEx.cn('br',{clear:'both'}));
       
 	   return grid;
 	},
