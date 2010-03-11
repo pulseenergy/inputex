@@ -43,6 +43,8 @@ lang.extend(inputEx.SelectField, inputEx.Field, {
     * Build a select tag with options
     */
    renderComponent: function() {
+      
+      var optionEl, i, length;
 
       this.el = inputEx.cn('select', {id: this.divEl.id?this.divEl.id+'-field':YAHOO.util.Dom.generateId(), name: this.options.name || ''});
       
@@ -50,14 +52,15 @@ lang.extend(inputEx.SelectField, inputEx.Field, {
       
       this.optionEls = [];
       
-      var optionEl;
-      for( var i = 0 ; i < this.options.selectValues.length ; i++) {
+      for(i = 0, length = this.options.selectValues.length; i < length ; i++) {
          
          optionEl = inputEx.cn('option', {value: this.options.selectValues[i]}, null, this.options.selectOptions[i]);
          
          this.optionEls.push(optionEl);
          this.el.appendChild(optionEl);
+
       }
+
       this.fieldContainer.appendChild(this.el);
    },
    
@@ -76,13 +79,19 @@ lang.extend(inputEx.SelectField, inputEx.Field, {
     * @param {boolean} [sendUpdatedEvt] (optional) Wether this setValue should fire the updatedEvt or not (default is true, pass false to NOT send the event)
     */
    setValue: function(value, sendUpdatedEvt) {
-      var index = 0;
-      var option;
-      for(var i = 0 ; i < this.options.selectValues.length ; i++) {
+	
+      var i, length, option;
+
+      for(i = 0, length = this.options.selectValues.length; i < length ; i++) {
+	
          if(value === this.options.selectValues[i]) {
+	
             option = this.el.childNodes[i];
 		      option.selected = "selected";
+		      break; // option node already found
+		
          }
+
       }
       
 		// Call Field.setValue to set class and fire updated event
@@ -120,7 +129,7 @@ lang.extend(inputEx.SelectField, inputEx.Field, {
       var value = config.value,
 			 option = ""+(!lang.isUndefined(config.option) ? config.option : config.value),
 			 nbOptions = this.options.selectOptions.length,
-      	 position = nbOptions, // position of new option (default last)
+			 position = nbOptions, // position of new option (default last)
 			 i;
       
       if (lang.isNumber(config.position) && config.position >= 0 && config.position <= position) {
@@ -151,7 +160,7 @@ lang.extend(inputEx.SelectField, inputEx.Field, {
 
       // new option in select
       var newOption = inputEx.cn('option', {value: value}, null, option);
-      this.optionEls = this.optionEls.splice(position,0,newOption);
+      this.optionEls.splice(position,0,newOption);
       
       if (position<nbOptions) {
          YAHOO.util.Dom.insertBefore(newOption,this.el.childNodes[position]);
