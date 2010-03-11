@@ -14,8 +14,9 @@ version 0.5.1 :
 ---------------
 
 - Field enhancements:
-   * colorField : no hardcoded css, use inputEx-ColorField-square and inputEx-ColorField-Grid classes instead
-   * hiddenField : getValue now returns the raw value as passed to setValue, without type casting as 'string',
+   * colorField : no hardcoded css, use inputEx-ColorField-square and inputEx-ColorField-Grid classes instead,
+                  hovered or selected colored square is emphasized with a 1px-border
+   * hiddenField : getValue returns the raw value as passed to setValue, without type casting as 'string',
                    but keep in mind that HTML form submit still casts the value as 'string'.
 
 

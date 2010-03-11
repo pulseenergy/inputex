@@ -47,7 +47,7 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	   this.el = inputEx.cn('input', {
 	      type: 'hidden', 
 	      name: this.options.name || '', 
-	      value: this.options.value || '#DD7870' });
+	      value: this.options.value || '#FFFFFF' });
 	   	   
 	   // Create a colored area
 	   this.colorEl = inputEx.cn('div', {className: 'inputEx-ColorField-button'}, {backgroundColor: this.el.value});
@@ -127,6 +127,10 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
       this.button.unsubscribe("mousedown", this.renderPalette); 
 
       this.paletteRendered = true;
+      
+      // Select the square in the created palette from the value
+      // This must be done after "this.paletteRendered = true".
+      this.markSelectedColor();
 	},
 	
 	/**
@@ -145,6 +149,9 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	   
 	   var grid, eventDelegation, square, i;
 	   
+	   // remember squares
+	   this.squares = [];
+	
 	   // container
 	   grid = inputEx.cn('div', {className: 'inputEx-ColorField-Grid'});
 	   
@@ -157,6 +164,8 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	      //var square = inputEx.cn('div', {className: 'inputEx-ColorField-square'},{backgroundColor: this.colors[i], width:this.cellWidth+"px", height:this.cellHeight+"px", margin:this.cellMargin+"px" });
 	      square = inputEx.cn('div', {className: 'inputEx-ColorField-square'},{backgroundColor: this.colors[i] });
 	   	grid.appendChild(square);
+			
+	   	this.squares.push(square);
 	   	
 	   	// No event delegation available : add a listener on each square
 	   	if (!eventDelegation) {
@@ -209,6 +218,7 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	   // SetValue
 		var color = Dom.getStyle(square,'background-color');
 		var hexaColor = inputEx.ColorField.ensureHexa(color);
+		
 	   this.setValue(hexaColor);
 	},
 	
@@ -218,8 +228,10 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
 	 * @param {boolean} [sendUpdatedEvt] (optional) Wether this setValue should fire the updatedEvt or not (default is true, pass false to NOT send the event)
 	 */
 	setValue: function(value, sendUpdatedEvt) {
+		
 	   this.el.value = value;
-	   Dom.setStyle(this.colorEl, 'background-color', this.el.value);
+	
+		this.markSelectedColor(value);
 
 		// Call Field.setValue to set class and fire updated event
 		inputEx.ColorField.superclass.setValue.call(this,value, sendUpdatedEvt);
@@ -255,7 +267,40 @@ lang.extend(inputEx.ColorField, inputEx.Field, {
       
       inputEx.ColorField.superclass.destroy.call(this);
       
-   }
+   },
+
+	markSelectedColor: function(value) {
+		
+		var i;
+		
+		value = value || this.getValue();
+		
+		// mark the colored square in the palette as 'selected'
+		if (!!value && this.paletteRendered) {
+			
+			value = value.toLowerCase(); // normalize case for following test
+			
+			for (i=0; i<this.length; i++) {
+				
+				// test color in lower case
+				if (this.colors[i].toLowerCase() === value) {
+					
+					YAHOO.util.Dom.addClass(this.squares[i],'selected');
+					
+				} else {
+					
+					YAHOO.util.Dom.removeClass(this.squares[i],'selected');
+					
+				}
+				
+			}
+			
+		}
+		
+		// set background color on colorEl
+		Dom.setStyle(this.colorEl, 'background-color', this.el.value);
+		
+	}
 	  
 }); 
 	
