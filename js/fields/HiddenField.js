@@ -21,6 +21,8 @@ YAHOO.lang.extend(inputEx.HiddenField, inputEx.Field, {
 	   this.divEl = inputEx.cn('div', null, {display: 'none'});
 	   
 	   this.el = inputEx.cn('input', {type: 'hidden'});
+	   this.rawValue = ''; // initialize the rawValue with '' (default value of a hidden field)
+	
 	   if(this.options.name) this.el.name = this.options.name;
 	   this.divEl.appendChild(this.el);
    },

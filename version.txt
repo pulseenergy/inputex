@@ -19,6 +19,9 @@ version 0.5.1 :
    * hiddenField : getValue returns the raw value as passed to setValue, without type casting as 'string',
                    but keep in mind that HTML form submit still casts the value as 'string'.
 
+- Bug fixes:
+   * fix addOption bug on SelectField
+
 
 version 0.5.0 :
 ---------------
