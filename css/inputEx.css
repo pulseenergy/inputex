@@ -305,11 +305,10 @@ div.inputEx-PickerField {
 div.inputEx-PickerField .yui-menu-button button {
     background-position: center center;
     background-repeat: no-repeat;
-    overflow: hidden;
-    font-size: 9px;
-    padding: 2px;
+    padding:0;
     width:20px;
-    height:16px;
+    height:18px;
+    min-height:0; /* reset "min-height:2em" that prevented "height:18px" to be applied */
 }
 
 /*
@@ -337,7 +336,7 @@ div.inputEx-ColorField .yui-menu-button button {
 }
 
 div.inputEx-ColorField-button {
-	height: 18px;
+	height: 19px;
 	width: 100px;
 	border: 1px solid #B5B8C8;
 	margin-left: 0px;
