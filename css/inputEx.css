@@ -311,6 +311,11 @@ div.inputEx-PickerField .yui-menu-button button {
     min-height:0; /* reset "min-height:2em" that prevented "height:18px" to be applied */
 }
 
+div.inputEx-PickerField .yui-overlay {
+	-moz-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.2), -2px 2px 4px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.2), -2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /*
 * Date Picker
 */
@@ -318,9 +323,6 @@ div.inputEx-DatePickerField .yui-menu-button button {
     background-image: url(../images/calendar.gif);
 }
 
-div.inputEx-DatePickerField div.yui-overlay {
-   width: 210px;
-}
 
 /**
  * Color Field
