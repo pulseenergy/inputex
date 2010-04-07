@@ -32,7 +32,7 @@ lang.extend(inputEx.widget.dtInPlaceEdit, inputEx.widget.DataTable , {
 			// If the record got an id (meaning it isn't a new Row that the user didn't add yet)
 			if( !lang.isUndefined(record.getData('id')) ){
 				// If the data in the cellEditor changed
-				if(oArgs.newData != oArgs.oldData){
+				if(oArgs.newData !== oArgs.oldData){
 					this.onModifyItem(record, oArgs);
 				}
 			}
