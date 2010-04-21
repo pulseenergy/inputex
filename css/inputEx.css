@@ -663,3 +663,53 @@ tbody.yui-dt-data div.inputEx-dtInPlaceEdit-deleteLinkSpinner{
 	height:16px;
 	background:transparent url(../images/ajax-loader.gif) no-repeat scroll 20px 4px;
 }
+
+/**
+ * StringAvailability
+ */
+div.inputEx-StringField-wrapper div.availabilityDiv { 
+	display:none;
+	float:right;
+	height:20px;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv div.icon {
+	float:left;
+	display:none;
+	height:20px;
+	width:16px;
+	margin-left:5px;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv.loading div.icon {
+	display:block;
+	background: transparent url(../images/ajax-loader.gif) no-repeat 0 3px;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv.available div.icon {
+	display:block;
+	background: transparent url(../images/tick.gif) no-repeat 0 3px;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv.unavailable div.icon {
+	display:block;
+	background: transparent url(../images/exclamation.gif) no-repeat 0 3px;
+}
+
+
+div.inputEx-StringField-wrapper div.availabilityDiv div.text {
+	float:right;
+	height:20px;
+	padding:4px 5px 0;
+	font-size:85%;
+	font-weight:bold;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv.unavailable div.text,
+div.inputEx-StringField-wrapper div.availabilityDiv.required div.text{
+	color:#C00E0C;
+}
+
+div.inputEx-StringField-wrapper div.availabilityDiv.available div.text{
+	color:#2C811D;
+}
