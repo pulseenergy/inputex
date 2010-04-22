@@ -667,13 +667,13 @@ tbody.yui-dt-data div.inputEx-dtInPlaceEdit-deleteLinkSpinner{
 /**
  * StringAvailability
  */
-div.inputEx-StringField-wrapper div.availabilityDiv { 
+div.inputEx-fieldWrapper div.availabilityDiv { 
 	display:none;
-	float:right;
+	float:left;
 	height:20px;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv div.icon {
+div.inputEx-fieldWrapper div.availabilityDiv div.icon {
 	float:left;
 	display:none;
 	height:20px;
@@ -681,35 +681,35 @@ div.inputEx-StringField-wrapper div.availabilityDiv div.icon {
 	margin-left:5px;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv.loading div.icon {
+div.inputEx-fieldWrapper div.availabilityDiv.loading div.icon {
 	display:block;
 	background: transparent url(../images/ajax-loader.gif) no-repeat 0 3px;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv.available div.icon {
+div.inputEx-fieldWrapper div.availabilityDiv.available div.icon {
 	display:block;
 	background: transparent url(../images/tick.gif) no-repeat 0 3px;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv.unavailable div.icon {
+div.inputEx-fieldWrapper div.availabilityDiv.unavailable div.icon {
 	display:block;
 	background: transparent url(../images/exclamation.gif) no-repeat 0 3px;
 }
 
 
-div.inputEx-StringField-wrapper div.availabilityDiv div.text {
-	float:right;
+div.inputEx-fieldWrapper div.availabilityDiv div.text {
+	float:left;
 	height:20px;
 	padding:4px 5px 0;
 	font-size:85%;
 	font-weight:bold;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv.unavailable div.text,
-div.inputEx-StringField-wrapper div.availabilityDiv.required div.text{
+div.inputEx-fieldWrapper div.availabilityDiv.unavailable div.text,
+div.inputEx-fieldWrapper div.availabilityDiv.required div.text{
 	color:#C00E0C;
 }
 
-div.inputEx-StringField-wrapper div.availabilityDiv.available div.text{
+div.inputEx-fieldWrapper div.availabilityDiv.available div.text{
 	color:#2C811D;
 }

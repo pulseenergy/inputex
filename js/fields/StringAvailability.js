@@ -3,7 +3,7 @@
    var Event=YAHOO.util.Event,DOM=YAHOO.util.Dom,lang=YAHOO.lang;
 
 /**
- * TODO : invalid case !
+ * TODO : invalid case ! (ie: regexp)
  */
 inputEx.StringAvailability = function(options) {
 	inputEx.StringAvailability.superclass.constructor.call(this,options);
@@ -30,7 +30,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	},
 	
 	renderComponent: function() {
-		inputEx.StringAvailability.superclass.renderComponent.call(this);
+		inputEx.StringAvailability.superclass.renderComponent.call(this);		
 		
 		this.availabilityDiv = inputEx.cn('div', {'className':'availabilityDiv'});
 		this.availabilityDivIcon = inputEx.cn('div', {'className':'icon'});
@@ -39,13 +39,16 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		this.availabilityDiv.appendChild(this.availabilityDivIcon);
 		this.availabilityDiv.appendChild(this.availabilityDivText);
 		this.availabilityDiv.appendChild(inputEx.cn('div', {'className':'clear'}));
-		
-		YAHOO.util.Dom.getElementsByClassName('inputEx-StringField-wrapper', 'div', this.fieldContainer)[0].appendChild(this.availabilityDiv);
-		
-		YAHOO.util.Dom.getElementsByClassName('inputEx-StringField-wrapper', 'div', this.fieldContainer)[0].appendChild(inputEx.cn('div', {'className':'clear'}));
-		
+
 		// default value so the validate() function isn't broken on init
 		this.isAvailable = !this.options.required;
+	},
+	
+	render: function() {
+		inputEx.StringAvailability.superclass.render.call(this);
+		
+		// Must do it after renderComponent else this.fieldContainer isn't attached to a DOM element
+		DOM.insertAfter(this.availabilityDiv, this.fieldContainer);
 	},
 	
 	onKeyPress: function() {
