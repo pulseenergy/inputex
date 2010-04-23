@@ -39,9 +39,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		this.availabilityDiv.appendChild(this.availabilityDivIcon);
 		this.availabilityDiv.appendChild(this.availabilityDivText);
 		this.availabilityDiv.appendChild(inputEx.cn('div', {'className':'clear'}));
-
-		// default value so the validate() function isn't broken on init
-		this.isAvailable = !this.options.required;
+		
 	},
 	
 	render: function() {
@@ -142,7 +140,11 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	
 	validate: function(){
 		var valid = inputEx.StringAvailability.superclass.validate.call(this);
-		return this.isAvailable;
+		if(!lang.isUndefined(this.isAvailable)){
+			valid = this.isAvailable && valid;
+		}
+		
+		return valid;
 	},
 	
 	getAvailability: function(string) {
