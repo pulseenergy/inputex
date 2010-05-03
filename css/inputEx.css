@@ -391,7 +391,6 @@ div.inputEx-ColorField-button {
 	display: block;
 	display: inline-block;
 	*display: block;    /* For IE */
-	margin-top: .5em;
 	*margin: .25em 0;    /* For IE */
 	width: 1em;
 	height: 1em;
