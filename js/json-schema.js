@@ -146,6 +146,15 @@ inputEx.JsonSchema = {
     			'format':'date'
     		};
       }
+      else if(t == "multiselect" || t == "multiautocomplete"){
+        return {
+    			'type':'array',
+    			'optional': typeof ip.required == "undefined" ? true : !ip.required,
+    			'title': ip.label,
+    			'items': typeof ip.jsonSchemaRef == "undefined" ? {"type":"string"}: ip.jsonSchemaRef,// it's a little bit weird to mix a inputEx description field and jsonSchema in a specific attribute, we should had a $ref system to go through this properly
+    			'_inputex': ip
+    		};
+      }
       else {
 			return {
 				'type': 'string',
