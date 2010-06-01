@@ -38,7 +38,7 @@ YAHOO.lang.extend(inputEx.MultiAutoCompleteCustom, inputEx.MultiAutoComplete,{
       this.el.parentNode.appendChild(this.buttonAdd);
 
       
-      this.ddlist = new inputEx.widget.DDListCustom({parentEl: this.fieldContainer,maxItems: this.maxItems, maxItemsAlert: this.maxItemsAlert});
+      this.ddlist = new inputEx.widget.ListCustom({parentEl: this.fieldContainer,maxItems: this.maxItems, maxItemsAlert: this.maxItemsAlert});
       this.ddlist.itemRemovedEvt.subscribe(function() {
          this.setClassFromState();
          this.fireUpdatedEvt();
