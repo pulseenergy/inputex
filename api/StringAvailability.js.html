@@ -2,7 +2,7 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: inputEx   KeyValueField-beta.js  (YUI Library)</title>
+	<title>API: inputEx   StringAvailability.js  (YUI Library)</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/api.css" />
@@ -20,7 +20,7 @@
         <a href="./index.html" title="inputEx-library">inputEx-library</a> 
             &gt; <a href="./module_inputex.html" title="inputEx">inputEx</a>
                 
-                 &gt; KeyValueField-beta.js (source view) 
+                 &gt; StringAvailability.js (source view) 
         <form onsubmit="return false">
             <div id="propertysearch">
                 Search: <input autocomplete="off" id="searchinput" />
@@ -47,93 +47,197 @@
                         <style>
                             #doc3 .classopts { display:none; }
                         </style>
-                        <div class="highlight"><pre><span class="c">/**</span>
-<span class="c"> * Display a selectors for keys and auto-update the value field</span>
-<span class="c"> * @class inputEx.KeyValueField</span>
+                        <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	
+   <span class="kd">var</span> <span class="nx">Event</span><span class="o">=</span><span class="nx">YAHOO</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Event</span><span class="o">,</span><span class="nx">DOM</span><span class="o">=</span><span class="nx">YAHOO</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Dom</span><span class="o">,</span><span class="nx">lang</span><span class="o">=</span><span class="nx">YAHOO</span><span class="p">.</span><span class="nx">lang</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> * String field that sends an Ajax request to check if it is available</span>
+<span class="c"> * @class inputEx.StringAvailability</span>
+<span class="c"> * @extends inputEx.StringField</span>
 <span class="c"> * @constructor</span>
-<span class="c"> * @extends inputEx.CombineField</span>
-<span class="c"> * @param {Object} options InputEx definition object with the &quot;availableFields&quot;</span>
+<span class="c"> * @param {Object} options </span>
 <span class="c"> */</span>
-<span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">options</span><span class="p">);</span>
+<span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="o">,</span><span class="nx">options</span><span class="p">);</span>
 <span class="p">};</span>
 
-<span class="nx">YAHOO</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span><span class="o">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">CombineField</span><span class="o">,</span> <span class="p">{</span>
+<span class="nx">lang</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="o">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringField</span><span class="o">,</span> <span class="p">{</span>
    
-   <span class="c">/**</span>
-<span class="c">    * Subscribe the updatedEvt on the key selector</span>
-<span class="c">    */</span>
-   <span class="nx">initEvents</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">initEvents</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-
-      <span class="k">this</span><span class="p">.</span><span class="nx">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">updatedEvt</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">onSelectFieldChange</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kc">true</span><span class="p">);</span> 
-   <span class="p">}</span><span class="o">,</span>
-
-
 	<span class="c">/**</span>
-<span class="c">	 * Generate</span>
-<span class="c">	 */</span>
-	<span class="nx">generateSelectConfig</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">availableFields</span><span class="p">)</span> <span class="p">{</span>
-	
-		<span class="k">this</span><span class="p">.</span><span class="nx">nameIndex</span> <span class="o">=</span> <span class="p">{};</span>
-		
-	   <span class="kd">var</span> <span class="nx">fieldNames</span> <span class="o">=</span> <span class="p">[]</span><span class="o">,</span> <span class="nx">fieldLabels</span> <span class="o">=</span> <span class="p">[]</span><span class="o">,</span><span class="nx">i</span><span class="o">,</span> <span class="nx">field</span><span class="o">,</span> <span class="nx">fieldCopy</span><span class="o">,</span> <span class="nx">k</span><span class="o">,</span> <span class="nx">l</span><span class="o">;</span>
-	
-	   <span class="k">for</span><span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">,</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">availableFields</span><span class="p">.</span><span class="nx">length</span> <span class="o">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span> <span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	      <span class="nx">field</span> <span class="o">=</span>  <span class="nx">availableFields</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-			<span class="nx">fieldCopy</span> <span class="o">=</span> <span class="p">{};</span>
-			<span class="k">for</span><span class="p">(</span><span class="nx">k</span> <span class="k">in</span> <span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
-				<span class="k">if</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">k</span> <span class="o">!=</span> <span class="s2">&quot;label&quot;</span><span class="p">)</span> <span class="p">{</span>
-					<span class="nx">fieldCopy</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">=</span> <span class="nx">field</span><span class="p">[</span><span class="nx">k</span><span class="p">];</span>
-				<span class="p">}</span>
-			<span class="p">}</span>
-	      <span class="k">this</span><span class="p">.</span><span class="nx">nameIndex</span><span class="p">[</span><span class="nx">field</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">fieldCopy</span><span class="o">;</span>
-	      <span class="nx">fieldNames</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
-			<span class="nx">fieldLabels</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="kd">label</span> <span class="o">||</span> <span class="nx">field</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
-	   <span class="p">}</span>
-		
-		<span class="k">return</span> <span class="p">{</span><span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;select&#39;</span><span class="o">,</span> <span class="nx">selectValues</span><span class="o">:</span> <span class="nx">fieldNames</span><span class="o">,</span> <span class="nx">selectOptions</span><span class="o">:</span> <span class="nx">fieldLabels</span> <span class="p">};</span>
-	<span class="p">}</span><span class="o">,</span>
-
-	<span class="c">/**</span>
-<span class="c">	 * Setup the options.fields from the availableFields option</span>
+<span class="c">	 * @param {Object} options Options object as passed to the constructor</span>
 <span class="c">	 */</span>
 	<span class="nx">setOptions</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+	   <span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">options</span><span class="p">);</span>
 		
-		<span class="kd">var</span> <span class="nx">selectFieldConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">generateSelectConfig</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">availableFields</span><span class="p">);</span>
-	
-		<span class="kd">var</span> <span class="nx">newOptions</span> <span class="o">=</span> <span class="p">{</span>
-			<span class="nx">fields</span><span class="o">:</span> <span class="p">[</span>
-				<span class="nx">selectFieldConfig</span><span class="o">,</span>
-				<span class="k">this</span><span class="p">.</span><span class="nx">nameIndex</span><span class="p">[</span><span class="nx">options</span><span class="p">.</span><span class="nx">availableFields</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">name</span><span class="p">]</span>
-			<span class="p">]</span>
-		<span class="p">};</span>
+		<span class="c">// Server URI</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">uri</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">uri</span><span class="o">;</span>
+				
+		<span class="c">// Messages</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span> <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span> <span class="o">:</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span><span class="o">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span> <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span> <span class="o">:</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span><span class="o">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span> <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span> <span class="o">:</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span><span class="o">;</span>
 		
-		<span class="nx">YAHOO</span><span class="p">.</span><span class="nx">lang</span><span class="p">.</span><span class="nx">augmentObject</span><span class="p">(</span><span class="nx">newOptions</span><span class="o">,</span> <span class="nx">options</span><span class="p">);</span>
-		
-		<span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">newOptions</span><span class="p">);</span>
+		<span class="c">// Must hide default Msg to do it custom</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">showMsg</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
 	<span class="p">}</span><span class="o">,</span>
-   
-   <span class="c">/**</span>
-<span class="c">    * Rebuild the value field</span>
-<span class="c">    */</span>
-   <span class="nx">onSelectFieldChange</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="o">,</span> <span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">params</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-      <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nameIndex</span><span class="p">[</span><span class="nx">value</span><span class="p">];</span>
-      <span class="kd">var</span> <span class="nx">lastInput</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inputs</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">inputs</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
-      <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">divEl</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">lastInput</span><span class="p">.</span><span class="nx">getEl</span><span class="p">()</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">divEl</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
-      <span class="nx">lastInput</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">inputs</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
-      <span class="kd">var</span> <span class="nx">field</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">renderField</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span>
-      <span class="kd">var</span> <span class="nx">fieldEl</span> <span class="o">=</span> <span class="nx">field</span><span class="p">.</span><span class="nx">getEl</span><span class="p">();</span>
-   	<span class="nx">YAHOO</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Dom</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="nx">fieldEl</span><span class="o">,</span> <span class="s1">&#39;float&#39;</span><span class="o">,</span> <span class="s1">&#39;left&#39;</span><span class="p">);</span>
+	
+	<span class="nx">renderComponent</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">renderComponent</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>		
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span> <span class="o">=</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">cn</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="p">{</span><span class="s1">&#39;className&#39;</span><span class="o">:</span><span class="s1">&#39;availabilityDiv&#39;</span><span class="p">});</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivIcon</span> <span class="o">=</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">cn</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="p">{</span><span class="s1">&#39;className&#39;</span><span class="o">:</span><span class="s1">&#39;icon&#39;</span><span class="p">});</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span> <span class="o">=</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">cn</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="p">{</span><span class="s1">&#39;className&#39;</span><span class="o">:</span><span class="s1">&#39;text&#39;</span><span class="p">});</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivIcon</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">cn</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="p">{</span><span class="s1">&#39;className&#39;</span><span class="o">:</span><span class="s1">&#39;clear&#39;</span><span class="p">}));</span>
+		
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">render</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		
+		<span class="c">// Must do it after renderComponent else this.fieldContainer isn&#39;t attached to a DOM element</span>
+		<span class="nx">DOM</span><span class="p">.</span><span class="nx">insertAfter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">fieldContainer</span><span class="p">);</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">onKeyPress</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="c">// Must do this to wait that value is updated (for the getValue())</span>
+		<span class="nx">lang</span><span class="p">.</span><span class="nx">later</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="kd">function</span><span class="p">(){</span>
+			
+		<span class="c">// If field is empty</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getValue</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;&#39;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">stopTimer</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">setAvailabilityState</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">required</span> <span class="o">?</span> <span class="s2">&quot;required&quot;</span> <span class="o">:</span> <span class="s2">&quot;none&quot;</span><span class="p">);</span>
+			<span class="k">return</span><span class="o">;</span>
+		<span class="p">}</span>
+
+		<span class="k">this</span><span class="p">.</span><span class="nx">resetTimer</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">setAvailabilityState</span><span class="p">(</span><span class="s2">&quot;loading&quot;</span><span class="p">);</span>
+		
+		<span class="p">});</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">resetTimer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">stopTimer</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">startTimer</span><span class="p">();</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">startTimer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">timerId</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">that</span><span class="p">.</span><span class="nx">getAvailability</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">getValue</span><span class="p">());</span>
+		<span class="p">}</span><span class="o">,</span><span class="mi">500</span><span class="p">);</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">stopTimer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">timerId</span><span class="p">){</span>
+			<span class="nx">clearTimeout</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">timerId</span><span class="p">);</span>
+			<span class="nx">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">timerId</span><span class="o">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * What to do when the string is available</span>
+<span class="c">	 */</span>
+	<span class="nx">onAvailable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">setAvailabilityState</span><span class="p">(</span><span class="s2">&quot;available&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">isAvailable</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * What to do when the string is NOT available</span>
+<span class="c">	 */</span>
+	<span class="nx">onUnavailable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">setAvailabilityState</span><span class="p">(</span><span class="s2">&quot;unavailable&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">isAvailable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">setAvailabilityState</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;none&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+			<span class="nx">DOM</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="o">,</span> <span class="s1">&#39;class&#39;</span><span class="o">,</span> <span class="s1">&#39;availabilityDiv&#39;</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="o">;</span>
+			<span class="k">return</span><span class="o">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;loading&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span><span class="o">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;available&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span><span class="o">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;unavailable&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span><span class="o">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;required&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDivText</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">required</span><span class="o">;</span>
+		<span class="p">}</span>
+		
+		<span class="nx">DOM</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="o">,</span> <span class="s1">&#39;class&#39;</span><span class="o">,</span> <span class="s1">&#39;availabilityDiv &#39;</span><span class="o">+</span><span class="nx">state</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">availabilityDiv</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;block&#39;</span><span class="o">;</span>
+
+	<span class="p">}</span><span class="o">,</span>
+	
+	
+	<span class="nx">setClassFromState</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">setClassFromState</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>		
+		
+		<span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getState</span><span class="p">();</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">state</span> <span class="o">===</span> <span class="s2">&quot;required&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">setAvailabilityState</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="kd">var</span> <span class="nx">valid</span> <span class="o">=</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">validate</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">lang</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">isAvailable</span><span class="p">)){</span>
+			<span class="nx">valid</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">isAvailable</span> <span class="o">&amp;&amp;</span> <span class="nx">valid</span><span class="o">;</span>
+		<span class="p">}</span>
+		
+		<span class="k">return</span> <span class="nx">valid</span><span class="o">;</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Perform the Ajax request</span>
+<span class="c">	 */</span>
+	<span class="nx">getAvailability</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c">// TODO split params ? &amp;</span>
+		<span class="nx">YAHOO</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Connect</span><span class="p">.</span><span class="nx">asyncRequest</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">uri</span><span class="o">+</span><span class="s1">&#39;?availabilityRequest=&#39;</span><span class="o">+</span><span class="nx">string</span><span class="o">,</span> <span class="p">{</span>
+			<span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">obj</span> <span class="o">===</span> <span class="s2">&quot;true&quot;</span> <span class="o">||</span> <span class="o">!!</span><span class="nx">obj</span><span class="p">){</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">onAvailable</span><span class="p">();</span>
+				<span class="p">}</span>
+				<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">obj</span> <span class="o">===</span> <span class="s2">&quot;false&quot;</span> <span class="o">||</span> <span class="o">!</span><span class="nx">obj</span><span class="p">){</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">onUnavailable</span><span class="p">();</span>
+				<span class="p">}</span>
+				<span class="k">else</span><span class="p">{</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">failure</span><span class="p">(</span><span class="nx">o</span><span class="p">);</span>
+				<span class="p">}</span>
+			<span class="p">}</span><span class="o">,</span>
+			<span class="nx">failure</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+				<span class="c">// TODO ?</span>
+			<span class="p">}</span><span class="o">,</span>
+			<span class="nx">scope</span><span class="o">:</span> <span class="k">this</span>
+		<span class="p">});</span>
+	<span class="p">}</span>
 	   
-   	<span class="k">this</span><span class="p">.</span><span class="nx">divEl</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">fieldEl</span><span class="o">,</span> <span class="nx">next</span><span class="p">);</span>
-   <span class="p">}</span>
-   
 <span class="p">});</span>
 
-<span class="nx">inputEx</span><span class="p">.</span><span class="nx">registerType</span><span class="p">(</span><span class="s2">&quot;keyvalue&quot;</span><span class="o">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">KeyValueField</span><span class="o">,</span> <span class="p">{});</span>
+
+<span class="c">// Specific message for the stringAvailability field</span>
+<span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringLoading</span> <span class="o">=</span> <span class="s2">&quot;Checking if available ...&quot;</span><span class="o">;</span>
+<span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringAvailable</span> <span class="o">=</span> <span class="s2">&quot;This ressource is available&quot;</span><span class="o">;</span>
+<span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">.</span><span class="nx">stringUnAvailable</span> <span class="o">=</span> <span class="s2">&quot;This ressource is not available&quot;</span><span class="o">;</span>
+
+<span class="c">// Register this class as &quot;string-availability&quot; type</span>
+<span class="nx">inputEx</span><span class="p">.</span><span class="nx">registerType</span><span class="p">(</span><span class="s2">&quot;string-availability&quot;</span><span class="o">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">StringAvailability</span><span class="p">);</span>
+
+
+<span class="p">})();</span>
 </pre></div>
 
                     </div>
@@ -264,7 +368,7 @@
                                 <li class=""><a href="json-schema.js.html" title="json-schema.js">json-schema.js</a></li>
                                 <li class=""><a href="json-tree-inspector.js.html" title="json-tree-inspector.js">json-tree-inspector.js</a></li>
                                 <li class=""><a href="KeyOpValueField-beta.js.html" title="KeyOpValueField-beta.js">KeyOpValueField-beta.js</a></li>
-                                <li class="selected"><a href="KeyValueField-beta.js.html" title="KeyValueField-beta.js">KeyValueField-beta.js</a></li>
+                                <li class=""><a href="KeyValueField-beta.js.html" title="KeyValueField-beta.js">KeyValueField-beta.js</a></li>
                                 <li class=""><a href="Lens-beta.js.html" title="Lens-beta.js">Lens-beta.js</a></li>
                                 <li class=""><a href="ListField.js.html" title="ListField.js">ListField.js</a></li>
                                 <li class=""><a href="MapField.js.html" title="MapField.js">MapField.js</a></li>
@@ -281,7 +385,7 @@
                                 <li class=""><a href="SerializeField-beta.js.html" title="SerializeField-beta.js">SerializeField-beta.js</a></li>
                                 <li class=""><a href="SliderField.js.html" title="SliderField.js">SliderField.js</a></li>
                                 <li class=""><a href="smdTester.js.html" title="smdTester.js">smdTester.js</a></li>
-                                <li class=""><a href="StringAvailability.js.html" title="StringAvailability.js">StringAvailability.js</a></li>
+                                <li class="selected"><a href="StringAvailability.js.html" title="StringAvailability.js">StringAvailability.js</a></li>
                                 <li class=""><a href="StringField.js.html" title="StringField.js">StringField.js</a></li>
                                 <li class=""><a href="Textarea.js.html" title="Textarea.js">Textarea.js</a></li>
                                 <li class=""><a href="TimeField.js.html" title="TimeField.js">TimeField.js</a></li>

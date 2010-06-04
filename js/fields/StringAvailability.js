@@ -3,7 +3,11 @@
    var Event=YAHOO.util.Event,DOM=YAHOO.util.Dom,lang=YAHOO.lang;
 
 /**
- * TODO : invalid case ! (ie: regexp)
+ * String field that sends an Ajax request to check if it is available
+ * @class inputEx.StringAvailability
+ * @extends inputEx.StringField
+ * @constructor
+ * @param {Object} options 
  */
 inputEx.StringAvailability = function(options) {
 	inputEx.StringAvailability.superclass.constructor.call(this,options);
@@ -147,6 +151,9 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		return valid;
 	},
 	
+	/**
+	 * Perform the Ajax request
+	 */
 	getAvailability: function(string) {
 		// TODO split params ? &
 		YAHOO.util.Connect.asyncRequest('GET', this.options.uri+'?availabilityRequest='+string, {
