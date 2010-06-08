@@ -89,7 +89,7 @@ YAHOO.lang.extend(inputEx.widget.ListCustom,inputEx.widget.DDList,{
 				  this.removeItem(this.items.length-1-i);
 				}
 			}
-			console.log("setValuein Custom ",objs);
+			console.log("set Valuein Custom ",objs);
 			for (i in objs){
 				if (this.items[i]){
 				 this.items[i].setValue(objs[i]);
