@@ -10,6 +10,16 @@ Release Notes:
 ==============
 
 
+version 0.5.2 :
+---------------
+
+- Widgets :
+   * dialog : add formAvailable boolean property, formAvailableEvt custom event, and whenFormAvailable method.
+              whenFormAvailable method allows you to execute a callback as soon as the form is generated and
+              ready to use, or now if form already available.
+   * datatable : fix a bug due to use of dialog when form not ready yet.
+
+
 version 0.5.1 :
 ---------------
 
