@@ -17,7 +17,8 @@ version 0.5.2 :
    * dialog : add formAvailable boolean property, formAvailableEvt custom event, and whenFormAvailable method.
               whenFormAvailable method allows you to execute a callback as soon as the form is generated and
               ready to use, or now if form already available.
-   * datatable : fix a bug due to use of dialog when form not ready yet.
+   * datatable : - fix a bug due to use of dialog when form not ready yet.
+								 - Added the possibility to update a whole row with additional updated data on the callback function of modifiy event
 
 
 version 0.5.1 :
