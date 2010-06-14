@@ -348,12 +348,20 @@ lang.extend(inputEx.widget.dtInPlaceEdit, inputEx.widget.DataTable , {
 	/**
 	 * When successfully modified a row
 	 */
-	onModifySuccess: function(record){
+	onModifySuccess: function(record, oData) {
 		var nodes = this.datatable.getElementsByClassName("inputEx-dtInPlaceEdit-onModifyItem");
+		
 		// Remove CSS
 		for(i=0,nodesLength = nodes.length; i<nodesLength; i++){
 			Dom.removeClass(nodes[i], "inputEx-dtInPlaceEdit-onModifyItem");
 		}
+		
+		// If we want to update additional columns
+		if( !lang.isUndefined(oData) ) {
+			// Update Row with new record
+			this.datatable.updateRow(record, oData);
+		}
+		
 	}
 
 });
