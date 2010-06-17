@@ -148,6 +148,12 @@ lang.augmentObject(inputEx, {
    typeClasses: {},
    
    /**
+    * Property to globally turn on/off the browser autocompletion
+    * (used as default autocomplete option value by StringField, Form and their subclasses)
+    */
+   browserAutocomplete: true,
+   
+   /**
     * When you create a new inputEx Field Class, you can register it to give it a simple type.
     * ex:   inputEx.registerType("color", inputEx.ColorField);
     * @static
@@ -591,6 +597,15 @@ inputEx.JsonSchema = {
     			'format':'date'
     		};
       }
+      else if(t == "multiselect" || t == "multiautocomplete"){
+        return {
+    			'type':'array',
+    			'optional': typeof ip.required == "undefined" ? true : !ip.required,
+    			'title': ip.label,
+    			'items': typeof ip.jsonSchemaRef == "undefined" ? {"type":"string"}: ip.jsonSchemaRef,// it's a little bit weird to mix a inputEx description field and jsonSchema in a specific attribute, we should had a $ref system to go through this properly
+    			'_inputex': ip
+    		};
+      }
       else {
 			return {
 				'type': 'string',
@@ -863,7 +878,8 @@ inputEx.JsonSchema.Builder.prototype = {
 
 
 
-})();(function() {
+})();
+(function() {
    var Dom = YAHOO.util.Dom, lang = YAHOO.lang, util = YAHOO.util;
 
 /** 
@@ -1955,7 +1971,9 @@ lang.extend(inputEx.Form, inputEx.Group, {
    	this.options.method = options.method;
 
 		this.options.className =  options.className || 'inputEx-Group';
-		this.options.autocomplete = (options.autocomplete === false || options.autocomplete === "off") ? false : true;
+	   this.options.autocomplete = lang.isUndefined(options.autocomplete) ?
+	                                  inputEx.browserAutocomplete :
+	                                  (options.autocomplete === false || options.autocomplete === "off") ? false : true;
 		
 		this.options.enctype = options.enctype;
 
@@ -1996,10 +2014,8 @@ lang.extend(inputEx.Form, inputEx.Group, {
 			this.form.setAttribute('enctype',this.options.enctype);
 		}
 
-	   // Set the autocomplete attribute to off to disable firefox autocompletion
-		if(!this.options.autocomplete) {
-	   	this.form.setAttribute('autocomplete','off');
-		}
+	   // Set the autocomplete attribute to off to disable browser autocompletion
+		this.form.setAttribute('autocomplete', this.options.autocomplete ? 'on' : 'off');
    	
       // Set the name of the form
       if(this.options.formName) { this.form.name = this.options.formName; }
@@ -2513,7 +2529,9 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 	   this.options.minLength = options.minLength;
 	   this.options.typeInvite = options.typeInvite;
 	   this.options.readonly = options.readonly;
-	   this.options.autocomplete = (options.autocomplete === false || options.autocomplete === "off") ? false : true;
+	   this.options.autocomplete = lang.isUndefined(options.autocomplete) ?
+	                                  inputEx.browserAutocomplete :
+	                                  (options.autocomplete === false || options.autocomplete === "off") ? false : true;
 	   this.options.trim = (options.trim === true) ? true : false;
    },
 
@@ -2535,7 +2553,7 @@ lang.extend(inputEx.StringField, inputEx.Field, {
       if(this.options.readonly) { attributes.readonly = 'readonly'; }
 
       if(this.options.maxLength) { attributes.maxLength = this.options.maxLength; }
-      if(!this.options.autocomplete) { attributes.autocomplete = 'off'; }
+      attributes.autocomplete = this.options.autocomplete ? 'on' : 'off';
 
       // Create the node
       this.el = inputEx.cn('input', attributes);
@@ -6627,7 +6645,8 @@ YAHOO.lang.extend(inputEx.MultiSelectField, inputEx.SelectField,{
 // Register this class as "multiselect" type
 inputEx.registerType("multiselect", inputEx.MultiSelectField);
 
-})();(function() {
+})();
+(function() {
 
    var lang = YAHOO.lang, Event = YAHOO.util.Event, Dom = YAHOO.util.Dom;
 
