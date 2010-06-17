@@ -124,6 +124,12 @@ lang.augmentObject(inputEx, {
    typeClasses: {},
    
    /**
+    * Property to globally turn on/off the browser autocompletion
+    * (used as default autocomplete option value by StringField, Form and their subclasses)
+    */
+   browserAutocomplete: true,
+   
+   /**
     * When you create a new inputEx Field Class, you can register it to give it a simple type.
     * ex:   inputEx.registerType("color", inputEx.ColorField);
     * @static

@@ -360,6 +360,49 @@ div#container3 { width:400px }
    </div>
 </div>
 
+
+<!-- Example 9 -->
+<div class='exampleDiv'>
+   <h2>Turn off / on browser autocompletion</h2>
+   <p>Activate/deactivate browser autocompletion by field, by form, or for all inputEx fields in the page.</p>
+   <div class='demoContainer' id='container9'></div>
+   <div class='codeContainer'>
+      <textarea name="code" class="JScript">
+
+         // autocompletion is 'on'
+         new inputEx.Form( { 
+            legend: "Form with autocompletion",
+            fields: [ 
+               {label: 'Lastname', name: 'lastname', description:'autocomplete option set to true by default' },
+               // except on this field
+               {type:'email', label: 'Email', name: 'email', autocomplete:false, description:"autocomplete option set to false on this field"}
+            ], 
+            buttons: [{type: 'submit', value: 'Change'}],
+            parentEl: 'container9'
+         });
+
+         // autocompletion is 'off' on the whole form
+         new inputEx.Form( { 
+            legend: "Form without autocompletion",
+            autocomplete: false,
+            fields: [ 
+               {label: 'Lastname', name: 'lastname' },
+               {type:'email', label: 'Email', name: 'email'}
+            ], 
+            buttons: [{type: 'submit', value: 'Change'}],
+            parentEl: 'container9'
+         });
+
+         // to turn off the browser autocompletion by default in all
+         // inputEx fields of the page, set the following value after
+         // inputEx source inclusion :
+         //
+         //   inputEx.browserAutocomplete = false;
+         //
+      </textarea>
+   </div>
+</div>
+
 <!-- YUI Library -->
 <script type="text/javascript" src="../lib/yui/utilities/utilities.js"></script>
 <script type="text/javascript" src="../lib/yui/container/container-min.js"></script>
