@@ -27,6 +27,8 @@ version 0.5.2 :
 - Various:
    * inputEx.browserAutocomplete property to globally turn off/on browser autocomplete feature on forms
      by default
+   * inputEx.indexOf now accepts a function as 3rd parameter. This function is applied on each array element
+     and must return true when the searched element is found.
 
 
 version 0.5.1 :

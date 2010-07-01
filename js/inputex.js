@@ -276,15 +276,21 @@ lang.augmentObject(inputEx, {
     * @static
     * @param {Object} el Value to search
     * @param {Array} arr The array to search
+    * @param {Function} (optional) fn A function to define another way to test inclusion of el than === (returns a boolean)
     * @return {number} Element position, -1 if not found
     */
-   indexOf: function(el,arr) {
-      var l=arr.length,i;
-      for(i = 0 ;i < l ; i++) {
-         if(arr[i] == el) return i;
-      }
-      return -1;
-   },
+	indexOf: function(el,arr,fn) {
+	
+		var l=arr.length,i;
+		
+		if ( !lang.isFunction(fn) ) { fn = function(elt,arrElt) { return elt === arrElt; } }
+		
+		for ( i = 0 ;i < l ; i++ ) {
+			if ( fn.call({}, el, arr[i]) ) { return i; }
+		}
+		
+		return -1;
+	},
 
    
    /**
