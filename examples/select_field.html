@@ -173,8 +173,9 @@
 
 <!-- Example 5 -->
 <div class='exampleDiv'>
-	<h2>Hide / Show option</h2>
-	<p>Hide or show an option in the selector (without removing it totally)</p>
+	<h2>Hide / Show / Disable / Enable option</h2>
+	<p>Hide, show, disable or enable an option in the selector, without removing it totally, and keeping the original option's order</p>
+	<p style="font-size:90%;padding-top:3px;">Note : disableOption and enableOption methods have no effect with IE &lt; 8 because it did not support disabled="disabled" attribute.</p>
 	<div class='demoContainer' id='container5'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
@@ -185,9 +186,9 @@
 		el.appendChild(button7);
 		var button8 = inputEx.cn('button', null, null, "Show option 'France'");
 		el.appendChild(button8);
-		var button9= inputEx.cn('button', null, null, "Hide option 'Spain'");
+		var button9= inputEx.cn('button', null, null, "Disable option 'Spain'");
 		el.appendChild(button9);
-		var button10 = inputEx.cn('button', null, null, "Show option 'Spain'");
+		var button10 = inputEx.cn('button', null, null, "Enable option 'Spain'");
 		el.appendChild(button10);
 		
 		var logDiv5 = inputEx.cn('div', null, null, "Log :");
@@ -217,17 +218,17 @@
 		
 		YAHOO.util.Event.addListener(button9, "click" ,function() {
 			
-			field5.hideOption({label:'Spain'});
+			field5.disableOption({label:'Spain'});
 			
-			logDiv5.innerHTML += "[INFO] Hide option 'Spain' (current value : "+field5.getValue()+")";
+			logDiv5.innerHTML += "[INFO] Disable option 'Spain' (current value : "+field5.getValue()+")";
 			logDiv5.appendChild(inputEx.cn('br'));
 		});
 		
 		YAHOO.util.Event.addListener(button10, "click" ,function() {
 			
-			field5.showOption({label:'Spain'});
+			field5.enableOption({label:'Spain'});
 			
-			logDiv5.innerHTML += "[INFO] Show option 'France' (current value : "+field5.getValue()+")";
+			logDiv5.innerHTML += "[INFO] Enable option 'Spain' (current value : "+field5.getValue()+")";
 			logDiv5.appendChild(inputEx.cn('br'));
 		});
 		

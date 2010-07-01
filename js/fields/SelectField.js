@@ -171,7 +171,7 @@
 		
 			option = {
 				value: config.value,
-				label: (lang.isString(config.label) && config.label.length > 0) ? config.label : ""+config.value,
+				label: (lang.isString(config.label) && config.label.length > 0) ? config.label : "" + config.value,
 				visible: true
 			};
 		
@@ -298,7 +298,52 @@
 			}
 		
 		},
-	
+		
+		/**
+		 * Disable an option in the selector
+		 * @param {Object} config An object targeting the option to disable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		disableOption: function (config) {
+			
+			var position, option;
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				option = this.optionsList[position];
+				
+				option.node.disabled = "disabled";
+				
+				// Clear if disabling selected option
+				if (this.getValue() === option.value) {
+					this.clear();
+				}
+				
+			}
+			
+		},
+		
+		/**
+		 * Enable an option in the selector
+		 * @param {Object} config An object targeting the option to enable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		enableOption: function (config) {
+			
+			var position, option;
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				option = this.optionsList[position];
+				
+				option.node.removeAttribute("disabled");
+				
+			}
+			
+		},
+		
 		/**
 		 * Get the position of an option in optionsList (NOT in the DOM)
 		 * @param {Object} config An object targeting the option (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
@@ -378,8 +423,8 @@
 			elementType: {
 				type: 'group',
 				fields: [
-					{ label:'Value', name:'value', value:'' }, // not required to allow '' value (which is default)
-					{ label:'Label', name:'label' } // optional : if left empty, label is same as value
+					{ label: 'Value', name: 'value', value: '' }, // not required to allow '' value (which is default)
+					{ label: 'Label', name: 'label' } // optional : if left empty, label is same as value
 				]
 			},
 			value: [],
