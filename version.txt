@@ -13,6 +13,16 @@ Release Notes:
 version 0.5.2 :
 ---------------
 
+- Field enhancements:
+   * selectField : global refactoring (+ see following changes)
+   * selectField : important change in the way we define the select's <option>s :
+                     - old pattern : { selectValues:["1","2"], selectOptions:["first","second"] }
+                     - new pattern : { options: [{value: "1", label: "first"}, {value: "2", label: "second"}] }
+                   the new pattern is a unified way to define an option, through selectField's options or through
+                   addOption method (which is used behind the hood to generate selectField's options at init).
+   * selectField : added hideOption/showOption methods to hide/display options dynamically without
+                   removing them using removeOption.
+
 - Added Fields:
    * TinyMCEField
 

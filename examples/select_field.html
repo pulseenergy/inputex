@@ -30,7 +30,14 @@
 	<div class='demoContainer' id='container1'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-			new inputEx.SelectField({name: 'country', selectValues: ['United States of America','France'], parentEl: 'container1'});
+			new inputEx.SelectField({
+				name: 'country',
+				options: [
+					{ value: 'United States of America' },
+					{ value: 'France' }
+				],
+				parentEl: 'container1'
+			});
 		</textarea>
 	</div>
 </div>
@@ -44,8 +51,8 @@
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
 		var el = YAHOO.util.Dom.get('container2');
-		var field2 = new inputEx.SelectField({name: 'country', selectValues: ['United States of America','France'], parentEl: el});
-
+		var field2 = new inputEx.SelectField({ name: 'country', options: [{ value: 'United States of America' }, { value: 'France' }], parentEl: el });
+		
 		var button = inputEx.cn('button', null, null, "SetValue with 'United States of America'");
 		var val = 'United States of America';
 		el.appendChild(button);
@@ -75,7 +82,7 @@
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
          	var el = YAHOO.util.Dom.get('container3');
-			var field3 = new inputEx.SelectField({name: 'country', selectValues: ['United States of America','France'], parentEl: el});
+			var field3 = new inputEx.SelectField({name: 'country', options: [{ value: 'United States of America' }, { value: 'France' }], parentEl: el});
 
 			var button1 = inputEx.cn('button', null, null, "Add 'Spain' option (and select 'Spain')");
 			YAHOO.util.Event.addListener(button1, "click" ,function() {
@@ -85,7 +92,7 @@
 
 			var button2 = inputEx.cn('button', null, null, "Add 'United Kingdom' option (value : 'uk'), in position 1");
 			YAHOO.util.Event.addListener(button2, "click" ,function() {
-			   field3.addOption({value:"uk",option:"United Kingdom",position:1});
+			   field3.addOption({value:"uk",label:"United Kingdom",position:1});
 			   button2.disabled = true;
 			});
 
@@ -117,17 +124,23 @@
 	<div class='demoContainer' id='container4'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-      		var el = YAHOO.util.Dom.get('container4');
+			var el = YAHOO.util.Dom.get('container4');
 			var field4 = new inputEx.SelectField({
-			   name: 'country',
-			   selectOptions: ['United States of America','Germany','United Kingdom','France','Sweden','Spain'],
-			   selectValues: ['usa','de','uk','fr','se','es'],
+				name: 'country',
+				options: [
+					{ value: 'usa', label: 'United States of America' },
+					{ value: 'de', label: 'Germany' },
+					{ value: 'uk', label: 'United Kingdom' },
+					{ value: 'fr', label: 'France' },
+					{ value: 'se', label: 'Sweden' },
+					{ value: 'es', label: 'Spain' }
+				],
 			   parentEl: el
 			});
-
-			var button4 = inputEx.cn('button', null, null, "Remove 'Spain' option (by option text)");
+			
+			var button4 = inputEx.cn('button', null, null, "Remove 'Spain' option (by label)");
 			YAHOO.util.Event.addListener(button4, "click" ,function() {
-			   field4.removeOption({option:"Spain"});
+			   field4.removeOption({label:"Spain"});
 			   button4.disabled = true;
 			});
 
@@ -154,6 +167,70 @@
 				logDiv4.innerHTML += "Updated at "+(new Date())+" with value "+value;
 				logDiv4.appendChild(inputEx.cn('br'));
 			});
+		</textarea>
+	</div>
+</div>
+
+<!-- Example 5 -->
+<div class='exampleDiv'>
+	<h2>Hide / Show option</h2>
+	<p>Hide or show an option in the selector (without removing it totally)</p>
+	<div class='demoContainer' id='container5'></div>
+	<div class='codeContainer'>
+		<textarea name="code" class="JScript">
+		var el = YAHOO.util.Dom.get('container5');
+		var field5 = new inputEx.SelectField({name: 'country', options: [ { value: 'usa', label: 'United States of America' }, { value: 'fr', label: 'France' }, { value: 'es', label: 'Spain' }], parentEl: el});
+		
+		var button7 = inputEx.cn('button', null, null, "Hide option 'France'");
+		el.appendChild(button7);
+		var button8 = inputEx.cn('button', null, null, "Show option 'France'");
+		el.appendChild(button8);
+		var button9= inputEx.cn('button', null, null, "Hide option 'Spain'");
+		el.appendChild(button9);
+		var button10 = inputEx.cn('button', null, null, "Show option 'Spain'");
+		el.appendChild(button10);
+		
+		var logDiv5 = inputEx.cn('div', null, null, "Log :");
+		el.appendChild(logDiv5);
+		field5.updatedEvt.subscribe(function(e,params) {
+			var value = params[0];
+			logDiv5.innerHTML += "Updated at "+(new Date())+" with value "+value;
+			logDiv5.appendChild(inputEx.cn('br'));
+		});
+		
+		
+		YAHOO.util.Event.addListener(button7, "click" ,function() {
+			
+			field5.hideOption({value:'fr'});
+			
+			logDiv5.innerHTML += "[INFO] Hide option 'France' (current value : "+field5.getValue()+")";
+			logDiv5.appendChild(inputEx.cn('br'));
+		});
+		
+		YAHOO.util.Event.addListener(button8, "click" ,function() {
+			
+			field5.showOption({value:'fr'});
+			
+			logDiv5.innerHTML += "[INFO] Show option 'France' (current value : "+field5.getValue()+")";
+			logDiv5.appendChild(inputEx.cn('br'));
+		});
+		
+		YAHOO.util.Event.addListener(button9, "click" ,function() {
+			
+			field5.hideOption({label:'Spain'});
+			
+			logDiv5.innerHTML += "[INFO] Hide option 'Spain' (current value : "+field5.getValue()+")";
+			logDiv5.appendChild(inputEx.cn('br'));
+		});
+		
+		YAHOO.util.Event.addListener(button10, "click" ,function() {
+			
+			field5.showOption({label:'Spain'});
+			
+			logDiv5.innerHTML += "[INFO] Show option 'France' (current value : "+field5.getValue()+")";
+			logDiv5.appendChild(inputEx.cn('br'));
+		});
+		
 		</textarea>
 	</div>
 </div>
