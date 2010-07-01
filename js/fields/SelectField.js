@@ -10,7 +10,6 @@
 	 * @param {Object} options Added options:
 	 * <ul>
 	 *    <li>options: contains the list of options configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
-	 *    <li>multiple: boolean to allow multiple selections</li>
 	 * </ul>
 	 */
 	inputEx.SelectField = function (options) {
@@ -29,7 +28,6 @@
 		
 			inputEx.SelectField.superclass.setOptions.call(this, options);
 		
-			this.options.multiple = lang.isUndefined(options.multiple) ? false : options.multiple;
 			this.options.options = lang.isArray(options.options) ? options.options : [];
 		
 			// Retro-compatibility with old pattern (changed since 2010-06-30)
@@ -61,14 +59,6 @@
 				name: this.options.name || ''
 			
 			});
-		
-			// multiple select ?
-			if (this.options.multiple) {
-			
-				this.el.multiple = true;
-				this.el.size = this.options.selectValues.length;
-			
-			}
 		
 			// list of options (e.g. [{ label: "France", value:"fr", node:<DOM-node>, visible:true }, {...}, ...])
 			this.optionsList = [];
@@ -135,7 +125,7 @@
 	
 		/**
 		 * Return the value
-		 * @return {Any} the selected value from the selectValues array
+		 * @return {Any} the selected value
 		 */
 		getValue: function () {
 		

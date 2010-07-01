@@ -22,6 +22,8 @@ version 0.5.2 :
                    addOption method (which is used behind the hood to generate selectField's options at init).
    * selectField : added hideOption/showOption methods to hide/display options dynamically without
                    removing them using removeOption.
+   * selectField : remove 'multiple' option, too complex to handle for a confusing user-interface component !
+                   Use several checkboxes instead or MultiSelectField.
 
 - Added Fields:
    * TinyMCEField
