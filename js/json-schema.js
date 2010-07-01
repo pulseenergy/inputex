@@ -333,16 +333,18 @@ inputEx.JsonSchema.Builder.prototype = {
 	          fieldDef.type = "select";
 	          
 	          if(p.options) {
-  	             fieldDef.selectOptions = [];
-     	          fieldDef.selectValues = [];
+	             fieldDef.options = [];
 	             for(var i = 0 ; i < p.options.length ; i++) {
 	                var o = p.options[i];
-	                fieldDef.selectOptions[i] = o.label;
-	                fieldDef.selectValues[i] = o.value;
+	                fieldDef.options[i] = { label: o.label, value: o.value };
 	             }
              }
              else {
-    	          fieldDef.selectValues = p["enum"];
+	             fieldDef.options = [];
+	             for(var i = 0 ; i < p["enum"].length ; i++) {
+	                var o = p["enum"][i];
+	                fieldDef.options[i] = { label: o.label, value: o.value };
+	             }
              }
 	       }
 	       else if(type == "string") {

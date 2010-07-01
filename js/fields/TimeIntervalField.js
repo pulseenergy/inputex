@@ -30,14 +30,20 @@ lang.extend(inputEx.TimeIntervalField, inputEx.CombineField, {
       this.options.unit = options.unit || units.SECOND;
       
       
-      var n=[]; for(var i=1;i<=60;i++){ n.push(i); }
+      var n=[]; for(var i=1;i<=60;i++){ n.push({ value : i }); }
       
       this.options.fields = options.fields || [
-         {type: 'select', selectValues: n },
+         {type: 'select', options: n },
          {
             type: 'select',
-            selectOptions: [unitsStr.SECOND, unitsStr.MINUTE, unitsStr.HOUR, unitsStr.DAY, unitsStr.MONTH, unitsStr.YEAR], 
-            selectValues: [units.SECOND, units.MINUTE, units.HOUR, units.DAY, units.MONTH, units.YEAR] 
+            options: [
+               { value: units.SECOND, label: unitsStr.SECOND },
+               { value: units.MINUTE, label: unitsStr.MINUTE },
+               { value: units.HOUR, label: unitsStr.HOUR },
+               { value: units.DAY, label: unitsStr.DAY },
+               { value: units.MONTH, label: unitsStr.MONTH },
+               { value: units.YEAR, label: unitsStr.YEAR }
+            ]
          }
       ];
       
