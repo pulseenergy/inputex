@@ -41,7 +41,7 @@ function init() {
 
 	// Example 1
 	var contactFormFields = [ 
-			{type: 'select', label: 'Title', name: 'title', selectValues: ['Mr','Mrs','Mme'] },
+			{type: 'select', label: 'Title', name: 'title', options: [{ value: 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }] },
 			{label: 'Firstname', name: 'firstname', required: true },
 			{label: 'Lastname', name: 'lastname', value:'Dupont' },
 			{type:'email', label: 'Email', name: 'email', required: true, showMsg: true},

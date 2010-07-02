@@ -32,11 +32,30 @@
 		<textarea name="code" class="JScript">
 			new inputEx.SelectField({
 				name: 'country',
-				options: [
-					{ value: 'United States of America' },
-					{ value: 'France' }
-				],
+				options: [                                  // options: [                      <- alternative syntax (shorter)
+					{ value: 'United States of America' },  //    'United States of America',  <-
+					{ value: 'France' }                     //    'France'                     <-
+				],                                          // ],                              <-
 				parentEl: 'container1'
+			});
+		</textarea>
+	</div>
+</div>
+
+<!-- Example 1bis -->
+<div class='exampleDiv'>
+	<h2>Differentiate options' labels and values</h2>
+	<p>Use the following code to create options with labels different from values</p>
+	<div class='demoContainer' id='container1bis'></div>
+	<div class='codeContainer'>
+		<textarea name="code" class="JScript">
+			new inputEx.SelectField({
+				name: 'country',
+				options: [                                                // no alternative syntax
+					{ value: 'us', label: 'United States of America' },
+					{ value: 'fr', label: 'France' }
+				],
+				parentEl: 'container1bis'
 			});
 		</textarea>
 	</div>

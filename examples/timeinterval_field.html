@@ -75,11 +75,14 @@
 	  var unitsStr = inputEx.messages.timeUnits;
 	  var n=[]; for(var i=1;i !=30;i++){ n.push(i); }
 	  var fields = [
-	       {type: 'select', selectValues: n },
+	       {type: 'select', options: n },
 	       {
 	          type: 'select',
-	          selectOptions: [unitsStr.DAY, unitsStr.MONTH, unitsStr.YEAR],
-	          selectValues: [units.DAY, units.MONTH, units.YEAR]
+	          options: [
+					{ value: units.DAY, label: unitsStr.DAY },
+					{ value: units.MONTH, label: unitsStr.MONTH },
+					{ value: units.YEAR, label: unitsStr.YEAR }
+				]
 	       }
 	    ];
 

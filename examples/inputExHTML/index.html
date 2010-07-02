@@ -75,14 +75,14 @@ YAHOO.util.Event.onDOMReady( function() {
 	form = new inputEx.Form({
 		parentEl: 'htmlFormContainer',
 		fields: [
-	      { type: 'select', label: 'Tag', name: 'tagName', selectValues: ["div", "script", "img", "a", "input", "p", "br", "span", "b", "iframe"] },
+	      { type: 'select', label: 'Tag', name: 'tagName', options: [{value:"div"}, {value:"script"}, {value:"img"}, {value:"a"}, {value:"input"}, {value:"p"}, {value:"br"}, {value:"span"}, {value:"b"}, {value:"iframe"}] },
 			{ type: 'object', label: 'Attributes', listLabel: 'attributes', name: 'attributes'},
 			{ type: 'object', label: 'CSS Attr.', listLabel: 'css attributes', name: 'cssStyles'},
 	      { type: 'text', label: 'innerHTML', name: 'innerHTML'}
 		],
 	  buttons: [
-	      {type: 'button', value: 'Create !', onClick: createHTMLElement },
-			  {type: 'button', value: 'Clear', onClick: function() {
+	      {value: 'Create !', onClick: createHTMLElement },
+			{value: 'Clear', onClick: function() {
 	         form.setValue({tagName: 'div', cssStyles:{}, attributes:{}, innerHTML: "" });
 	      } }
 	   ]

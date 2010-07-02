@@ -147,7 +147,7 @@
 					   type: 'group',
 				      name: 'group1',
 				      fields: [ 
-								{ type: 'select', label: 'Title',name: 'title', selectValues: ['Mr','Mrs','Mme'] },
+								{ type: 'select', label: 'Title',name: 'title', options: [{ value : 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }] },
 								{ label: 'Firstname', name: 'firstname', required: true, value:'Jacques' },
 								{ label: 'Lastname', name: 'lastname', value:'Dupont' },
 								{ type:'email', label: 'Email', name: 'email'}
@@ -183,7 +183,7 @@
 		       {
 							type: 'select', 
 							label: 'Select your country',
-							selectValues: ["France", "USA"],
+							options: [{ value: "France" }, { value: "USA" }],
 							interactions: [
 								{
 									valueTrigger: "France",
@@ -213,8 +213,8 @@
 								}
 							]
 					 },
-				   {type: 'select', label: 'Select your city', name: 'franceCitiesSelect', selectValues: ["Paris", "Lyon", "Marseille"] },
-				   {type: 'select', label: 'Select your city', name: 'USACitiesSelect', selectValues: ["NewYork", "Chicago", "LA","San Francisco"] }
+				   {type: 'select', label: 'Select your city', name: 'franceCitiesSelect', options: [{ value : "Paris" }, { value: "Lyon" }, { value: "Marseille" }] },
+				   {type: 'select', label: 'Select your city', name: 'USACitiesSelect', options: [{ value: "NewYork" }, { value: "Chicago" }, { value: "LA" }, { value: "San Francisco" }] }
 		   ]
 		});
   </textarea>

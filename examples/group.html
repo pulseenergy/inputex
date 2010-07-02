@@ -32,7 +32,7 @@
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
 					var contactFormFields = [ 
-							{type: 'select', label: 'Title', name: 'title', selectValues: ['Mr','Mrs','Mme']},
+							{type: 'select', label: 'Title', name: 'title', options: [{ value: 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }]},
 							{label: 'Firstname', name: 'firstname', required: true},
 							{label: 'Lastname', name: 'lastname', value:'Dupont'},
 							{type:'email', label: 'Email', name: 'email', required: true, showMsg: true},
@@ -127,7 +127,7 @@
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript" cols="60" rows="1">
 					var contactFormFields2 = [ 
-							{type: 'select', label: 'Title', name: 'title', selectValues: ['Mr','Mrs','Mme'] },
+							{type: 'select', label: 'Title', name: 'title', options: [{ value: 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }] },
 							{label: 'Firstname', name: 'firstname', required: true },
 							{label: 'Lastname', name: 'lastname', value:'Dupont', required:false },
 							{type:'email', label: 'Email', name: 'email', required: true, showMsg: true},
@@ -189,7 +189,7 @@
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
 					var descriptedFields = [ 
-							{ type: 'select', label: 'Title', name: 'title', description: 'Select your gender',  selectValues: ['Mr','Mrs','Mme'] },
+							{ type: 'select', label: 'Title', name: 'title', description: 'Select your gender',  options: [{ value: 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }] },
 							{ label: 'Firstname', description: 'Your firstname', name: 'firstname', required: true, value:'Jacques' },
 							{ label: 'Lastname', description: 'Your lastname', name: 'lastname', value:'Dupont' },
 							{ type:'email', description: 'Your email. We wont send you any commercial information', label: 'Email', name: 'email'},
