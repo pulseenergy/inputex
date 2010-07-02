@@ -165,10 +165,14 @@
 		 * @param {Object} config An object describing the option to add (e.g. { value: 'second' [, label: 'Second' [, position: 1 || after: 'First' || before: 'Third']] })
 		 */
 		addOption: function (config) {
-		
+			
 			var option, position, that;
-		
-		
+			
+			// allow config not to be an object, just a value -> convert it in a standard config object
+			if (!lang.isObject(config)) {
+				config = { value: config };
+			}
+			
 			option = {
 				value: config.value,
 				label: (lang.isString(config.label) && config.label.length > 0) ? config.label : "" + config.value,
