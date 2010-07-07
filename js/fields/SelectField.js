@@ -9,7 +9,7 @@
 	 * @constructor
 	 * @param {Object} options Added options:
 	 * <ul>
-	 *    <li>options: contains the list of options configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
+	 *    <li>choices: contains the list of choices configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
 	 * </ul>
 	 */
 	inputEx.SelectField = function (options) {
@@ -28,14 +28,14 @@
 		
 			inputEx.SelectField.superclass.setOptions.call(this, options);
 		
-			this.options.options = lang.isArray(options.options) ? options.options : [];
+			this.options.choices = lang.isArray(options.choices) ? options.choices : [];
 		
 			// Retro-compatibility with old pattern (changed since 2010-06-30)
 			if (lang.isArray(options.selectValues)) {
 			
 				for (i = 0, length = options.selectValues.length; i < length; i += 1) {
 				
-					this.options.options.push({
+					this.options.choices.push({
 						value: options.selectValues[i],
 						label: "" + ((options.selectOptions && !lang.isUndefined(options.selectOptions[i])) ? options.selectOptions[i] : options.selectValues[i])
 					});
@@ -60,12 +60,12 @@
 			
 			});
 		
-			// list of options (e.g. [{ label: "France", value:"fr", node:<DOM-node>, visible:true }, {...}, ...])
-			this.optionsList = [];
+			// list of choices (e.g. [{ label: "France", value:"fr", node:<DOM-node>, visible:true }, {...}, ...])
+			this.choicesList = [];
 		
-			// add options
-			for (i = 0, length = this.options.options.length; i < length; i += 1) {
-				this.addOption(this.options.options[i]);
+			// add choices
+			for (i = 0, length = this.options.choices.length; i < length; i += 1) {
+				this.addChoice(this.options.choices[i]);
 			}
 		
 			// append <select> to DOM tree
@@ -88,19 +88,19 @@
 		 */
 		setValue: function (value, sendUpdatedEvt) {
 		
-			var i, length, option, firstIndexAvailable, optionFound = false;
+			var i, length, choice, firstIndexAvailable, choiceFound = false;
 		
-			for (i = 0, length = this.optionsList.length; i < length ; i += 1) {
+			for (i = 0, length = this.choicesList.length; i < length ; i += 1) {
 			
-				if (this.optionsList[i].visible) {
+				if (this.choicesList[i].visible) {
 				
-					option = this.optionsList[i];
+					choice = this.choicesList[i];
 				
-					if (value === option.value) {
+					if (value === choice.value) {
 					
-						option.node.selected = "selected";
-						optionFound = true;
-						break; // option node already found
+						choice.node.selected = "selected";
+						choiceFound = true;
+						break; // choice node already found
 					
 					} else if (lang.isUndefined(firstIndexAvailable)) {
 					
@@ -111,12 +111,12 @@
 			
 			}
 		
-			// select value from first option available when
-			// value not matching any visible option
-			if (!optionFound) {
-				option = this.optionsList[firstIndexAvailable];
-				option.node.selected = "selected";
-				value = option.value;
+			// select value from first choice available when
+			// value not matching any visible choice
+			if (!choiceFound) {
+				choice = this.choicesList[firstIndexAvailable];
+				choice.node.selected = "selected";
+				value = choice.value;
 			}
 		
 			// Call Field.setValue to set class and fire updated event
@@ -129,15 +129,15 @@
 		 */
 		getValue: function () {
 		
-			var optionIndex;
+			var choiceIndex;
 			
 			if (this.el.selectedIndex >= 0) {
 				
-				optionIndex = inputEx.indexOf(this.el.childNodes[this.el.selectedIndex], this.optionsList, function (node, option) {
-					return node === option.node;
+				choiceIndex = inputEx.indexOf(this.el.childNodes[this.el.selectedIndex], this.choicesList, function (node, choice) {
+					return node === choice.node;
 				});
 			
-				return this.optionsList[optionIndex].value;
+				return this.choicesList[choiceIndex].value;
 				
 			} else {
 				
@@ -159,271 +159,82 @@
 		enable: function () {
 			this.el.disabled = false;
 		},
-	
-		/**
-		 * Add an option in the selector
-		 * @param {Object} config An object describing the option to add (e.g. { value: 'second' [, label: 'Second' [, position: 1 || after: 'First' || before: 'Third']] })
-		 */
-		addOption: function (config) {
+		
+		createChoiceNode: function (choice) {
 			
-			var option, position, that;
+			return inputEx.cn('option', {value: choice.value}, null, choice.label);
 			
-			// allow config not to be an object, just a value -> convert it in a standard config object
-			if (!lang.isObject(config)) {
-				config = { value: config };
-			}
-			
-			option = {
-				value: config.value,
-				label: (lang.isString(config.label) && config.label.length > 0) ? config.label : "" + config.value,
-				visible: true
-			};
-		
-			// Create DOM <option> node
-			option.node = inputEx.cn('option', {value: option.value}, null, option.label);
-		
-		
-			// Get option's position
-			//   -> don't pass config.value to getPosition !!!
-			//     (we search position of existing option, whereas config.value is a property of new option to be created...)
-			position = this.getPosition({ position: config.position, label: config.before || config.after });
-		
-			if (position === -1) { //  (default is at the end)
-				position = this.optionsList.length;
-			
-			} else if (lang.isString(config.after)) {
-				// +1 to insert "after" position (not "at" position)
-				position += 1;
-			}
-		
-		
-			// Insert option in list at position
-			this.optionsList.splice(position, 0, option);
-		
-			// Append <option> node in DOM
-			this.attachToSelectAtPosition(option.node, position);
-		
-			// select new option
-			if (!!config.selected) {
-			
-				// setTimeout for IE6 (let time to create dom option)
-				that = this;
-				setTimeout(function () {
-					that.setValue(option.value);
-				}, 0);
-			
-			}
-		
 		},
-	
-		/**
-		 * Remove an option in the selector
-		 * @param {Object} config An object targeting the option to remove (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		removeOption: function (config) {
 		
-			var position, option;
-		
-			// Get option's position
-			position = this.getPosition(config);
-		
-			if (position === -1) {
-				throw new Error("SelectField : invalid or missing position, label or value in removeOption");
-			}
-		
-			// Option to remove
-			option = this.optionsList[position];
-		
-			// Clear if removing selected option
-			if (this.getValue() === option.value) {
-				this.clear();
-			}
-		
-			// Remove option in list at position
-			this.optionsList.splice(position, 1); // remove 1 element at position
-		
+		removeChoiceNode: function (node) {
+			
 			// remove from selector
-			this.el.removeChild(option.node);
-		
-		},
-	
-		/**
-		 * Hide an option in the selector
-		 * @param {Object} config An object targeting the option to hide (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		hideOption: function (config) {
-		
-			var position, option;
-		
-			position = this.getPosition(config);
-		
-			if (position !== -1) {
-			
-				option = this.optionsList[position];
-			
-				// test if visible first in case we try to hide twice or more...
-				if (option.visible) {
-				
-					option.visible = false;
-				
-					// Clear if hiding selected option
-					if (this.getValue() === option.value) {
-						this.clear();
-					}
-				
-					// Remove from DOM
-					//   -> style.display = 'none' would work only on FF
-					//   -> other browsers (IE, Chrome...) require to remove option from DOM
-					this.el.removeChild(option.node);
-				
-				}
-			
-			}
-		
-		},
-	
-		/**
-		 * Show an option in the selector
-		 * @param {Object} config An object targeting the option to show (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		showOption: function (config) {
-		
-			var position, option;
-		
-			position = this.getPosition(config);
-		
-			if (position !== -1) {
-			
-				option = this.optionsList[position];
-				option.visible = true;
-			
-				this.attachToSelectAtPosition(option.node, position);
-			
-			}
-		
-		},
-		
-		/**
-		 * Disable an option in the selector
-		 * @param {Object} config An object targeting the option to disable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		disableOption: function (config) {
-			
-			var position, option;
-			
-			position = this.getPosition(config);
-			
-			if (position !== -1) {
-				
-				option = this.optionsList[position];
-				
-				option.node.disabled = "disabled";
-				
-				// Clear if disabling selected option
-				if (this.getValue() === option.value) {
-					this.clear();
-				}
-				
-			}
+			// 
+			//   -> style.display = 'none' would work only on FF (when node is an <option>)
+			//   -> other browsers (IE, Chrome...) require to remove <option> node from DOM
+			//
+			this.el.removeChild(node);
 			
 		},
 		
-		/**
-		 * Enable an option in the selector
-		 * @param {Object} config An object targeting the option to enable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		enableOption: function (config) {
+		disableChoiceNode: function (node) {
 			
-			var position, option;
-			
-			position = this.getPosition(config);
-			
-			if (position !== -1) {
-				
-				option = this.optionsList[position];
-				
-				option.node.removeAttribute("disabled");
-				
-			}
+			node.disabled = "disabled";
 			
 		},
 		
-		/**
-		 * Get the position of an option in optionsList (NOT in the DOM)
-		 * @param {Object} config An object targeting the option (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		getPosition: function (config) {
-		
-			var nbOptions, position;
-		
-			nbOptions = this.optionsList.length;
-		
-			// Handle position
-			if (lang.isNumber(config.position) && config.position >= 0 && config.position <= nbOptions) {
+		enableChoiceNode: function (node) {
 			
-				position = parseInt(config.position, 10);
+			node.removeAttribute("disabled");
 			
-			} else if (!lang.isUndefined(config.value)) {
-			
-				// get position of option with value === config.value
-				position = inputEx.indexOf(config.value, this.optionsList, function (value, opt) {
-					return opt.value === value;
-				});
-			
-			} else if (lang.isString(config.label)) {
-			
-				// get position of option with label === config.label
-				position = inputEx.indexOf(config.label, this.optionsList, function (label, opt) {
-					return opt.label === label;
-				});
-			
-			}
-		
-			return position || -1;
 		},
 		
 		/**
 		 * Attach an <option> node to the <select> at the specified position
 		 * @param {HTMLElement} node The <option> node to attach to the <select>
-		 * @param {Int} position The position of the option in optionsList (may not be the "real" position in DOM)
+		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
 		 */
-		attachToSelectAtPosition: function (node, position) {
-		
+		attachChoiceNodeAtPosition: function (node, position) {
+			
 			var domPosition, i;
-		
-			// Compute real DOM position (since previous options in optionsList may be hidden)
+			
+			// Compute real DOM position (since previous choices in choicesList may be hidden)
 			domPosition = 0;
-		
+			
 			for (i = 0; i < position; i += 1) {
 				
-				if (this.optionsList[i].visible) {
+				if (this.choicesList[i].visible) {
 					
 					domPosition += 1;
 					
 				}
 				
 			}
-		
+			
 			// Insert in DOM
 			if (domPosition < this.el.childNodes.length) {
-			
+				
 				YAHOO.util.Dom.insertBefore(node, this.el.childNodes[domPosition]);
-			
+				
 			} else {
-			
+				
 				this.el.appendChild(node);
-			
+				
 			}
 		}
-	
+		
 	});
-
+	
+	// Augment prototype with choice mixin (functions : addChoice, removeChoice, etc.)
+	lang.augmentObject(inputEx.SelectField.prototype, inputEx.mixin.choice);
+	
+	
 	// Register this class as "select" type
 	inputEx.registerType("select", inputEx.SelectField, [
 		{
 			type: 'list',
-			name: 'options',
-			label: 'Options',
+			name: 'choices',
+			label: 'Choices',
 			elementType: {
 				type: 'group',
 				fields: [

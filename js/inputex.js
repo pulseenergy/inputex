@@ -109,6 +109,12 @@ lang.augmentObject(inputEx, {
    widget: {},
    
    /**
+    * inputEx mixin namespace
+    * @static 
+    */
+   mixin: {},
+   
+   /**
     * Associative array containing common regular expressions
     */
    regexps: {
@@ -254,7 +260,7 @@ lang.augmentObject(inputEx, {
             var strDom = '<' + tag;
             if (domAttributes!=='undefined'){
                 for (var k in domAttributes){
-                    strDom += ' ' + k + '="' + domAttributes[k] + '"';
+                    strDom += ' ' + (k === "className" ? "class" : k) + '="' + domAttributes[k] + '"';
                 }
             }
             strDom += '/' + '>';
@@ -283,7 +289,7 @@ lang.augmentObject(inputEx, {
 	
 		var l=arr.length,i;
 		
-		if ( !lang.isFunction(fn) ) { fn = function(elt,arrElt) { return elt === arrElt; } }
+		if ( !lang.isFunction(fn) ) { fn = function(elt,arrElt) { return elt === arrElt; }; }
 		
 		for ( i = 0 ;i < l ; i++ ) {
 			if ( fn.call({}, el, arr[i]) ) { return i; }
