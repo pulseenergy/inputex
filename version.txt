@@ -14,17 +14,33 @@ version 0.5.2 :
 ---------------
 
 - Field enhancements:
-   * selectField : global refactoring, extraction of common "choice" pattern in a mixin module
-                   (+ see following changes)
-   * selectField : (WARNING) important change in the way we define the select's <option> nodes :
-                     - old pattern : { selectValues:["1","2"], selectOptions:["first","second"] }
-                     - new pattern : { choices: [{value: "1", label: "first"}, {value: "2", label: "second"}] }
-                   the new pattern is a unified way to define a choice, in selectField's options or through
-                   addChoice method (which is used behind the hood to generate selectField's options at init).
-   * selectField : added hideChoice/showChoice/disableChoice/enableChoice methods to hide/display/disable/enable
-                   choices dynamically without removing them using removeChoice.
-   * selectField : remove 'multiple' option, too complex to handle for a confusing user-interface component !
-                   Use several checkboxes instead or MultiSelectField.
+
+   * SelectField : - global refactoring, extraction of common "choice" pattern in a mixin module
+                     (+ see following changes)
+                     
+                   - WARNING : important change in the way we define the select's <option> nodes :
+                      -- old pattern : { selectValues:["1","2"], selectOptions:["first","second"] }
+                      -- new pattern : { choices: [{value: "1", label: "first"}, {value: "2", label: "second"}] }
+                      
+                     The new pattern is a unified way to define a choice, in selectField's options or through
+                     addChoice method (which is used behind the hood to generate selectField's options at init).
+                     This pattern is common with RadioField.
+                     
+                   - added hideChoice/showChoice/disableChoice/enableChoice methods to hide/display/disable/enable
+                     choices (= <option>s) dynamically without removing them using removeChoice.
+                     
+                   - remove 'multiple' option, too complex to handle for a confusing user-interface component !
+                     Use several checkboxes instead or MultiSelectField.
+                     
+   * RadioField :  - global refactoring, like SelectField, with use of "choice" mixin,
+                     API is very similar to SelectField (see below)
+                   
+                   - WARNING : important change in the way we define the radioField's <input type="radio" /> nodes :
+                      -- old pattern : { values: ["1","2"], choices: ["first","second"] }
+                      -- new pattern : { choices: [{value: "1", label: "first"}, {value: "2", label: "second"}] }
+                   
+                   - added hideChoice/showChoice/disableChoice/enableChoice methods to hide/display/disable/enable
+                     choices (= <input type="radio" />s) dynamically
 
 - Added Fields:
    * TinyMCEField
@@ -32,7 +48,7 @@ version 0.5.2 :
 - Mixins :
    * choice : module with function discribing a common pattern of managing "choices",
               contains several functions like hideChoice, showChoice, disableChoice, enableChoice, etc.
-              (mixin used by SelectField component)
+              (mixin used by SelectField and RadioField)
    
 - Widgets :
    * dialog : add formAvailable boolean property, formAvailableEvt custom event, and whenFormAvailable method.
