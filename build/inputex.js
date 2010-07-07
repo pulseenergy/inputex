@@ -133,6 +133,12 @@ lang.augmentObject(inputEx, {
    widget: {},
    
    /**
+    * inputEx mixin namespace
+    * @static 
+    */
+   mixin: {},
+   
+   /**
     * Associative array containing common regular expressions
     */
    regexps: {
@@ -278,7 +284,7 @@ lang.augmentObject(inputEx, {
             var strDom = '<' + tag;
             if (domAttributes!=='undefined'){
                 for (var k in domAttributes){
-                    strDom += ' ' + k + '="' + domAttributes[k] + '"';
+                    strDom += ' ' + (k === "className" ? "class" : k) + '="' + domAttributes[k] + '"';
                 }
             }
             strDom += '/' + '>';
@@ -307,7 +313,7 @@ lang.augmentObject(inputEx, {
 	
 		var l=arr.length,i;
 		
-		if ( !lang.isFunction(fn) ) { fn = function(elt,arrElt) { return elt === arrElt; } }
+		if ( !lang.isFunction(fn) ) { fn = function(elt,arrElt) { return elt === arrElt; }; }
 		
 		for ( i = 0 ;i < l ; i++ ) {
 			if ( fn.call({}, el, arr[i]) ) { return i; }
@@ -786,21 +792,21 @@ inputEx.JsonSchema.Builder.prototype = {
 	          fieldDef.fields = fields;
 	          
 	       }
-	       else if(type == "string" && (p["enum"] || p["options"]) ) {
+	       else if(type == "string" && (p["enum"] || p["choices"]) ) {
 	          fieldDef.type = "select";
 	          
-	          if(p.options) {
-	             fieldDef.options = [];
-	             for(var i = 0 ; i < p.options.length ; i++) {
-	                var o = p.options[i];
-	                fieldDef.options[i] = { label: o.label, value: o.value };
+	          if(p.choices) {
+	             fieldDef.choices = [];
+	             for(var i = 0 ; i < p.choices.length ; i++) {
+	                var o = p.choices[i];
+	                fieldDef.choices[i] = { label: o.label, value: o.value };
 	             }
              }
              else {
-	             fieldDef.options = [];
+	             fieldDef.choices = [];
 	             for(var i = 0 ; i < p["enum"].length ; i++) {
 	                var o = p["enum"][i];
-	                fieldDef.options[i] = { label: o.label, value: o.value };
+	                fieldDef.choices[i] = { label: o.label, value: o.value };
 	             }
              }
 	       }
@@ -887,7 +893,242 @@ inputEx.JsonSchema.Builder.prototype = {
 
 
 })();
-(function() {
+(function () {
+	
+	// shortcuts
+	var lang = YAHOO.lang;
+	
+	
+	inputEx.mixin.choice = {
+		
+		/**
+		 * Add a choice
+		 * @param {Object} config An object describing the choice to add (e.g. { value: 'second' [, label: 'Second' [, position: 1 || after: 'First' || before: 'Third']] })
+		 */
+		addChoice: function (config) {
+			
+			var choice, position, that;
+			
+			// allow config not to be an object, just a value -> convert it in a standard config object
+			if (!lang.isObject(config)) {
+				config = { value: config };
+			}
+			
+			choice = {
+				value: config.value,
+				label: lang.isString(config.label) ? config.label : "" + config.value,
+				visible: true
+			};
+			
+			// Create DOM <option> node
+			choice.node = this.createChoiceNode(choice);
+			
+			// Get choice's position
+			//   -> don't pass config.value to getPosition !!!
+			//     (we search position of existing choice, whereas config.value is a property of new choice to be created...)
+			position = this.getPosition({ position: config.position, label: config.before || config.after });
+			
+			if (position === -1) { //  (default is at the end)
+				position = this.choicesList.length;
+				
+			} else if (lang.isString(config.after)) {
+				// +1 to insert "after" position (not "at" position)
+				position += 1;
+			}
+			
+			
+			// Insert choice in list at position
+			this.choicesList.splice(position, 0, choice);
+			
+			// Append <option> node in DOM
+			this.attachChoiceNodeAtPosition(choice.node, position);
+			
+			// Select new choice
+			if (!!config.selected) {
+				
+				// setTimeout for IE6 (let time to create dom option)
+				that = this;
+				setTimeout(function () {
+					that.setValue(choice.value);
+				}, 0);
+				
+			}
+			
+			// Return generated choice
+			return choice;
+			
+		},
+		
+		/**
+		 * Remove a choice
+		 * @param {Object} config An object targeting the choice to remove (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		removeChoice: function (config) {
+			
+			var position, choice;
+			
+			// Get choice's position
+			position = this.getPosition(config);
+			
+			if (position === -1) {
+				throw new Error("SelectField : invalid or missing position, label or value in removeChoice");
+			}
+			
+			// Choice to remove
+			choice = this.choicesList[position];
+			
+			// Clear if removing selected choice
+			if (this.getValue() === choice.value) {
+				this.clear();
+			}
+			
+			// Remove choice in list at position
+			this.choicesList.splice(position, 1); // remove 1 element at position
+			
+			// Remove node from DOM
+			this.removeChoiceNode(choice.node);
+			
+		},
+		
+		/**
+		 * Hide a choice
+		 * @param {Object} config An object targeting the choice to hide (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		hideChoice: function (config) {
+			
+			var position, choice;
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				choice = this.choicesList[position];
+				
+				// test if visible first in case we try to hide twice or more...
+				if (choice.visible) {
+					
+					choice.visible = false;
+					
+					// Clear if hiding selected choice
+					if (this.getValue() === choice.value) {
+						this.clear();
+					}
+					
+					// Remove from DOM
+					this.removeChoiceNode(choice.node);
+					
+				}
+				
+			}
+			
+		},
+		
+		/**
+		 * Show a choice
+		 * @param {Object} config An object targeting the choice to show (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		showChoice: function (config) {
+			
+			var position, choice;
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				choice = this.choicesList[position];
+				choice.visible = true;
+				
+				this.attachChoiceNodeAtPosition(choice.node, position);
+				
+			}
+			
+		},
+		
+		/**
+		 * Disable a choice
+		 * @param {Object} config An object targeting the choice to disable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		disableChoice: function (config, unselect) {
+			
+			var position, choice;
+			
+			// Should we unselect choice if disabling selected choice
+			if (lang.isUndefined(unselect) || !lang.isBoolean(unselect)) { unselect = true; }
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				choice = this.choicesList[position];
+				
+				this.disableChoiceNode(choice.node);
+				
+				// Clear if disabling selected choice
+				if (unselect && this.getValue() === choice.value) {
+					this.clear();
+				}
+				
+			}
+			
+		},
+		
+		/**
+		 * Enable a choice
+		 * @param {Object} config An object targeting the choice to enable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		enableChoice: function (config) {
+			
+			var position, choice;
+			
+			position = this.getPosition(config);
+			
+			if (position !== -1) {
+				
+				choice = this.choicesList[position];
+				
+				this.enableChoiceNode(choice.node);
+				
+			}
+			
+		},
+		
+		/**
+		 * Get the position of a choice in choicesList (NOT in the DOM)
+		 * @param {Object} config An object targeting the choice (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
+		 */
+		getPosition: function (config) {
+			
+			var nbChoices, position = -1;
+			
+			nbChoices = this.choicesList.length;
+			
+			// Handle position
+			if (lang.isNumber(config.position) && config.position >= 0 && config.position <= nbChoices) {
+				
+				position = parseInt(config.position, 10);
+				
+			} else if (!lang.isUndefined(config.value)) {
+				
+				// get position of choice with value === config.value
+				position = inputEx.indexOf(config.value, this.choicesList, function (value, opt) {
+					return opt.value === value;
+				});
+				
+			} else if (lang.isString(config.label)) {
+				
+				// get position of choice with label === config.label
+				position = inputEx.indexOf(config.label, this.choicesList, function (label, opt) {
+					return opt.label === label;
+				});
+				
+			}
+			
+			return position;
+		}
+		
+	};
+	
+}());(function() {
    var Dom = YAHOO.util.Dom, lang = YAHOO.lang, util = YAHOO.util;
 
 /** 
@@ -2331,7 +2572,7 @@ inputEx.registerType("form", inputEx.Form, [
          type: 'group', 
          fields: [
             { label: 'Label', name: 'value'},
-            { type: 'select', label: 'Type', name: 'type', options:[{ value: "button" }, { value: "submit" }] }
+            { type: 'select', label: 'Type', name: 'type', choices:[{ value: "button" }, { value: "submit" }] }
          ]
       }
    }
@@ -3610,7 +3851,7 @@ inputEx.DateField.formatDate = function(d,format) {
 	
 // Register this class as "date" type
 inputEx.registerType("date", inputEx.DateField, [
-   {type: 'select', label: 'Date format', name: 'dateFormat', options: [{ value: "m/d/Y" }, { value:"d/m/Y" }] }
+   {type: 'select', label: 'Date format', name: 'dateFormat', choices: [{ value: "m/d/Y" }, { value:"d/m/Y" }] }
 ]);
 	
 })();(function() {
@@ -5167,305 +5408,451 @@ inputEx.registerType("password", inputEx.PasswordField, [
    {type: 'boolean', label: 'CapsLock warning', name: 'capsLockWarning', value: false }
 ]);
 	
-})();(function() {	
+})();(function () {
+	
 	var lang = YAHOO.lang, Event = YAHOO.util.Event, Dom = YAHOO.util.Dom;
 	
-/**
- * Create a radio button. Here are the added options :
- * <ul>
- *    <li>choices: list of choices (array of string)</li>
- *    <li>values: list of returned values (array )</li>
- *    <li>allowAny: add an option with a string field</li>
- * </ul>
- * @class inputEx.RadioField
- * @extends inputEx.Field
- * @constructor
- * @param {Object} options inputEx.Field options object
- */
-inputEx.RadioField = function(options) {
-	inputEx.RadioField.superclass.constructor.call(this,options);
-	
-	// IE BUG: doesn't want to set the value if the node is not in the DOM
-	if(YAHOO.env.ua.ie && !lang.isUndefined(this.options.value) ) {
-		// Set the initial value, use setTimeout to escape the stack (for nested usage in Group or Form)
-		var that = this;
-		setTimeout(function() {
-			that.setValue(that.options.value, false);
-		},0);
-	}
-	
-};
-	
-lang.extend(inputEx.RadioField, inputEx.Field, {
-	   
 	/**
-	 * Adds the Radio button specific options
-	 * @param {Object} options Options object as passed to the constructor
+	 * Create a radio button. Here are the added options :
+	 * <ul>
+	 *	 <li>choices: list of choices (array of string)</li>
+	 *	 <li>values: list of returned values (array )</li>
+	 *	 <li>allowAny: add an option with a string field</li>
+	 * </ul>
+	 * @class inputEx.RadioField
+	 * @extends inputEx.Field
+	 * @constructor
+	 * @param {Object} options inputEx.Field options object
 	 */
-	setOptions: function(options) {
-	   inputEx.RadioField.superclass.setOptions.call(this, options);
-      
-	   if (lang.isUndefined(options.allowAny) || options.allowAny === false ) {
-        this.options.allowAny = false;
-      } else {
-        this.options.allowAny = {};
-        if (lang.isArray(options.allowAny.separators)) { this.options.allowAny.separators = options.allowAny.separators;}
-        this.options.allowAny.validator = (lang.isFunction(options.allowAny.validator)) ? options.allowAny.validator : function(val) {return true;};
-        this.options.allowAny.value = (!lang.isUndefined(options.allowAny.value)) ? options.allowAny.value : "";
-      }
-      
-      this.options.choices = options.choices;
-      // values == choices if not provided
-	   this.options.values = lang.isArray(options.values) ? options.values : options.choices;
-	   
-	   this.options.display = options.display === "vertically" ? "vertically" : "inline"; // default "inline"
-	   
-	   this.options.className = options.className ? options.className : 'inputEx-Field inputEx-RadioField';
-	   if (this.options.display === "vertically") {
-         this.options.className +=  ' inputEx-RadioField-Vertically';
-      }
-      
-	},
-	   
-	/**
-	 * Render the checkbox and the hidden field
-	 */
-	renderComponent: function() {
-	
-		var div,sep;
-	   this.optionEls = [];
-	
-	   for(var i = 0 ; i < this.options.choices.length ; i++) {
-	
-	      div = inputEx.cn('div', {className: 'inputEx-RadioField-choice'});
-	      
-	      // radioId MUST be different for each option,
-	      // so add "-opt"+i (where i = option's position) to generated id
-	      var radioId = this.divEl.id ? this.divEl.id+'-field-opt'+i : YAHOO.util.Dom.generateId();
-	      
-	      var radio = inputEx.cn('input', { id: radioId,type: 'radio', name: this.options.name, value: this.options.values[i] });
-           
-         div.appendChild(radio);
-         var label = inputEx.cn('label', {"for": radioId, className: 'inputEx-RadioField-rightLabel'}, null, ""+this.options.choices[i]);
-      	div.appendChild(label);
-	      
-      	
-      	this.fieldContainer.appendChild( div );
-      	
-      	this.optionEls.push(radio);
-     }
-     
-     // Build a "any" radio combined with a StringField
-     if(this.options.allowAny) {
-        div = inputEx.cn('div', {className: 'inputEx-RadioField-choice'});
-        
-        if(YAHOO.env.ua.ie) {
-           this.radioAny = document.createElement("<input type='radio' name='"+this.options.name+"'>");
-        }
-        else {
-           this.radioAny = inputEx.cn('input', { type: 'radio', name: this.options.name });
-        }
-	     div.appendChild(this.radioAny);
-        
-        this.anyField = new inputEx.StringField({value:this.options.allowAny.value});
-        this.anyField.disable();
-        
-        Dom.setStyle(this.radioAny, "float","left");
-        Dom.setStyle(this.anyField.getEl(), "float","left");
-        /* Hack for firefox 3.5+ */ 
-        if (YAHOO.env.ua.gecko >= 1.91) { Dom.setStyle(this.radioAny, "marginTop","0.2em"); }
-        
-        if (this.options.allowAny.separators) {
-     	     sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[0] || '');
-     	     Dom.setStyle(sep, "float","left");
-     	     div.appendChild(sep);
-  	     }
-  	     
-     	  div.appendChild(this.anyField.getEl());
-     	  
-        if (this.options.allowAny.separators) {
-     	     sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[1] || '');
-     	     Dom.setStyle(sep, "float","left");
-     	     div.appendChild(sep);
-  	     }
-  	     
-  	     this.fieldContainer.appendChild( div );
-     	  this.optionEls.push(this.radioAny);
-     }
-     
-	},
-	   
-	/**
-	 * Listen for change events on all radios
-	 */
-	initEvents: function() {
-	   Event.addListener(this.optionEls, "change", this.onChange, this, true);
-	   
-	   Event.addFocusListener(this.optionEls, this.onFocus, this, true);
-	   Event.addBlurListener(this.optionEls, this.onBlur, this, true);
-
-
-	   if( YAHOO.env.ua.ie ) {
-	      Event.addListener(this.optionEls, "click", function() { YAHOO.lang.later(10,this,this.fireUpdatedEvt); }, this, true);	
-	   }
-	   
-	   if(this.anyField)	{
-	      this.anyField.updatedEvt.subscribe(function(e) {
-	         inputEx.RadioField.superclass.onChange.call(this,e);
-	      }, this, true);
-	      
-	      // Update radio field style after editing anyField content !
-	      Event.addBlurListener(this.anyField.el, this.onBlur, this, true);
-	   }
-	},
-	   
-	/**
-	 * Function called when the checkbox is toggled
-	 * @param {Event} e The original 'change' event
-	 */
-	onChange: function(e) {
-	   // Enable/disable the "any" field
-      if(this.radioAny) {
-         if(this.radioAny == Event.getTarget(e) ) {
-            this.anyField.enable();
-            lang.later( 50 , this.anyField , "focus");
-         }
-         else {
-            this.anyField.disable();
-         }
-      }
-      // In IE the fireUpdatedEvent is sent by the click ! We need to send it only once ! 
-      if( !YAHOO.env.ua.ie ) {
-	      inputEx.RadioField.superclass.onChange.call(this,e);
-      }
-	},
-	
-	/**
-	 * Get the field value
-	 * @return {Any} 
-	 */
-	getValue: function() {
-	   for(var i = 0 ; i < this.optionEls.length ; i++) {
-	      if(this.optionEls[i].checked) {
-	         if(this.radioAny && this.radioAny == this.optionEls[i]) {
-	            var val = this.anyField.getValue();
-	            return val;
-	         }
-	         return this.options.values[i];
-	      }
-	   }
-	   return "";
-	},
-	
-	/**
-	 * Set the value of the checkedbox
-	 * @param {Any} value The value schould be one of this.options.values (which defaults to this.options.choices if missing) if allowAny option not true.
-	 * @param {boolean} [sendUpdatedEvt] (optional) Wether this setValue should fire the updatedEvt or not (default is true, pass false to NOT send the event)
-	 */
-	setValue: function(value, sendUpdatedEvt) {
-	   var checkAny = true, anyEl;
-	   
-	   for(var i = 0 ; i < this.optionEls.length ; i++) {
-	      if (value == this.options.values[i]) {
-	         this.optionEls[i].checked = true;
-	         checkAny = false;
-         } else {
-            this.optionEls[i].checked = false;
-         }
-         
-         if(this.radioAny && this.radioAny == this.optionEls[i]) {
-            anyEl = this.optionEls[i];
-         }
-	   }
-	   
-		// Option allowAny
-		if(this.radioAny){
-			if(checkAny){
-				anyEl.checked = true;
-	         this.anyField.enable();
-	         this.anyField.setValue(value, false);
-			}else{
+	inputEx.RadioField = function (options) {
+		
+		inputEx.RadioField.superclass.constructor.call(this,options);
+		
+		// IE BUG: doesn't want to set the value if the node is not in the DOM
+		if (YAHOO.env.ua.ie && !lang.isUndefined(this.options.value)) {
+			// Set the initial value, use setTimeout to escape the stack (for nested usage in Group or Form)
+			var that = this;
+			setTimeout(function () {
+				that.setValue(that.options.value, false);
+			},0);
+		}
+		
+	};
+		
+	lang.extend(inputEx.RadioField, inputEx.Field, {
+		
+		/**
+		 * Adds the Radio button specific options
+		 * @param {Object} options Options object as passed to the constructor
+		 */
+		setOptions: function (options) {
+			
+			var i, length;
+			
+			inputEx.RadioField.superclass.setOptions.call(this, options);
+			
+			// Display mode
+			this.options.display = options.display === "vertically" ? "vertically" : "inline"; // default "inline"
+			
+			// Classname
+			this.options.className = options.className ? options.className : 'inputEx-Field inputEx-RadioField';
+			if (this.options.display === "vertically") {
+				this.options.className +=  ' inputEx-RadioField-Vertically';
+			}
+			
+			// Choices creation
+			
+			// Retro-compatibility with old pattern (DEPRECATED since 2010-06-30)
+			if (lang.isArray(options.values)) {
+				
+				this.options.choices = [];
+				
+				for (i = 0, length = options.values.length; i < length; i += 1) {
+					this.options.choices.push({ value: options.values[i], label: options.choices[i] });
+				}
+			
+			// New pattern to define choices
+			} else {
+				
+				this.options.choices = options.choices; // ['val1','val2'] or [{ value: 'val1', label: '1st Choice' }, etc.]
+				
+			}
+			
+			if (lang.isUndefined(options.allowAny) || options.allowAny === false ) {
+				this.options.allowAny = false;
+			} else {
+				this.options.allowAny = {};
+				if (lang.isArray(options.allowAny.separators)) { this.options.allowAny.separators = options.allowAny.separators;}
+				this.options.allowAny.validator = (lang.isFunction(options.allowAny.validator)) ? options.allowAny.validator : function (val) {return true;};
+				this.options.allowAny.value = (!lang.isUndefined(options.allowAny.value)) ? options.allowAny.value : "";
+			}
+			
+		},
+		
+		/**
+		 * Render the checkbox and the hidden field
+		 */
+		renderComponent: function () {
+			
+			var choices, length, i, sep;
+			
+			this.choicesList = [];
+			
+			choices = this.options.choices;
+			
+			for (i = 0, length = choices.length ; i < length ; i += 1 ) {
+				
+				this.addChoice(choices[i]);
+				
+			}
+			
+			// Build a "any" radio combined with a StringField
+			if (this.options.allowAny) {
+				
+				this.allowAnyChoice = this.addChoice({ value: 'inputEx-RadioField-allowAny', label:'' });
+				
+				this.radioAny = this.allowAnyChoice.node.firstChild;
+				
+				this.anyField = new inputEx({type:'string', value: this.options.allowAny.value});
 				this.anyField.disable();
+				
+				Dom.setStyle(this.radioAny, "float","left");
+				Dom.setStyle(this.anyField.getEl(), "float","left");
+				
+				// Hack for firefox 3.5+
+				if (YAHOO.env.ua.gecko >= 1.91) { Dom.setStyle(this.radioAny, "marginTop","0.2em"); }
+				
+				
+				if (this.options.allowAny.separators) {
+					sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[0] || '');
+					Dom.setStyle(sep, "float","left");
+					this.allowAnyChoice.node.appendChild(sep);
+				}
+				
+				this.allowAnyChoice.node.appendChild(this.anyField.getEl());
+				
+				if (this.options.allowAny.separators) {
+					sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[1] || '');
+					Dom.setStyle(sep, "float","left");
+					this.allowAnyChoice.node.appendChild(sep);
+				}
+				
+			}
+			
+		},
+		
+		/**
+		 * Listen for change events on all radios
+		 */
+		initEvents: function () {
+			
+			// Delegate event listening because list of choices is dynamic
+			// so we can't listen on each <input type="radio" class='inputEx-RadioField-radio' />
+			
+			// Change event (IE does not fire "change" event, so listen to click instead)
+			Event.delegate(this.fieldContainer, YAHOO.env.ua.ie ? "click" : "change", function(e, matchedEl, container) {
+				this.onChange(e);
+			}, "input.inputEx-RadioField-radio", this, true);
+			
+			// Focus / Blur events
+			Event.delegate(this.fieldContainer, "focusin", function(e, matchedEl, container) {
+				this.onFocus(e);
+			}, "input.inputEx-RadioField-radio", this, true);
+			
+			Event.delegate(this.fieldContainer, "focusout", function(e, matchedEl, container) {
+				this.onBlur(e);
+			}, "input.inputEx-RadioField-radio", this, true);
+			
+			// AnyField events
+			if (this.allowAnyChoice) {
+				
+				this.anyField.updatedEvt.subscribe(function (e) {
+					inputEx.RadioField.superclass.onChange.call(this,e);
+				}, this, true);
+				
+				// Update radio field style after editing anyField content !
+				Event.addBlurListener(this.anyField.el, this.onBlur, this, true);
+			}
+		},
+		
+		/**
+		 * Function called when the checkbox is toggled
+		 * @param {Event} e The original 'change' event
+		 */
+		onChange: function (e) {
+			
+			// Enable/disable the "any" field
+			if (this.allowAnyChoice) {
+				if (this.radioAny == Event.getTarget(e) ) {
+					this.anyField.enable();
+					lang.later( 50 , this.anyField , "focus");
+				}
+				else {
+					this.anyField.disable();
+				}
+				
+			}
+			
+			// call superclass method (will fire updatedEvt)
+			inputEx.RadioField.superclass.onChange.call(this,e);
+		},
+		
+		/**
+		 * Get the field value
+		 * @return {Any} 
+		 */
+		getValue: function () {
+			
+			var i, length;
+			
+			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+				
+				if (this.choicesList[i].node.firstChild.checked) {
+					
+					if (this.radioAny && this.radioAny == this.choicesList[i].node.firstChild) {
+						return this.anyField.getValue();
+					}
+					
+					return this.choicesList[i].value;
+				}
+			}
+			
+			return "";
+		},
+		
+		/**
+		 * Set the value of the checkedbox
+		 * @param {Any} value The value schould be one of this.options.values (which defaults to this.options.choices if missing) if allowAny option not true.
+		 * @param {boolean} [sendUpdatedEvt] (optional) Wether this setValue should fire the updatedEvt or not (default is true, pass false to NOT send the event)
+		 */
+		setValue: function (value, sendUpdatedEvt) {
+			
+			var checkAny = true, i, length;
+			
+			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+				
+				if (value === this.choicesList[i].value) {
+					
+					this.choicesList[i].node.firstChild.checked = true;
+					checkAny = false;
+					
+				} else {
+					this.choicesList[i].node.firstChild.checked = false;
+				}
+				
+			}
+			
+			// Option allowAny
+			if (this.radioAny) {
+				
+				if (checkAny) {
+					this.radioAny.checked = true;
+					this.anyField.enable();
+					this.anyField.setValue(value, false);
+				} else {
+					this.anyField.disable();
+				}
+			}
+			
+			// call parent class method to set style and fire updatedEvt
+			inputEx.StringField.superclass.setValue.call(this, value, sendUpdatedEvt);
+		},
+		
+		/**
+		 * Clear the field by setting the field value to this.options.value
+		 * @param {boolean} [sendUpdatedEvt] (optional) Wether this clear should fire the updatedEvt or not (default is true, pass false to NOT send the event)
+		 */
+		clear: function (sendUpdatedEvt) {
+			if(this.radioAny){
+				this.anyField.setValue(this.options.allowAny.value, false);
+			}
+		
+			inputEx.RadioField.superclass.clear.call(this, sendUpdatedEvt);
+		},
+		
+		/**
+		 * Should return true if empty
+		 */
+		isEmpty: function () {
+			
+			var i, length, radioInput;
+			
+			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+				
+				radioInput = this.choicesList[i].node.firstChild;
+				
+				if (radioInput.checked) {
+					
+					// if "any" option checked
+					if (this.radioAny && this.radioAny == radioInput) {
+						
+						return this.anyField.getValue() === '';
+						
+					} else {
+						
+						return false;
+						
+					}
+				}
+			}
+			
+			return true;
+			
+		},
+		
+		validate: function () {
+			
+			var i, length, radioInput, anyVal;
+			
+			if (this.options.allowAny) {
+				
+				for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+					
+					radioInput = this.choicesList[i].node.firstChild;
+					
+					if (radioInput.checked) {
+						
+						// if "any" option checked
+						if (this.radioAny && this.radioAny == radioInput) {
+							anyVal = this.anyField.getValue();
+							return this.options.allowAny.validator(anyVal);
+						}
+					}
+				}
+			}
+			
+			return true;
+		},
+		
+		/**
+		 * Disable the field
+		 */
+		disable: function () {
+			
+			var i, length;
+			
+			for (i = 0, length = this.choicesList.length; i < length; i += 1) {
+				this.disableChoice(this.choicesList[i], false);
+			}
+			
+		},
+	
+		/**
+		 * Enable the field
+		 */
+		enable: function () {
+			
+			var i, length;
+			
+			for (i = 0, length = this.choicesList.length; i < length; i += 1) {
+				this.enableChoice(this.choicesList[i]);
+			}
+			
+		},
+		
+		createChoiceNode: function (choice) {
+			
+			var div, radioId, radioNode, labelNode;
+			
+			div = inputEx.cn('div', {className: 'inputEx-RadioField-choice'});
+			
+			// radioId MUST be different for each option, to allow click on label (with for:id trick)
+			radioId = YAHOO.util.Dom.generateId();
+			
+			radioNode = inputEx.cn('input', { id: radioId, type: 'radio', name: this.options.name, value: choice.value, className: 'inputEx-RadioField-radio' });
+			div.appendChild(radioNode);
+			
+			if (choice.label.length > 0) {
+				labelNode = inputEx.cn('label', {"for": radioId, className: 'inputEx-RadioField-rightLabel'}, null, ""+choice.label);
+				div.appendChild(labelNode);
+			}
+			
+			return div;
+			
+		},
+		
+		removeChoiceNode: function (node) {
+			
+			// remove from selector
+			// 
+			//   -> style.display = 'none' would work only on FF (when node is an <option>)
+			//   -> other browsers (IE, Chrome...) require to remove <option> node from DOM
+			//
+			this.fieldContainer.removeChild(node);
+			
+		},
+		
+		disableChoiceNode: function (node) {
+			
+			//node.firstChild.disabled = "disabled";
+			node.firstChild.disabled = true;
+		},
+		
+		enableChoiceNode: function (node) {
+			
+			//node.firstChild.removeAttribute("disabled");
+			node.firstChild.disabled = false;
+			
+		},
+		
+		/**
+		 * Attach an <option> node to the <select> at the specified position
+		 * @param {HTMLElement} node The <option> node to attach to the <select>
+		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
+		 */
+		attachChoiceNodeAtPosition: function (node, position) {
+			
+			var domPosition, i;
+			
+			// Compute real DOM position (since previous choices in choicesList may be hidden)
+			domPosition = 0;
+			
+			for (i = 0; i < position; i += 1) {
+				
+				if (this.choicesList[i].visible) {
+					
+					domPosition += 1;
+					
+				}
+				
+			}
+			
+			// Insert in DOM
+			if (domPosition < this.fieldContainer.childNodes.length) {
+				
+				YAHOO.util.Dom.insertBefore(node, this.fieldContainer.childNodes[domPosition]);
+				
+			} else {
+				
+				this.fieldContainer.appendChild(node);
+				
 			}
 		}
-
-      // call parent class method to set style and fire updatedEvt
-      inputEx.StringField.superclass.setValue.call(this, value, sendUpdatedEvt);
-	},
-	
-	/**
-    * Clear the field by setting the field value to this.options.value
-    * @param {boolean} [sendUpdatedEvt] (optional) Wether this clear should fire the updatedEvt or not (default is true, pass false to NOT send the event)
-    */
-   clear: function(sendUpdatedEvt) {
-		if(this.radioAny){
-			this.anyField.setValue(this.options.allowAny.value, false);
-		}
 		
-      inputEx.RadioField.superclass.clear.call(this, sendUpdatedEvt);
-   },
-
-   /**
-    * Should return true if empty
-    */
-   isEmpty: function() {
+	});
 	
-	   for(var i = 0 ; i < this.optionEls.length ; i++) {
-	      if(this.optionEls[i].checked) {
-	         // if "any" option checked
-	         if(this.radioAny && this.radioAny == this.optionEls[i]) {
-	            return this.anyField.getValue() === '';
-	         }else{
-					return false;
-				}
-	      }
-	   }
+	// Augment prototype with choice mixin (functions : addChoice, removeChoice, etc.)
+	lang.augmentObject(inputEx.RadioField.prototype, inputEx.mixin.choice);
 	
-		return true;
-		
-   },
-
-	validate: function() {
-	   if (this.options.allowAny) {
-	      for(var i = 0 ; i < this.optionEls.length ; i++) {
-   	      if(this.optionEls[i].checked) {
-   	         // if "any" option checked
-   	         if(this.radioAny && this.radioAny == this.optionEls[i]) {
-   	            var val = this.anyField.getValue();
-         	      return this.options.allowAny.validator(val);
-   	         }
-   	      }
-   	   }
-	   }
-	   
-	   return true;
-	},
 	
-	/**
-    * Disable the field
-    */
-	disable: function() {
-		for(var i = 0 ; i < this.optionEls.length; i++) {
-			this.optionEls[i].disabled = true;
-		}
-	},
-	
-	/**
-    * Enable the field
-    */
-	enable: function() {
-		for(var i = 0 ; i < this.optionEls.length; i++) {
-			this.optionEls[i].disabled = false;
-		}
-	}
-	
-});   
-	
-// Register this class as "radio" type
-inputEx.registerType("radio", inputEx.RadioField, [
-   {type: 'list', label: 'Options', name: 'choices', elementType: {type: 'string'} },
-   {type: 'boolean', label: 'Allow custom value', name: 'allowAny', value: false  }
-]);
+	// Register this class as "radio" type
+	inputEx.registerType("radio", inputEx.RadioField, [
+		{
+			type: 'list',
+			name: 'choices',
+			label: 'Choices',
+			elementType: {
+				type: 'group',
+				fields: [
+					{ label: 'Value', name: 'value', value: '' }, // not required to allow '' value (which is default)
+					{ label: 'Label', name: 'label' } // optional : if left empty, label is same as value
+				]
+			},
+			value: [],
+			required: true
+		},
+		{type: 'boolean', label: 'Allow custom value', name: 'allowAny', value: false  }
+	]);
 	
 })();(function() {
 	
@@ -5624,7 +6011,7 @@ inputEx.registerType("html", inputEx.RTEField, []);
 	 * @constructor
 	 * @param {Object} options Added options:
 	 * <ul>
-	 *    <li>options: contains the list of options configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
+	 *    <li>choices: contains the list of choices configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
 	 * </ul>
 	 */
 	inputEx.SelectField = function (options) {
@@ -5643,14 +6030,14 @@ inputEx.registerType("html", inputEx.RTEField, []);
 		
 			inputEx.SelectField.superclass.setOptions.call(this, options);
 		
-			this.options.options = lang.isArray(options.options) ? options.options : [];
+			this.options.choices = lang.isArray(options.choices) ? options.choices : [];
 		
 			// Retro-compatibility with old pattern (changed since 2010-06-30)
 			if (lang.isArray(options.selectValues)) {
 			
 				for (i = 0, length = options.selectValues.length; i < length; i += 1) {
 				
-					this.options.options.push({
+					this.options.choices.push({
 						value: options.selectValues[i],
 						label: "" + ((options.selectOptions && !lang.isUndefined(options.selectOptions[i])) ? options.selectOptions[i] : options.selectValues[i])
 					});
@@ -5675,12 +6062,12 @@ inputEx.registerType("html", inputEx.RTEField, []);
 			
 			});
 		
-			// list of options (e.g. [{ label: "France", value:"fr", node:<DOM-node>, visible:true }, {...}, ...])
-			this.optionsList = [];
+			// list of choices (e.g. [{ label: "France", value:"fr", node:<DOM-node>, visible:true }, {...}, ...])
+			this.choicesList = [];
 		
-			// add options
-			for (i = 0, length = this.options.options.length; i < length; i += 1) {
-				this.addOption(this.options.options[i]);
+			// add choices
+			for (i = 0, length = this.options.choices.length; i < length; i += 1) {
+				this.addChoice(this.options.choices[i]);
 			}
 		
 			// append <select> to DOM tree
@@ -5703,19 +6090,19 @@ inputEx.registerType("html", inputEx.RTEField, []);
 		 */
 		setValue: function (value, sendUpdatedEvt) {
 		
-			var i, length, option, firstIndexAvailable, optionFound = false;
+			var i, length, choice, firstIndexAvailable, choiceFound = false;
 		
-			for (i = 0, length = this.optionsList.length; i < length ; i += 1) {
+			for (i = 0, length = this.choicesList.length; i < length ; i += 1) {
 			
-				if (this.optionsList[i].visible) {
+				if (this.choicesList[i].visible) {
 				
-					option = this.optionsList[i];
+					choice = this.choicesList[i];
 				
-					if (value === option.value) {
+					if (value === choice.value) {
 					
-						option.node.selected = "selected";
-						optionFound = true;
-						break; // option node already found
+						choice.node.selected = "selected";
+						choiceFound = true;
+						break; // choice node already found
 					
 					} else if (lang.isUndefined(firstIndexAvailable)) {
 					
@@ -5726,12 +6113,12 @@ inputEx.registerType("html", inputEx.RTEField, []);
 			
 			}
 		
-			// select value from first option available when
-			// value not matching any visible option
-			if (!optionFound) {
-				option = this.optionsList[firstIndexAvailable];
-				option.node.selected = "selected";
-				value = option.value;
+			// select value from first choice available when
+			// value not matching any visible choice
+			if (!choiceFound) {
+				choice = this.choicesList[firstIndexAvailable];
+				choice.node.selected = "selected";
+				value = choice.value;
 			}
 		
 			// Call Field.setValue to set class and fire updated event
@@ -5744,15 +6131,15 @@ inputEx.registerType("html", inputEx.RTEField, []);
 		 */
 		getValue: function () {
 		
-			var optionIndex;
+			var choiceIndex;
 			
 			if (this.el.selectedIndex >= 0) {
 				
-				optionIndex = inputEx.indexOf(this.el.childNodes[this.el.selectedIndex], this.optionsList, function (node, option) {
-					return node === option.node;
+				choiceIndex = inputEx.indexOf(this.el.childNodes[this.el.selectedIndex], this.choicesList, function (node, choice) {
+					return node === choice.node;
 				});
 			
-				return this.optionsList[optionIndex].value;
+				return this.choicesList[choiceIndex].value;
 				
 			} else {
 				
@@ -5774,271 +6161,82 @@ inputEx.registerType("html", inputEx.RTEField, []);
 		enable: function () {
 			this.el.disabled = false;
 		},
-	
-		/**
-		 * Add an option in the selector
-		 * @param {Object} config An object describing the option to add (e.g. { value: 'second' [, label: 'Second' [, position: 1 || after: 'First' || before: 'Third']] })
-		 */
-		addOption: function (config) {
+		
+		createChoiceNode: function (choice) {
 			
-			var option, position, that;
+			return inputEx.cn('option', {value: choice.value}, null, choice.label);
 			
-			// allow config not to be an object, just a value -> convert it in a standard config object
-			if (!lang.isObject(config)) {
-				config = { value: config };
-			}
-			
-			option = {
-				value: config.value,
-				label: (lang.isString(config.label) && config.label.length > 0) ? config.label : "" + config.value,
-				visible: true
-			};
-		
-			// Create DOM <option> node
-			option.node = inputEx.cn('option', {value: option.value}, null, option.label);
-		
-		
-			// Get option's position
-			//   -> don't pass config.value to getPosition !!!
-			//     (we search position of existing option, whereas config.value is a property of new option to be created...)
-			position = this.getPosition({ position: config.position, label: config.before || config.after });
-		
-			if (position === -1) { //  (default is at the end)
-				position = this.optionsList.length;
-			
-			} else if (lang.isString(config.after)) {
-				// +1 to insert "after" position (not "at" position)
-				position += 1;
-			}
-		
-		
-			// Insert option in list at position
-			this.optionsList.splice(position, 0, option);
-		
-			// Append <option> node in DOM
-			this.attachToSelectAtPosition(option.node, position);
-		
-			// select new option
-			if (!!config.selected) {
-			
-				// setTimeout for IE6 (let time to create dom option)
-				that = this;
-				setTimeout(function () {
-					that.setValue(option.value);
-				}, 0);
-			
-			}
-		
 		},
-	
-		/**
-		 * Remove an option in the selector
-		 * @param {Object} config An object targeting the option to remove (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		removeOption: function (config) {
 		
-			var position, option;
-		
-			// Get option's position
-			position = this.getPosition(config);
-		
-			if (position === -1) {
-				throw new Error("SelectField : invalid or missing position, label or value in removeOption");
-			}
-		
-			// Option to remove
-			option = this.optionsList[position];
-		
-			// Clear if removing selected option
-			if (this.getValue() === option.value) {
-				this.clear();
-			}
-		
-			// Remove option in list at position
-			this.optionsList.splice(position, 1); // remove 1 element at position
-		
+		removeChoiceNode: function (node) {
+			
 			// remove from selector
-			this.el.removeChild(option.node);
-		
-		},
-	
-		/**
-		 * Hide an option in the selector
-		 * @param {Object} config An object targeting the option to hide (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		hideOption: function (config) {
-		
-			var position, option;
-		
-			position = this.getPosition(config);
-		
-			if (position !== -1) {
-			
-				option = this.optionsList[position];
-			
-				// test if visible first in case we try to hide twice or more...
-				if (option.visible) {
-				
-					option.visible = false;
-				
-					// Clear if hiding selected option
-					if (this.getValue() === option.value) {
-						this.clear();
-					}
-				
-					// Remove from DOM
-					//   -> style.display = 'none' would work only on FF
-					//   -> other browsers (IE, Chrome...) require to remove option from DOM
-					this.el.removeChild(option.node);
-				
-				}
-			
-			}
-		
-		},
-	
-		/**
-		 * Show an option in the selector
-		 * @param {Object} config An object targeting the option to show (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		showOption: function (config) {
-		
-			var position, option;
-		
-			position = this.getPosition(config);
-		
-			if (position !== -1) {
-			
-				option = this.optionsList[position];
-				option.visible = true;
-			
-				this.attachToSelectAtPosition(option.node, position);
-			
-			}
-		
-		},
-		
-		/**
-		 * Disable an option in the selector
-		 * @param {Object} config An object targeting the option to disable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		disableOption: function (config) {
-			
-			var position, option;
-			
-			position = this.getPosition(config);
-			
-			if (position !== -1) {
-				
-				option = this.optionsList[position];
-				
-				option.node.disabled = "disabled";
-				
-				// Clear if disabling selected option
-				if (this.getValue() === option.value) {
-					this.clear();
-				}
-				
-			}
+			// 
+			//   -> style.display = 'none' would work only on FF (when node is an <option>)
+			//   -> other browsers (IE, Chrome...) require to remove <option> node from DOM
+			//
+			this.el.removeChild(node);
 			
 		},
 		
-		/**
-		 * Enable an option in the selector
-		 * @param {Object} config An object targeting the option to enable (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		enableOption: function (config) {
+		disableChoiceNode: function (node) {
 			
-			var position, option;
-			
-			position = this.getPosition(config);
-			
-			if (position !== -1) {
-				
-				option = this.optionsList[position];
-				
-				option.node.removeAttribute("disabled");
-				
-			}
+			node.disabled = "disabled";
 			
 		},
 		
-		/**
-		 * Get the position of an option in optionsList (NOT in the DOM)
-		 * @param {Object} config An object targeting the option (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
-		 */
-		getPosition: function (config) {
-		
-			var nbOptions, position;
-		
-			nbOptions = this.optionsList.length;
-		
-			// Handle position
-			if (lang.isNumber(config.position) && config.position >= 0 && config.position <= nbOptions) {
+		enableChoiceNode: function (node) {
 			
-				position = parseInt(config.position, 10);
+			node.removeAttribute("disabled");
 			
-			} else if (!lang.isUndefined(config.value)) {
-			
-				// get position of option with value === config.value
-				position = inputEx.indexOf(config.value, this.optionsList, function (value, opt) {
-					return opt.value === value;
-				});
-			
-			} else if (lang.isString(config.label)) {
-			
-				// get position of option with label === config.label
-				position = inputEx.indexOf(config.label, this.optionsList, function (label, opt) {
-					return opt.label === label;
-				});
-			
-			}
-		
-			return position || -1;
 		},
 		
 		/**
 		 * Attach an <option> node to the <select> at the specified position
 		 * @param {HTMLElement} node The <option> node to attach to the <select>
-		 * @param {Int} position The position of the option in optionsList (may not be the "real" position in DOM)
+		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
 		 */
-		attachToSelectAtPosition: function (node, position) {
-		
+		attachChoiceNodeAtPosition: function (node, position) {
+			
 			var domPosition, i;
-		
-			// Compute real DOM position (since previous options in optionsList may be hidden)
+			
+			// Compute real DOM position (since previous choices in choicesList may be hidden)
 			domPosition = 0;
-		
+			
 			for (i = 0; i < position; i += 1) {
 				
-				if (this.optionsList[i].visible) {
+				if (this.choicesList[i].visible) {
 					
 					domPosition += 1;
 					
 				}
 				
 			}
-		
+			
 			// Insert in DOM
 			if (domPosition < this.el.childNodes.length) {
-			
+				
 				YAHOO.util.Dom.insertBefore(node, this.el.childNodes[domPosition]);
-			
+				
 			} else {
-			
+				
 				this.el.appendChild(node);
-			
+				
 			}
 		}
-	
+		
 	});
-
+	
+	// Augment prototype with choice mixin (functions : addChoice, removeChoice, etc.)
+	lang.augmentObject(inputEx.SelectField.prototype, inputEx.mixin.choice);
+	
+	
 	// Register this class as "select" type
 	inputEx.registerType("select", inputEx.SelectField, [
 		{
 			type: 'list',
-			name: 'options',
-			label: 'Options',
+			name: 'choices',
+			label: 'Choices',
 			elementType: {
 				type: 'group',
 				fields: [
@@ -6189,9 +6387,9 @@ inputEx.TimeField = function(options) {
    for(i = 0 ; i < 24 ; i++) { s="";if(i<10){s="0";} s+= i;h.push({ value: s });}
    for(i = 0 ; i < 60 ; i++) { s="";if(i<10){s="0";} s+= i;m.push({ value: s }); secs.push({ value: s });}
    options.fields = [
-      {type: 'select', options: h },
-      {type: 'select', options: m },
-      {type: 'select', options: secs }
+      {type: 'select', choices: h },
+      {type: 'select', choices: m },
+      {type: 'select', choices: secs }
    ];
    options.separators = options.separators || [false,":",":",false];
    inputEx.TimeField.superclass.constructor.call(this,options);
@@ -6752,7 +6950,7 @@ inputEx.widget.DDList.prototype = {
 	 * @constructor
 	 * @param {Object} options Added options:
 	 * <ul>
-	 *    <li>options: contains the list of options configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
+	 *    <li>choices: contains the list of choices configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
 	 * </ul>
 	 */
 	inputEx.MultiSelectField = function(options) {
@@ -6786,7 +6984,7 @@ inputEx.widget.DDList.prototype = {
 		 */
 		onItemRemoved: function(e,params) {
 			
-			this.showOption({ value : params[0] });
+			this.showChoice({ value : params[0] });
 			this.el.selectedIndex = 0;
 			
 			this.fireUpdatedEvt();
@@ -6798,7 +6996,7 @@ inputEx.widget.DDList.prototype = {
 		 */
 		onAddNewItem: function() {
 			
-			var value, position, option;
+			var value, position, choice;
 			
 			if (this.el.selectedIndex !== 0) {
 				
@@ -6806,12 +7004,12 @@ inputEx.widget.DDList.prototype = {
 				value = inputEx.MultiSelectField.superclass.getValue.call(this);
 				
 				position = this.getPosition({ value : value });
-				option = this.optionsList[position];
+				choice = this.choicesList[position];
 				
-				this.ddlist.addItem({ value: value, label: option.label });
+				this.ddlist.addItem({ value: value, label: choice.label });
 				
-				// hide option (+ select first option)
-				this.hideOption({ position : position });
+				// hide choice (+ select first choice)
+				this.hideChoice({ position : position });
 				this.el.selectedIndex = 0;
 				
 				this.fireUpdatedEvt();
@@ -6826,26 +7024,26 @@ inputEx.widget.DDList.prototype = {
 		 */
 		setValue: function(value, sendUpdatedEvt) {
 			
-			var i, length, position, option, ddlistValue = [];
+			var i, length, position, choice, ddlistValue = [];
 			
 			if (!YAHOO.lang.isArray(value)) {
 				return;
 			}
 			
-			// Re-enable all options
-			for (i = 0, length=this.optionsList.length ; i < length ; i += 1) {
-				this.enableOption(i);
+			// Re-enable all choices
+			for (i = 0, length=this.choicesList.length ; i < length ; i += 1) {
+				this.enableChoice(i);
 			}
 			
-			// disable selected options and fill ddlist value
+			// disable selected choices and fill ddlist value
 			for (i = 0, length=value.length ; i < length ; i += 1) {
 				
 				position = this.getPosition({ value : value[i] });
-				option = this.optionsList[position];
+				choice = this.choicesList[position];
 				
-				ddlistValue.push({ value: option.value, label: option.label });
+				ddlistValue.push({ value: choice.value, label: choice.label });
 				
-				this.disableOption({ position: position });
+				this.disableChoice({ position: position });
 			}
 			
 			// set ddlist value
