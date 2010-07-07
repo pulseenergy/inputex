@@ -427,7 +427,20 @@
 	
 	// Register this class as "radio" type
 	inputEx.registerType("radio", inputEx.RadioField, [
-		{type: 'list', label: 'Options', name: 'choices', elementType: {type: 'string'} },
+		{
+			type: 'list',
+			name: 'choices',
+			label: 'Choices',
+			elementType: {
+				type: 'group',
+				fields: [
+					{ label: 'Value', name: 'value', value: '' }, // not required to allow '' value (which is default)
+					{ label: 'Label', name: 'label' } // optional : if left empty, label is same as value
+				]
+			},
+			value: [],
+			required: true
+		},
 		{type: 'boolean', label: 'Allow custom value', name: 'allowAny', value: false  }
 	]);
 	

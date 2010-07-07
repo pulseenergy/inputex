@@ -136,7 +136,7 @@ inputEx.DateField.formatDate = function(d,format) {
 	
 // Register this class as "date" type
 inputEx.registerType("date", inputEx.DateField, [
-   {type: 'select', label: 'Date format', name: 'dateFormat', options: [{ value: "m/d/Y" }, { value:"d/m/Y" }] }
+   {type: 'select', label: 'Date format', name: 'dateFormat', choices: [{ value: "m/d/Y" }, { value:"d/m/Y" }] }
 ]);
 	
 })();

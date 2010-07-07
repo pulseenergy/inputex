@@ -15,9 +15,12 @@ version 0.6 :
 
 - Field enhancements:
 
-   * SelectField : - global refactoring, extraction of common "choice" pattern in a mixin module
+   * SelectField:  - global refactoring, extraction of common "choice" pattern in a mixin module
                      (+ see following changes)
-                     
+                   
+                   - WARNING : this field has a new dependency
+                      -- inputex/js/mixins/choice.js
+                   
                    - WARNING : important change in the way we define the select's <option> nodes :
                       -- old pattern : { selectValues:["1","2"], selectOptions:["first","second"] }
                       -- new pattern : { choices: [{value: "1", label: "first"}, {value: "2", label: "second"}] }
@@ -32,8 +35,13 @@ version 0.6 :
                    - remove 'multiple' option, too complex to handle for a confusing user-interface component !
                      Use several checkboxes instead or MultiSelectField.
                      
-   * RadioField :  - global refactoring, like SelectField, with use of "choice" mixin,
+   * RadioField:   - global refactoring, like SelectField, with use of "choice" mixin,
                      API is very similar to SelectField (see below)
+                     
+                   - WARNING : this field has new dependencies
+                      -- yui/selector/selector-min.js
+                      -- yui/event-delegate/event-delegate-min.js
+                      -- inputex/js/mixins/choice.js
                    
                    - WARNING : important change in the way we define the radioField's <input type="radio" /> nodes :
                       -- old pattern : { values: ["1","2"], choices: ["first","second"] }
@@ -45,8 +53,8 @@ version 0.6 :
 - Added Fields:
    * TinyMCEField
 
-- Mixins :
-   * choice : module with function discribing a common pattern of managing "choices",
+- Mixins:
+   * choice:  module with function discribing a common pattern of managing "choices",
               contains several functions like hideChoice, showChoice, disableChoice, enableChoice, etc.
               (mixin used by SelectField and RadioField)
    

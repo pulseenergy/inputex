@@ -386,7 +386,7 @@ inputEx.registerType("form", inputEx.Form, [
          type: 'group', 
          fields: [
             { label: 'Label', name: 'value'},
-            { type: 'select', label: 'Type', name: 'type', options:[{ value: "button" }, { value: "submit" }] }
+            { type: 'select', label: 'Type', name: 'type', choices:[{ value: "button" }, { value: "submit" }] }
          ]
       }
    }

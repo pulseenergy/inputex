@@ -33,10 +33,10 @@ lang.extend(inputEx.TimeIntervalField, inputEx.CombineField, {
       var n=[]; for(var i=1;i<=60;i++){ n.push({ value : i }); }
       
       this.options.fields = options.fields || [
-         {type: 'select', options: n },
+         {type: 'select', choices: n },
          {
             type: 'select',
-            options: [
+            choices: [
                { value: units.SECOND, label: unitsStr.SECOND },
                { value: units.MINUTE, label: unitsStr.MINUTE },
                { value: units.HOUR, label: unitsStr.HOUR },

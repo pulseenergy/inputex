@@ -28,7 +28,7 @@ YAHOO.lang.extend( inputEx.KeyValueField, inputEx.CombineField, {
 		
 		this.nameIndex = {};
 		
-		var options = [], i, field, fieldCopy, k, l;
+		var choices = [], i, field, fieldCopy, k, l;
 		
 		for (i = 0 , l = availableFields.length ; i < l ; i++) {
 			
@@ -42,11 +42,11 @@ YAHOO.lang.extend( inputEx.KeyValueField, inputEx.CombineField, {
 			
 			this.nameIndex[field.name] = fieldCopy;
 			
-			options.push({ value: field.name, label:field.label || field.name });
+			choices.push({ value: field.name, label:field.label || field.name });
 			
-			}
+		}
 		
-		return { type: 'select', options: options };
+		return { type: 'select', choices: choices };
 	},
 
 	/**

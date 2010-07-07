@@ -39,7 +39,7 @@
 					selectOptions.push({ value: j, label: inputEx.messages.months[j] });
 				}
 				
-				options.fields.push({ type: 'select', options: selectOptions, value: -1 });
+				options.fields.push({ type: 'select', choices: selectOptions, value: -1 });
 			}
 			
 		}

@@ -329,21 +329,21 @@ inputEx.JsonSchema.Builder.prototype = {
 	          fieldDef.fields = fields;
 	          
 	       }
-	       else if(type == "string" && (p["enum"] || p["options"]) ) {
+	       else if(type == "string" && (p["enum"] || p["choices"]) ) {
 	          fieldDef.type = "select";
 	          
-	          if(p.options) {
-	             fieldDef.options = [];
-	             for(var i = 0 ; i < p.options.length ; i++) {
-	                var o = p.options[i];
-	                fieldDef.options[i] = { label: o.label, value: o.value };
+	          if(p.choices) {
+	             fieldDef.choices = [];
+	             for(var i = 0 ; i < p.choices.length ; i++) {
+	                var o = p.choices[i];
+	                fieldDef.choices[i] = { label: o.label, value: o.value };
 	             }
              }
              else {
-	             fieldDef.options = [];
+	             fieldDef.choices = [];
 	             for(var i = 0 ; i < p["enum"].length ; i++) {
 	                var o = p["enum"][i];
-	                fieldDef.options[i] = { label: o.label, value: o.value };
+	                fieldDef.choices[i] = { label: o.label, value: o.value };
 	             }
              }
 	       }

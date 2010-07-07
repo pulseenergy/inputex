@@ -11,7 +11,7 @@ inputEx.RPC.SMDTester = function(parentEl, smdList) {
 		type: 'select',
 		label: "SMD",
 		parentEl: this.el,
-		options: [{ value: selectStr }].concat((function() {
+		choices: [{ value: selectStr }].concat((function() {
 			var arr = [], i, length;
 			for (i = 0, length = smdList.length; i < length; i += 1) {
 				arr.push({ value: smdList[i] });
@@ -79,7 +79,7 @@ inputEx.RPC.SMDTester.prototype = {
 		var select = inputEx({
 				type: 'select',
 				parentEl: this.serviceMethodEl,
-				options: genMethods,
+				choices: genMethods,
 				label: 'Method',
 				description: "Select the method"
 		});

@@ -67,7 +67,7 @@
 		
 			// add new options
 			for (i = 0, length = items.length; i < length ; i += 1) {
-				this.addOption({ value: items[i][this.options.valueKey], label: items[i][this.options.labelKey] });
+				this.addChoice({ value: items[i][this.options.valueKey], label: items[i][this.options.labelKey] });
 			}
 		},
 		

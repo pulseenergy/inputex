@@ -32,14 +32,10 @@ YAHOO.lang.extend(inputEx.KeyOpValueField, inputEx.KeyValueField, {
 		newOptions = {
 			fields: [
 				selectFieldConfig,
-				{type: 'select', options: selectOptions},
+				{type: 'select', choices: selectOptions},
 				this.nameIndex[options.availableFields[0].name]
 			]
 		};
-		
-		if (options.operatorLabels) {
-			newOptions.fields[1].selectOptions = options.operatorLabels;
-		}
 		
 		YAHOO.lang.augmentObject(newOptions, options);
 		

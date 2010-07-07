@@ -7,7 +7,7 @@
 	 * @constructor
 	 * @param {Object} options Added options:
 	 * <ul>
-	 *    <li>options: contains the list of options configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
+	 *    <li>choices: contains the list of choices configs ([{value:'usa'}, {value:'fr', label:'France'}])</li>
 	 * </ul>
 	 */
 	inputEx.MultiSelectField = function(options) {
@@ -41,7 +41,7 @@
 		 */
 		onItemRemoved: function(e,params) {
 			
-			this.showOption({ value : params[0] });
+			this.showChoice({ value : params[0] });
 			this.el.selectedIndex = 0;
 			
 			this.fireUpdatedEvt();
@@ -53,7 +53,7 @@
 		 */
 		onAddNewItem: function() {
 			
-			var value, position, option;
+			var value, position, choice;
 			
 			if (this.el.selectedIndex !== 0) {
 				
@@ -61,12 +61,12 @@
 				value = inputEx.MultiSelectField.superclass.getValue.call(this);
 				
 				position = this.getPosition({ value : value });
-				option = this.optionsList[position];
+				choice = this.choicesList[position];
 				
-				this.ddlist.addItem({ value: value, label: option.label });
+				this.ddlist.addItem({ value: value, label: choice.label });
 				
-				// hide option (+ select first option)
-				this.hideOption({ position : position });
+				// hide choice (+ select first choice)
+				this.hideChoice({ position : position });
 				this.el.selectedIndex = 0;
 				
 				this.fireUpdatedEvt();
@@ -81,26 +81,26 @@
 		 */
 		setValue: function(value, sendUpdatedEvt) {
 			
-			var i, length, position, option, ddlistValue = [];
+			var i, length, position, choice, ddlistValue = [];
 			
 			if (!YAHOO.lang.isArray(value)) {
 				return;
 			}
 			
-			// Re-enable all options
-			for (i = 0, length=this.optionsList.length ; i < length ; i += 1) {
-				this.enableOption(i);
+			// Re-enable all choices
+			for (i = 0, length=this.choicesList.length ; i < length ; i += 1) {
+				this.enableChoice(i);
 			}
 			
-			// disable selected options and fill ddlist value
+			// disable selected choices and fill ddlist value
 			for (i = 0, length=value.length ; i < length ; i += 1) {
 				
 				position = this.getPosition({ value : value[i] });
-				option = this.optionsList[position];
+				choice = this.choicesList[position];
 				
-				ddlistValue.push({ value: option.value, label: option.label });
+				ddlistValue.push({ value: choice.value, label: choice.label });
 				
-				this.disableOption({ position: position });
+				this.disableChoice({ position: position });
 			}
 			
 			// set ddlist value

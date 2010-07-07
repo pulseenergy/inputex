@@ -16,10 +16,10 @@ inputEx.TimeRange = function(options) {
 	m = [{ value: "00" },{ value: "05" },{ value: "10" },{ value: "15" },{ value: "20" },{ value: "25" },{ value: "30" },{ value: "35" },{ value: "40" },{ value: "45" },{ value: "50" },{ value: "55" }];
 	
    options.fields = [
-      {type: 'select', options: h1 },
-      {type: 'select', options: m },
-      {type: 'select', options: h2 },
-      {type: 'select', options: m }
+      {type: 'select', choices: h1 },
+      {type: 'select', choices: m },
+      {type: 'select', choices: h2 },
+      {type: 'select', choices: m }
    ];
 
    options.separators = options.separators || [false,"H","&nbsp; à &nbsp;","H",false];

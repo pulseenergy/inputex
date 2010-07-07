@@ -16,9 +16,9 @@ inputEx.TimeField = function(options) {
    for(i = 0 ; i < 24 ; i++) { s="";if(i<10){s="0";} s+= i;h.push({ value: s });}
    for(i = 0 ; i < 60 ; i++) { s="";if(i<10){s="0";} s+= i;m.push({ value: s }); secs.push({ value: s });}
    options.fields = [
-      {type: 'select', options: h },
-      {type: 'select', options: m },
-      {type: 'select', options: secs }
+      {type: 'select', choices: h },
+      {type: 'select', choices: m },
+      {type: 'select', choices: secs }
    ];
    options.separators = options.separators || [false,":",":",false];
    inputEx.TimeField.superclass.constructor.call(this,options);
