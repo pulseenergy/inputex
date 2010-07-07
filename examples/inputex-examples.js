@@ -133,7 +133,7 @@
 	
 	YAHOO.util.Event.onDOMReady(function() {
 		
-		var examples, i, length, textarea;
+		var examples, i, length, textarea, code;
 		
 		examples = YAHOO.util.Dom.getElementsByClassName('JScript');
 		
@@ -142,7 +142,14 @@
 			textarea = examples[i];
 			
 			try {
-				eval(html_entity_decode(textarea.innerHTML));
+				// get example code and filter html entities
+				code = html_entity_decode(textarea.innerHTML);
+				
+				// wrap in anonymous to create a separate context for local variables
+				// (avoid collision between variables from different examples !)
+				code = "(function () {"+code+"}());";
+				
+				eval(code);
 			}
 			catch(ex) {
 				if(console) {
