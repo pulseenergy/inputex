@@ -50,6 +50,9 @@ version 0.6 :
                    - added hideChoice/showChoice/disableChoice/enableChoice methods to hide/display/disable/enable
                      choices (= <input type="radio" />s) dynamically
                      
+                   - add inputEx-selected class on currently selected inputEx-RadioField-choice (see RadioField
+                     4th example for a styling case based on that class)
+                   
    * EmailField:   - new validation regexp : doesn't allow IPs after @ anymore, whitelisting of allowed characters
                      instead of weak blacklisting.
 

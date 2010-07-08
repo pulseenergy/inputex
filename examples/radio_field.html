@@ -106,13 +106,29 @@
 
 	<h2>Styling RadioField</h2>
 	
-	<p>Display the choices vertically (display:'vertically' instead of default display:'inline')</p>
+	<p>Display the choices vertically, style currently selected choice...</p>
 
 	<div class='demoContainer' id='container4'></div>
-
+	
+	<style>
+	  #container4 .inputEx-RadioField .inputEx-selected label { text-decoration: underline; }
+	</style>
+	
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-			new inputEx.RadioField({label: 'Where did you learn about inputEx ?', display:'vertically', name: 'example4', choices: ['Ajaxian','YUI blog','Other'], parentEl: 'container4'});
+			new inputEx.RadioField({
+				label: 'Where did you learn about inputEx ?',
+				display:'vertically',  // instead of default implicit "display:'inline'"
+				name: 'example4',
+				choices: ['Ajaxian','YUI blog','Other'],
+				parentEl: 'container4'
+			});
+			
+			// + CSS : underline selected choice
+			//
+			// <style>
+			//   .inputEx-RadioField .inputEx-selected label { text-decoration: underline; }
+			// </style>
 		</textarea>
 	</div>
 

@@ -166,6 +166,33 @@
 		},
 		
 		/**
+		 * Add an additional class to the currently selected inputEx-RadioField-choice
+		 */
+		setSelectedClass: function () {
+			
+			var i, length;
+			
+			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+				
+				if (this.choicesList[i].node.firstChild.checked) {
+					Dom.addClass(this.choicesList[i].node,"inputEx-selected");
+				} else {
+					Dom.removeClass(this.choicesList[i].node,"inputEx-selected");
+				}
+				
+			}
+		},
+		
+		setClassFromState: function () {
+			
+			// call superclass method (will fire updatedEvt)
+			inputEx.RadioField.superclass.setClassFromState.call(this);
+			
+			this.setSelectedClass();
+			
+		},
+		
+		/**
 		 * Function called when the checkbox is toggled
 		 * @param {Event} e The original 'change' event
 		 */
@@ -182,6 +209,8 @@
 				}
 				
 			}
+			
+			this.setSelectedClass();
 			
 			// call superclass method (will fire updatedEvt)
 			inputEx.RadioField.superclass.onChange.call(this,e);
@@ -245,7 +274,7 @@
 			}
 			
 			// call parent class method to set style and fire updatedEvt
-			inputEx.StringField.superclass.setValue.call(this, value, sendUpdatedEvt);
+			inputEx.RadioField.superclass.setValue.call(this, value, sendUpdatedEvt);
 		},
 		
 		/**
@@ -435,7 +464,7 @@
 				type: 'group',
 				fields: [
 					{ label: 'Value', name: 'value', value: '' }, // not required to allow '' value (which is default)
-					{ label: 'Label', name: 'label' } // optional : if left empty, label is same as value
+					{ label: 'Label', name: 'label' } // optional : if left empty, label is not created
 				]
 			},
 			value: [],
