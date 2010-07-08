@@ -85,11 +85,6 @@ div.inputEx-empty div.inputEx-valid div.inputEx-Field input, div.inputEx-empty d
    color: black;
 }
 
-inputEx-focused div.inputEx-Field input, inputEx-focused div.inputEx-Field textarea {
-   color: black;
-}
-
-
 /**
  * inputEx.StringField
  */
