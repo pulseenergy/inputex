@@ -51,10 +51,12 @@ version 0.6 :
                      choices (= <input type="radio" />s) dynamically
                      
                    - add inputEx-selected class on currently selected inputEx-RadioField-choice (see RadioField
-                     4th example for a styling case based on that class)
+                     example n°4 : styling the currently selected choice)
                    
    * EmailField:   - new validation regexp : doesn't allow IPs after @ anymore, whitelisting of allowed characters
                      instead of weak blacklisting.
+   
+   * TextArea :    - added readonly (true|false) option, that option doesn't work on IE < 8
 
 - Added Fields:
    * TinyMCEField
