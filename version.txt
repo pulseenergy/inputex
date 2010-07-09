@@ -11,7 +11,9 @@ Release Notes:
 
 
 version 0.6 :
----------------
+-------------
+
+Not released yet...
 
 - Field enhancements:
 
@@ -84,6 +86,8 @@ version 0.6 :
 version 0.5.1 :
 ---------------
 
+released on June, 4th 2010
+
 - Field enhancements:
    * colorField : no hardcoded css, use inputEx-ColorField-square and inputEx-ColorField-Grid classes instead,
                   hovered or selected colored square is emphasized with a 1px-border
@@ -99,6 +103,8 @@ version 0.5.1 :
 
 version 0.5.0 :
 ---------------
+
+released on March, 2nd 2010
 
 - <!> Warning <!> important API changes:
    * remove "inputParams" syntax when defining fields inside a group or form definition
@@ -156,6 +162,8 @@ version 0.5.0 :
 
 version 0.4.0 :
 ---------------
+
+released on January, 4th 2010
 
 	- Various
 		* Upgrading to YUI 2.8.0r4
