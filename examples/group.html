@@ -31,16 +31,15 @@
 	<div class='demoContainer' id='container1'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-					var contactFormFields = [ 
+					var contactFormFields = [
 							{type: 'select', label: 'Title', name: 'title', choices: [{ value: 'Mr' }, { value: 'Mrs' }, { value: 'Ms' }]},
 							{label: 'Firstname', name: 'firstname', required: true},
 							{label: 'Lastname', name: 'lastname', value:'Dupont'},
 							{type:'email', label: 'Email', name: 'email', required: true, showMsg: true},
-                     //{type:'radio', label: 'Happy to be there ?', name: 'happy', values:["y","n"], choices:["yes","no"]},
-                     {type:'radio', label: 'Happy to be there ?', name: 'happy', choices:[{value: "y", label:"yes"}, {value:"n", label:"no"}]},
-                     {type:'boolean', label: 'Favorite colors ?', name: 'yellow', rightLabel:"yellow"},
-                     {type:'boolean', label: ' ', name: 'blue', rightLabel:"blue"},
-                     {type:'boolean', label: ' ', name: 'red', rightLabel:"red"},
+							{type:'radio', label: 'Happy to be there ?', name: 'happy', display:'vertically', choices:[{value: "y", label:"yes"}, {value:"n", label:"no"}]},
+							{type:'boolean', label: 'Favorite colors ?', name: 'yellow', rightLabel:"yellow"},
+							{type:'boolean', label: ' ', name: 'blue', rightLabel:"blue"},
+							{type:'boolean', label: ' ', name: 'red', rightLabel:"red"},
 							{type:'url', label: 'Website', name:'website'}
 					];
 					new inputEx.Group({parentEl: 'container1', fields: contactFormFields, legend: 'Tell us about yourself...'});

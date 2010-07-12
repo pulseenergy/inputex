@@ -110,15 +110,19 @@
 				}
 			
 			}
-		
+			
 			// select value from first choice available when
 			// value not matching any visible choice
-			if (!choiceFound) {
+			//
+			// if no choice available (-> firstIndexAvailable is undefined), skip value setting
+			if (!choiceFound && !lang.isUndefined(firstIndexAvailable)) {
+				
 				choice = this.choicesList[firstIndexAvailable];
 				choice.node.selected = "selected";
 				value = choice.value;
+				
 			}
-		
+			
 			// Call Field.setValue to set class and fire updated event
 			inputEx.SelectField.superclass.setValue.call(this, value, sendUpdatedEvt);
 		},
