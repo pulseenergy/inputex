@@ -212,7 +212,7 @@
 			nbChoices = this.choicesList.length;
 			
 			// Handle position
-			if (lang.isNumber(config.position) && config.position >= 0 && config.position <= nbChoices) {
+			if (lang.isNumber(config.position) && config.position >= 0 && config.position < nbChoices) {
 				
 				position = parseInt(config.position, 10);
 				

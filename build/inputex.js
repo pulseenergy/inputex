@@ -142,7 +142,7 @@ lang.augmentObject(inputEx, {
     * Associative array containing common regular expressions
     */
    regexps: {
-      email: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      email: /^[a-z0-9!\#\$%&'\*\-\/=\?\+\-\^_`\{\|\}~]+(?:\.[a-z0-9!\#\$%&'\*\-\/=\?\+\-\^_`\{\|\}~]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,6}$/i,
       url: /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i,
       password: /^[0-9a-zA-Z\x20-\x7E]*$/
    },
@@ -924,9 +924,9 @@ inputEx.JsonSchema.Builder.prototype = {
 			choice.node = this.createChoiceNode(choice);
 			
 			// Get choice's position
-			//   -> don't pass config.value to getPosition !!!
+			//   -> don't pass config.value to getChoicePosition !!!
 			//     (we search position of existing choice, whereas config.value is a property of new choice to be created...)
-			position = this.getPosition({ position: config.position, label: config.before || config.after });
+			position = this.getChoicePosition({ position: config.position, label: config.before || config.after });
 			
 			if (position === -1) { //  (default is at the end)
 				position = this.choicesList.length;
@@ -941,7 +941,7 @@ inputEx.JsonSchema.Builder.prototype = {
 			this.choicesList.splice(position, 0, choice);
 			
 			// Append <option> node in DOM
-			this.attachChoiceNodeAtPosition(choice.node, position);
+			this.appendChoiceNode(choice.node, position);
 			
 			// Select new choice
 			if (!!config.selected) {
@@ -968,7 +968,7 @@ inputEx.JsonSchema.Builder.prototype = {
 			var position, choice;
 			
 			// Get choice's position
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position === -1) {
 				throw new Error("SelectField : invalid or missing position, label or value in removeChoice");
@@ -998,7 +998,7 @@ inputEx.JsonSchema.Builder.prototype = {
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -1031,14 +1031,18 @@ inputEx.JsonSchema.Builder.prototype = {
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
 				choice = this.choicesList[position];
-				choice.visible = true;
 				
-				this.attachChoiceNodeAtPosition(choice.node, position);
+				if (!choice.visible) {
+					
+					choice.visible = true;
+					this.appendChoiceNode(choice.node, position);
+				
+				}
 				
 			}
 			
@@ -1055,7 +1059,7 @@ inputEx.JsonSchema.Builder.prototype = {
 			// Should we unselect choice if disabling selected choice
 			if (lang.isUndefined(unselect) || !lang.isBoolean(unselect)) { unselect = true; }
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -1080,7 +1084,7 @@ inputEx.JsonSchema.Builder.prototype = {
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -1096,14 +1100,14 @@ inputEx.JsonSchema.Builder.prototype = {
 		 * Get the position of a choice in choicesList (NOT in the DOM)
 		 * @param {Object} config An object targeting the choice (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
 		 */
-		getPosition: function (config) {
+		getChoicePosition: function (config) {
 			
 			var nbChoices, position = -1;
 			
 			nbChoices = this.choicesList.length;
 			
 			// Handle position
-			if (lang.isNumber(config.position) && config.position >= 0 && config.position <= nbChoices) {
+			if (lang.isNumber(config.position) && config.position >= 0 && config.position < nbChoices) {
 				
 				position = parseInt(config.position, 10);
 				
@@ -4239,11 +4243,108 @@ YAHOO.lang.extend(inputEx.EmailField, inputEx.StringField, {
     */
    setOptions: function(options) {
       inputEx.EmailField.superclass.setOptions.call(this, options);
+
       // Overwrite options
       this.options.messages.invalid = inputEx.messages.invalidEmail;
       this.options.regexp = inputEx.regexps.email;
+		
+		// Validate the domain name ( false by default )
+		this.options.fixdomain = (YAHOO.lang.isUndefined(options.fixdomain) ? false : !!options.fixdomain);
    },
    
+	validateDomain : function() {
+		
+		var i, j, val, domain, domainList, domainListLength, groupDomain, groupDomainLength;
+		
+		val = this.getValue();
+		domain = val.split('@')[1];
+		
+		// List of bad emails (only the first one in each array is the valid one)
+		domainList = [
+		
+		// gmail.com
+		["gmail.com","gmail.com.br","_gmail.com","g-mail.com","g.mail.com","g_mail.com","gamail.com","gamil.com","gemail.com","ggmail.com","gimail.com","gmai.com","gmail.cim","gmail.co","gmaill.com","gmain.com","gmaio.com","gmal.com","gmali.com","gmeil.com","gmial.com","gmil.com","gtmail.com","igmail.com"],
+		
+		// hotmail.co.uk
+		
+["hotmail.co.uk","hotmail.com.uk"],
+
+		// hotmail.com
+		["hotmail.com","hotmail.com.br","hotmail.br","0hotmail.com","8hotmail.com","_hotmail.com","ahotmail.com","ghotmail.com","gotmail.com","hatmail.com","hhotmail.com","ho0tmail.com","hogmail.com","hoimail.com","hoitmail.com","homail.com","homtail.com","hootmail.com","hopmail.com","hoptmail.com","hormail.com","hot.mail.com","hot_mail.com","hotail.com","hotamail.com","hotamil.com","hotemail.com","hotimail.com","hotlmail.com","hotmaail.com","hotmael.com","hotmai.com","hotmaial.com","hotmaiil.com","hotmail.acom","hotmail.bom","hotmail.ccom","hotmail.cm","hotmail.co","hotmail.coml","hotmail.comm","hotmail.con","hotmail.coom","hotmail.copm","hotmail.cpm","hotmail.lcom","hotmail.ocm","hotmail.om","hotmail.xom","hotmail2.com","hotmail_.com","hotmailc.com","hotmaill.com","hotmailo.com","hotmaio.com","hotmaiol.com","hotmais.com","hotmal.com","hotmall.com","hotmamil.com","hotmaol.com","hotmayl.com","hotmeil.com","hotmial.com","hotmil.com","hotmmail.com","hotmnail.com","hotmsil.com","hotnail.com","hotomail.com","hottmail.com","hotymail.com","hoymail.com","hptmail.com","htmail.com","htomail.com","ohotmail.com","otmail.com","rotmail.com","shotmail.com"],
+
+		// hotmail.fr
+		["hotmail.fr","hotmail.ffr","hotmail.frr","hotmail.fr.br","hotmail.br","0hotmail.fr","8hotmail.fr","_hotmail.fr","ahotmail.fr","ghotmail.fr","gotmail.fr","hatmail.fr","hhotmail.fr","ho0tmail.fr","hogmail.fr","hoimail.fr","hoitmail.fr","homail.fr","homtail.fr","hootmail.fr","hopmail.fr","hoptmail.fr","hormail.fr","hot.mail.fr","hot_mail.fr","hotail.fr","hotamail.fr","hotamil.fr","hotemail.fr","hotimail.fr","hotlmail.fr","hotmaail.fr","hotmael.fr","hotmai.fr","hotmaial.fr","hotmaiil.fr","hotmail.frl","hotmail.frm","hotmail2.fr","hotmail_.fr","hotmailc.fr","hotmaill.fr","hotmailo.fr","hotmaio.fr","hotmaiol.fr","hotmais.fr","hotmal.fr","hotmall.fr","hotmamil.fr","hotmaol.fr","hotmayl.fr","hotmeil.fr","hotmial.fr","hotmil.fr","hotmmail.fr","hotmnail.fr","hotmsil.fr","hotnail.fr","hotomail.fr","hottmail.fr","hotymail.fr","hoymail.fr","hptmail.fr","htmail.fr","htomail.fr","ohotmail.fr","otmail.fr","rotmail.fr","shotmail.fr"],
+
+		// yahoo.co.in
+		["yahoo.co.in","yaho.co.in","yahoo.co.cn","yahoo.co.n","yahoo.co.on","yahoo.coin","yahoo.com.in","yahoo.cos.in","yahoo.oc.in","yaoo.co.in","yhoo.co.in"],
+
+		// yahoo.com.br
+		["yahoo.com.br","1yahoo.com.br","5yahoo.com.br","_yahoo.com.br","ayhoo.com.br","tahoo.com.br","uahoo.com.br","yagoo.com.br","yahho.com.br","yaho.com.br","yahoo.cm.br","yahoo.co.br","yahoo.com.ar","yahoo.com.b","yahoo.com.be","yahoo.com.ber","yahoo.com.bl","yahoo.com.brr","yahoo.com.brv","yahoo.com.bt","yahoo.com.nr","yahoo.coml.br","yahoo.con.br","yahoo.om.br","yahool.com.br","yahooo.com.br","yahoou.com.br","yaoo.com.br","yaroo.com.br","yhaoo.com.br","yhoo.com.br","yuhoo.com.br"],
+
+		// yahoo.com
+		["yahoo.com","yahoomail.com","_yahoo.com","ahoo.com","ayhoo.com","eyahoo.com","hahoo.com","sahoo.com","yahho.com","yaho.com","yahol.com","yahoo.co","yahoo.con","yahoo.vom","yahoo0.com","yahoo1.com","yahool.com","yahooo.com","yahoou.com","yahoow.com","yahopo.com","yaloo.com","yaoo.com","yaroo.com","yayoo.com","yhaoo.com","yhoo.com","yohoo.com"],
+
+		// yahoo.fr
+		["yahoo.fr","yahoomail.fr","_yahoo.fr","ahoo.fr","ayhoo.fr","eyahoo.fr","hahoo.fr","sahoo.fr","yahho.fr","yaho.fr","yahol.fr","yahoo.co","yahoo.con","yahoo.vom","yahoo0.fr","yahoo1.fr","yahool.fr","yahooo.fr","yahoou.fr","yahoow.fr","yahopo.fr","yaloo.fr","yaoo.fr","yaroo.fr","yayoo.fr","yhaoo.fr","yhoo.fr","yohoo.fr"],
+
+		// wanadoo.fr
+		
+["wanadoo.fr","wanadoo.frr","wanadoo.ffr","wanado.fr","wanadou.fr","wanadop.fr","wandoo.fr","wanaoo.fr","wannadoo.fr","wanadoo.com","wananadoo.fr","wanadoo.fe","wanaddo.fr","wanadoo.orange","waqnadoo.fr","wandaoo.fr","wannado.fr"]
+
+		];
+		
+		// Loop 1
+		for(i=0, domainListLength = domainList.length; i<domainListLength; i++ ) {
+			groupDomain = domainList[i];
+			
+			// Loop 2
+			for(j=0, groupDomainLength = groupDomain.length; j<groupDomainLength; j++ ) {
+
+				// First domain of array
+				if( groupDomain.indexOf(domain) === 0) {
+					
+					// If domain matches the first value of the array it means its valid
+					if ( domain === groupDomain[j] ) {
+						return true;
+					}
+				}
+				else if ( domain === groupDomain[j] ) {
+					var linkId = YAHOO.util.Dom.generateId();
+					var that = this;
+					
+					// Add a listener to the link to allow the user to replace his bad email by clicking the link
+					YAHOO.util.Event.addListener(linkId, 'click', function(e){
+						YAHOO.util.Event.stopEvent(e);
+						var reg = new RegExp(domain, "i");
+						var fixedVal = val.replace(reg, groupDomain[0]);
+						that.setValue( fixedVal );
+					});
+					
+					// Display the message with the link
+					this.options.messages.invalid = inputEx.messages.didYouMeant+"<a href='' id='"+linkId+"' style='color:blue;'>@"+groupDomain[0]+" ?</a>";
+					
+					// field isnt valid
+					return false;
+				}
+			}
+		}
+		
+		// field is valid
+		return true;
+	},
+	
+   validate: function() {
+	   var result = inputEx.EmailField.superclass.validate.call(this);
+		
+		// If we want the domain validation
+		if ( !!this.options.fixdomain ) {
+	   	this.options.messages.invalid = inputEx.messages.invalidEmail;
+			return result && this.validateDomain();
+		} else {
+			return result;
+		}
+   },
+
    /**
     * Set the value to lower case since email have no case
     * @return {String} The email string
@@ -4261,6 +4362,8 @@ YAHOO.lang.extend(inputEx.EmailField, inputEx.StringField, {
    
 // Specific message for the email field
 inputEx.messages.invalidEmail = "Invalid email, ex: sample@test.com";
+
+inputEx.messages.didYouMeant = "Did you meant : ";
 
 // Register this class as "email" type
 inputEx.registerType("email", inputEx.EmailField, []);
@@ -5576,6 +5679,33 @@ inputEx.registerType("password", inputEx.PasswordField, [
 		},
 		
 		/**
+		 * Add an additional class to the currently selected inputEx-RadioField-choice
+		 */
+		setSelectedClass: function () {
+			
+			var i, length;
+			
+			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
+				
+				if (this.choicesList[i].node.firstChild.checked) {
+					Dom.addClass(this.choicesList[i].node,"inputEx-selected");
+				} else {
+					Dom.removeClass(this.choicesList[i].node,"inputEx-selected");
+				}
+				
+			}
+		},
+		
+		setClassFromState: function () {
+			
+			// call superclass method (will fire updatedEvt)
+			inputEx.RadioField.superclass.setClassFromState.call(this);
+			
+			this.setSelectedClass();
+			
+		},
+		
+		/**
 		 * Function called when the checkbox is toggled
 		 * @param {Event} e The original 'change' event
 		 */
@@ -5592,6 +5722,8 @@ inputEx.registerType("password", inputEx.PasswordField, [
 				}
 				
 			}
+			
+			this.setSelectedClass();
 			
 			// call superclass method (will fire updatedEvt)
 			inputEx.RadioField.superclass.onChange.call(this,e);
@@ -5655,7 +5787,7 @@ inputEx.registerType("password", inputEx.PasswordField, [
 			}
 			
 			// call parent class method to set style and fire updatedEvt
-			inputEx.StringField.superclass.setValue.call(this, value, sendUpdatedEvt);
+			inputEx.RadioField.superclass.setValue.call(this, value, sendUpdatedEvt);
 		},
 		
 		/**
@@ -5800,7 +5932,7 @@ inputEx.registerType("password", inputEx.PasswordField, [
 		 * @param {HTMLElement} node The <option> node to attach to the <select>
 		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
 		 */
-		attachChoiceNodeAtPosition: function (node, position) {
+		appendChoiceNode: function (node, position) {
 			
 			var domPosition, i;
 			
@@ -5845,7 +5977,7 @@ inputEx.registerType("password", inputEx.PasswordField, [
 				type: 'group',
 				fields: [
 					{ label: 'Value', name: 'value', value: '' }, // not required to allow '' value (which is default)
-					{ label: 'Label', name: 'label' } // optional : if left empty, label is same as value
+					{ label: 'Label', name: 'label' } // optional : if left empty, label is not created
 				]
 			},
 			value: [],
@@ -6112,15 +6244,19 @@ inputEx.registerType("html", inputEx.RTEField, []);
 				}
 			
 			}
-		
+			
 			// select value from first choice available when
 			// value not matching any visible choice
-			if (!choiceFound) {
+			//
+			// if no choice available (-> firstIndexAvailable is undefined), skip value setting
+			if (!choiceFound && !lang.isUndefined(firstIndexAvailable)) {
+				
 				choice = this.choicesList[firstIndexAvailable];
 				choice.node.selected = "selected";
 				value = choice.value;
+				
 			}
-		
+			
 			// Call Field.setValue to set class and fire updated event
 			inputEx.SelectField.superclass.setValue.call(this, value, sendUpdatedEvt);
 		},
@@ -6196,7 +6332,7 @@ inputEx.registerType("html", inputEx.RTEField, []);
 		 * @param {HTMLElement} node The <option> node to attach to the <select>
 		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
 		 */
-		attachChoiceNodeAtPosition: function (node, position) {
+		appendChoiceNode: function (node, position) {
 			
 			var domPosition, i;
 			
@@ -6277,6 +6413,9 @@ YAHOO.lang.extend(inputEx.Textarea, inputEx.StringField, {
       inputEx.Textarea.superclass.setOptions.call(this, options);
       this.options.rows = options.rows || 6;
       this.options.cols = options.cols || 23;
+      
+      // warning : readonly option doesn't work on IE < 8
+      this.options.readonly = !!options.readonly;
    },
    
    /**
@@ -6293,6 +6432,7 @@ YAHOO.lang.extend(inputEx.Textarea, inputEx.StringField, {
       attributes.rows = this.options.rows;
       attributes.cols = this.options.cols;
       if(this.options.name) attributes.name = this.options.name;
+      if(this.options.readonly) attributes.readonly = 'readonly';
       
       //if(this.options.maxLength) attributes.maxLength = this.options.maxLength;
    
@@ -7003,7 +7143,7 @@ inputEx.widget.DDList.prototype = {
 				// Get the selector value
 				value = inputEx.MultiSelectField.superclass.getValue.call(this);
 				
-				position = this.getPosition({ value : value });
+				position = this.getChoicePosition({ value : value });
 				choice = this.choicesList[position];
 				
 				this.ddlist.addItem({ value: value, label: choice.label });
@@ -7038,7 +7178,7 @@ inputEx.widget.DDList.prototype = {
 			// disable selected choices and fill ddlist value
 			for (i = 0, length=value.length ; i < length ; i += 1) {
 				
-				position = this.getPosition({ value : value[i] });
+				position = this.getChoicePosition({ value : value[i] });
 				choice = this.choicesList[position];
 				
 				ddlistValue.push({ value: choice.value, label: choice.label });
