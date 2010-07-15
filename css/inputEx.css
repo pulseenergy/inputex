@@ -500,14 +500,8 @@ div.inputEx-CheckBox { *padding-top:0; }
  */
 label.inputEx-RadioField-rightLabel { cursor: pointer; }
 
-div.inputEx-RadioField-choice { float: left; margin-right: 10px; margin-top:0.2em; }
-
-/* Awful hack to target IE < 8 */
-div.inputEx-RadioField-choice { *margin-top:0; }
-
-/* Awful hack to target IE > 7 and modern browsers */
-html>/**/body div.inputEx-RadioField-choice input { position:relative; top:0.2em; margin-right:0.2em; }
-html>/**/body div.inputEx-RadioField-choice input, x:-moz-any-link, x:default  { top:0; } /* Re-fix for firefox 3.0+ */
+div.inputEx-RadioField-choice { float: left; margin-right: 10px; padding-top:0.2em; }
+div.inputEx-RadioField-choice input[type="radio"] { margin-right:0.2em; }
 
 /* Vertical display */
 .inputEx-RadioField-Vertically .inputEx-RadioField-choice { float: none; }
