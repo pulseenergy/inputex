@@ -212,6 +212,68 @@
 
 </div>
 
+<!-- Example 6 bis -->
+<div class='exampleDiv'>
+
+	<h2>Advanced allowAny option 2</h2>
+	
+	<p>Use a custom field in allowAny</p>
+
+	<style>
+	#container6bis div.inputEx-StringField-wrapper input {width: 25px;}
+	</style>
+	
+	<div class='demoContainer' id='container6bis'></div>
+
+	<div class='codeContainer'>
+		<textarea name="code" class="JScript">
+			var field, el, button1, button2, button3;
+			
+			el = YAHOO.util.Dom.get('container6bis');
+			
+			field = new inputEx.RadioField({
+				label: 'Would you like to receive an email reminder ?',
+				name: 'example6',
+				display: 'vertically',
+				choices: [{ value: 0, label: 'No' }, { value: 1440, label: 'Yes, 1 day before the event'}],
+				value: 1440, // default value, also used by clear() method
+				parentEl: el,
+				allowAny: {
+					field: {
+						type: "timeinterval",
+						unit: inputEx.TimeIntervalField.units.MINUTE,
+						value: 7*24*60, // 1 week = 7 days,
+						fields: [
+							{type:'integer', value:1, required:true},
+							{
+								type: 'select',
+								choices: [
+									{ value: inputEx.TimeIntervalField.units.HOUR, label: inputEx.messages.timeUnits.HOUR },
+									{ value: inputEx.TimeIntervalField.units.DAY, label: inputEx.messages.timeUnits.DAY },
+									{ value: inputEx.TimeIntervalField.units.MONTH, label: inputEx.messages.timeUnits.MONTH }
+								]
+							}
+						],
+						separators:['Yes, ',false, ' before the event']
+					},
+					validator: function(val) {
+						return (val >= 120 && val <= 43200);
+					}
+				},
+				required:true,
+				messages: {invalid:"Reminder can be set between 2 hours and 1 month before the event"},
+				showMsg:true
+			});
+			
+			field.updatedEvt.subscribe(function(e, params) {
+					el.appendChild( inputEx.cn('div',null,null, "Updated with value: "+params[0]) );
+			});
+			
+		</textarea>
+	</div>
+
+</div>
+
 
 
 <!-- Example 7 -->
@@ -416,6 +478,13 @@
 <script src="../js/fields/StringField.js"  type='text/javascript'></script>
 <script src="../js/mixins/choice.js"  type='text/javascript'></script>
 <script src="../js/fields/RadioField.js"  type='text/javascript'></script>
+
+<!-- For TimeIntervalField use only -->
+<script src="../js/Group.js"  type='text/javascript'></script>
+<script src="../js/fields/IntegerField.js"  type='text/javascript'></script>
+<script src="../js/fields/SelectField.js"  type='text/javascript'></script>
+<script src="../js/fields/CombineField.js"  type='text/javascript'></script>
+<script src="../js/fields/TimeIntervalField.js"  type='text/javascript'></script>
 
 <!-- inputEx examples -->
 <script src="js/dpSyntaxHighlighter.js"></script>

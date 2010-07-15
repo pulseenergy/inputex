@@ -73,8 +73,9 @@
 			} else {
 				this.options.allowAny = {};
 				if (lang.isArray(options.allowAny.separators)) { this.options.allowAny.separators = options.allowAny.separators;}
-				this.options.allowAny.validator = (lang.isFunction(options.allowAny.validator)) ? options.allowAny.validator : function (val) {return true;};
-				this.options.allowAny.value = (!lang.isUndefined(options.allowAny.value)) ? options.allowAny.value : "";
+				this.options.allowAny.validator = lang.isFunction(options.allowAny.validator) ? options.allowAny.validator : function (val) {return true;};
+				this.options.allowAny.value = !lang.isUndefined(options.allowAny.value) ? options.allowAny.value : "";
+				this.options.allowAny.field = lang.isUndefined(options.allowAny.field) ? { type: "string", value: this.options.allowAny.value } : options.allowAny.field;
 			}
 			
 		},
@@ -103,7 +104,7 @@
 				
 				this.radioAny = this.allowAnyChoice.node.firstChild;
 				
-				this.anyField = new inputEx({type:'string', value: this.options.allowAny.value});
+				this.anyField = new inputEx(this.options.allowAny.field);
 				this.anyField.disable();
 				
 				Dom.setStyle(this.radioAny, "float","left");
@@ -114,7 +115,7 @@
 				
 				
 				if (this.options.allowAny.separators) {
-					sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[0] || '');
+					sep = inputEx.cn("div",null,{marginRight:"3px"},this.options.allowAny.separators[0] || '');
 					Dom.setStyle(sep, "float","left");
 					this.allowAnyChoice.node.appendChild(sep);
 				}
@@ -122,7 +123,7 @@
 				this.allowAnyChoice.node.appendChild(this.anyField.getEl());
 				
 				if (this.options.allowAny.separators) {
-					sep = inputEx.cn("div",null,{margin:"3px"},this.options.allowAny.separators[1] || '');
+					sep = inputEx.cn("div",null,{marginLeft:"3px"},this.options.allowAny.separators[1] || '');
 					Dom.setStyle(sep, "float","left");
 					this.allowAnyChoice.node.appendChild(sep);
 				}
@@ -157,7 +158,11 @@
 			if (this.allowAnyChoice) {
 				
 				this.anyField.updatedEvt.subscribe(function (e) {
+					
+					//inputEx.RadioField.superclass.onChange.call(this,e);
+					this.setClassFromState();
 					inputEx.RadioField.superclass.onChange.call(this,e);
+					
 				}, this, true);
 				
 				// Update radio field style after editing anyField content !
@@ -198,14 +203,17 @@
 		 */
 		onChange: function (e) {
 			
+			var target = Event.getTarget(e);
+			
 			// Enable/disable the "any" field
 			if (this.allowAnyChoice) {
-				if (this.radioAny == Event.getTarget(e) ) {
+				
+				// if clicked another choice than allowAnyChoice
+				if (inputEx.indexOf(target, this.choicesList, function(el,arrEl) { return el === arrEl.node.firstChild; }) !== -1 && this.radioAny !== target) {
+					this.anyField.disable();
+				} else {
 					this.anyField.enable();
 					lang.later( 50 , this.anyField , "focus");
-				}
-				else {
-					this.anyField.disable();
 				}
 				
 			}
@@ -334,7 +342,7 @@
 						// if "any" option checked
 						if (this.radioAny && this.radioAny == radioInput) {
 							anyVal = this.anyField.getValue();
-							return this.options.allowAny.validator(anyVal);
+							return this.anyField.validate() && this.options.allowAny.validator(anyVal);
 						}
 					}
 				}

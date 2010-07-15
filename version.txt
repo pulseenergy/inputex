@@ -54,6 +54,9 @@ Not released yet...
                      
                    - add inputEx-selected class on currently selected inputEx-RadioField-choice (see RadioField
                      example n°4 : styling the currently selected choice)
+                     
+                   - allowAny option now takes an optional 'allowAny.field' configuration object to declare a field
+                     of any type as allowAny field. It was previously limited to 'string' field. (see examples)
                    
    * EmailField:   - new validation regexp : doesn't allow IPs after @ anymore, whitelisting of allowed characters
                      instead of weak blacklisting.
