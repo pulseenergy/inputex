@@ -74,27 +74,23 @@ lang.extend(inputEx.TimeIntervalField, inputEx.CombineField, {
          n=1;
       }
       else {
-         if(seconds >= units.SECOND && seconds < units.MINUTE) {
-            selectedUnit = units.SECOND;
-         }
-         else if(seconds >= units.MINUTE && seconds < units.HOUR) {
-            selectedUnit = units.MINUTE;
-         }
-         else if(seconds >= units.HOUR && seconds < units.DAY) {
-            selectedUnit = units.HOUR;
-         }
-         else if(seconds >= units.DAY && seconds < units.MONTH) {
-            selectedUnit = units.DAY;
-         }
-         else if(seconds >= units.MONTH && seconds < units.YEAR) {
-            selectedUnit = units.MONTH;
-         }
-         else { // seconds >= units.YEAR
-            selectedUnit = units.YEAR;
-         }
-         n=Math.floor(seconds/selectedUnit);
-      }
-      
+			
+			if (seconds % units.YEAR === 0) {
+				selectedUnit = units.YEAR;
+			} else if (seconds % units.MONTH === 0) {
+				selectedUnit = units.MONTH;
+			} else if (seconds % units.DAY === 0) {
+				selectedUnit = units.DAY;
+			} else if (seconds % units.HOUR === 0) {
+				selectedUnit = units.HOUR;
+			} else if (seconds % units.MINUTE === 0) {
+				selectedUnit = units.MINUTE;
+			} else {
+				selectedUnit = units.SECOND;
+			}
+			n=Math.floor(seconds/selectedUnit);
+		}
+
       inputEx.TimeIntervalField.superclass.setValue.call(this, [n, selectedUnit], sendUpdatedEvt);
    }
 

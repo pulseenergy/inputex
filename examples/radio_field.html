@@ -235,13 +235,13 @@
 				label: 'Would you like to receive an email reminder ?',
 				name: 'example6',
 				display: 'vertically',
-				choices: [{ value: 0, label: 'No' }, { value: 1440, label: 'Yes, 1 day before the event'}],
+				choices: [{ value: 0, label: 'No' }, { value: 1440, label: 'Yes, 1 day before the event (recommended)'}],
 				value: 1440, // default value, also used by clear() method
 				parentEl: el,
 				allowAny: {
 					field: {
 						type: "timeinterval",
-						unit: inputEx.TimeIntervalField.units.MINUTE,
+						unit: inputEx.TimeIntervalField.units.MINUTE, // return value in 'minutes'
 						value: 7*24*60, // 1 week = 7 days,
 						fields: [
 							{type:'integer', value:1, required:true},
@@ -266,7 +266,7 @@
 			});
 			
 			field.updatedEvt.subscribe(function(e, params) {
-					el.appendChild( inputEx.cn('div',null,null, "Updated with value: "+params[0]) );
+					el.appendChild( inputEx.cn('div',null,null, "Updated with value: "+params[0]+" (minutes)") );
 			});
 			
 		</textarea>
