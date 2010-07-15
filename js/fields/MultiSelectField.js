@@ -60,7 +60,7 @@
 				// Get the selector value
 				value = inputEx.MultiSelectField.superclass.getValue.call(this);
 				
-				position = this.getPosition({ value : value });
+				position = this.getChoicePosition({ value : value });
 				choice = this.choicesList[position];
 				
 				this.ddlist.addItem({ value: value, label: choice.label });
@@ -95,7 +95,7 @@
 			// disable selected choices and fill ddlist value
 			for (i = 0, length=value.length ; i < length ; i += 1) {
 				
-				position = this.getPosition({ value : value[i] });
+				position = this.getChoicePosition({ value : value[i] });
 				choice = this.choicesList[position];
 				
 				ddlistValue.push({ value: choice.value, label: choice.label });

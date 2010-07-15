@@ -29,9 +29,9 @@
 			choice.node = this.createChoiceNode(choice);
 			
 			// Get choice's position
-			//   -> don't pass config.value to getPosition !!!
+			//   -> don't pass config.value to getChoicePosition !!!
 			//     (we search position of existing choice, whereas config.value is a property of new choice to be created...)
-			position = this.getPosition({ position: config.position, label: config.before || config.after });
+			position = this.getChoicePosition({ position: config.position, label: config.before || config.after });
 			
 			if (position === -1) { //  (default is at the end)
 				position = this.choicesList.length;
@@ -46,7 +46,7 @@
 			this.choicesList.splice(position, 0, choice);
 			
 			// Append <option> node in DOM
-			this.attachChoiceNodeAtPosition(choice.node, position);
+			this.appendChoiceNode(choice.node, position);
 			
 			// Select new choice
 			if (!!config.selected) {
@@ -73,7 +73,7 @@
 			var position, choice;
 			
 			// Get choice's position
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position === -1) {
 				throw new Error("SelectField : invalid or missing position, label or value in removeChoice");
@@ -103,7 +103,7 @@
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -136,14 +136,18 @@
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
 				choice = this.choicesList[position];
-				choice.visible = true;
 				
-				this.attachChoiceNodeAtPosition(choice.node, position);
+				if (!choice.visible) {
+					
+					choice.visible = true;
+					this.appendChoiceNode(choice.node, position);
+				
+				}
 				
 			}
 			
@@ -160,7 +164,7 @@
 			// Should we unselect choice if disabling selected choice
 			if (lang.isUndefined(unselect) || !lang.isBoolean(unselect)) { unselect = true; }
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -185,7 +189,7 @@
 			
 			var position, choice;
 			
-			position = this.getPosition(config);
+			position = this.getChoicePosition(config);
 			
 			if (position !== -1) {
 				
@@ -201,7 +205,7 @@
 		 * Get the position of a choice in choicesList (NOT in the DOM)
 		 * @param {Object} config An object targeting the choice (e.g. { position : 1 } || { value: 'second' } || { label: 'Second' })
 		 */
-		getPosition: function (config) {
+		getChoicePosition: function (config) {
 			
 			var nbChoices, position = -1;
 			

@@ -198,7 +198,7 @@
 		 * @param {HTMLElement} node The <option> node to attach to the <select>
 		 * @param {Int} position The position of the choice in choicesList (may not be the "real" position in DOM)
 		 */
-		attachChoiceNodeAtPosition: function (node, position) {
+		appendChoiceNode: function (node, position) {
 			
 			var domPosition, i;
 			
