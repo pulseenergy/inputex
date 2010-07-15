@@ -94,13 +94,14 @@ lang.augmentObject(inputEx, {
    /**
     * Associative array containing field messages
     */
-   messages: {
-   	required: "This field is required",
-   	invalid: "This field is invalid",
-   	valid: "This field is valid",
-   	defaultDateFormat: "m/d/Y",
-   	months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-   },
+	messages: {
+		required: "This field is required",
+		invalid: "This field is invalid",
+		valid: "This field is valid",
+		defaultDateFormat: "m/d/Y",
+		months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+		timeUnits: { SECOND: "seconds", MINUTE: "minutes", HOUR: "hours", DAY: "days", MONTH: "months", YEAR: "years" }
+	},
    
    /**
     * inputEx widget namespace

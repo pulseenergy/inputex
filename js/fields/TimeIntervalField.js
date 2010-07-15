@@ -105,15 +105,6 @@ inputEx.TimeIntervalField.units = {
    YEAR: 31536000
 };
 
-inputEx.messages.timeUnits = {
-   SECOND: "seconds",
-   MINUTE: "minutes",
-   HOUR: "hours",
-   DAY: "days",
-   MONTH: "months",
-   YEAR: "years"
-};
-
 // Register this class as "timeinterval" type
 inputEx.registerType("timeinterval", inputEx.TimeIntervalField);
 
