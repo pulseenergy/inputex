@@ -170,6 +170,13 @@ lang.extend(inputEx.StringField, inputEx.Field, {
    },
 
    /**
+    * Check if the field is disabled
+    */
+   isDisabled: function() {
+      return this.el.disabled;
+   },
+
+   /**
     * Set the focus to this field
     */
    focus: function() {

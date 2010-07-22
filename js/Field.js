@@ -299,6 +299,13 @@ inputEx.Field.prototype = {
 	},
 
    /**
+    * Check if the field is diabled
+    */
+   isDisabled: function() {
+      return false;
+   },
+
+   /**
     * Focus the field
     */
    focus: function() {
