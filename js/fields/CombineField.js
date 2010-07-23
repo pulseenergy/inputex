@@ -1,6 +1,6 @@
 (function() {
 	
-   var lang = YAHOO.lang, Dom = YAHOO.util.Dom;
+   var lang = YAHOO.lang, Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
 	
 /**
  * A meta field to put N fields on the same line, separated by separators
@@ -138,7 +138,33 @@ lang.extend( inputEx.CombineField, inputEx.Group, {
 	      this.divEl.appendChild(sep);
       }
 	},
-	
+
+   initEvents: function() {
+      var me = this,
+         blurTimeout;
+
+      inputEx.CombineField.superclass.initEvents.apply(this, arguments);
+
+      Event.addListener(this.divEl, "focusout", function( e ) {
+         // store local copy of the event to use in setTimeout
+         e = lang.merge(e);
+         blurTimeout = window.setTimeout(function() {
+            blurTimeout = null;
+            me.onBlur(e);
+         }, 25);
+      });
+
+      Event.addListener(this.divEl, "focusin", function( e ) {
+         if (blurTimeout !== null) {
+            window.clearTimeout(blurTimeout);
+            blurTimeout = null;
+         }
+         else {
+            me.onFocus(e);
+         }
+      });
+   },
+
 
 	   
 	/**
