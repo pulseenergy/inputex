@@ -68,6 +68,8 @@ Not released yet...
                      (ex: [40 days in seconds] = 40*24*60*60 = 3465000 is now displayed as "40"+"days" instead of
                       being rounded at "1"+"months")
 
+   * UrlField:	- fixing the regular expression to accept port numbers
+
 - Added Fields:
    * TinyMCEField
 
