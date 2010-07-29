@@ -332,7 +332,7 @@ YAHOO.addInputExModules = function(yuiLoader, inputExPath) {
 			type: 'js',
 	  	   fullpath: pathToInputEx+'js/fields/RadioField.js',
 	  	   varName: 'inputEx.RadioField',
-			requires: ['selector','event-delegate','inputex-field','inputex-choice']
+			requires: ['selector','event-delegate','inputex-field','inputex-choice','inputex-stringfield']
 		},
 		{
 		   name: 'inputex-rtefield',
