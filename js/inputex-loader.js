@@ -70,7 +70,7 @@ YAHOO.addInputExModules = function(yuiLoader, inputExPath) {
 			type: 'js',
 			fullpath: pathToInputEx+'js/mixins/choice.js',
 			varName: 'inputEx.mixin.choice',
-			requires: []
+			requires: ['inputex']
 		},
 		// Widgets
 		{
@@ -332,7 +332,7 @@ YAHOO.addInputExModules = function(yuiLoader, inputExPath) {
 			type: 'js',
 	  	   fullpath: pathToInputEx+'js/fields/RadioField.js',
 	  	   varName: 'inputEx.RadioField',
-			requires: ['inputex-field','inputex-choice']
+			requires: ['selector','event-delegate','inputex-field','inputex-choice']
 		},
 		{
 		   name: 'inputex-rtefield',
