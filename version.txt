@@ -10,10 +10,10 @@ Release Notes:
 ==============
 
 
-version 0.6 :
--------------
+version 0.6.0 :
+---------------
 
-Not released yet...
+released on August, 2nd 2010
 
 - Field enhancements:
 
