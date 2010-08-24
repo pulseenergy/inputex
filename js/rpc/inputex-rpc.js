@@ -25,10 +25,11 @@ inputEx.RPC = {
       }
    
       // Add buttons to launch the service
+      var methodName = method._methodName || method.name;
       options.type = "form";
       if(!options.buttons) {
          options.buttons = [
-            {type: 'submit', value: method.name, onClick: function(e) {
+            {type: 'submit', value: methodName, onClick: function(e) {
                YAHOO.util.Event.stopEvent(e);
                form.showMask();
                method(form.getValue(), {
@@ -60,14 +61,15 @@ inputEx.RPC = {
    
       // convert the method parameters into a json-schema :
       var schemaIdentifierMap = {};
-      schemaIdentifierMap[method.name] = {
-          id: method.name,
+      var methodName = method._methodName || method.name;
+      schemaIdentifierMap[methodName] = {
+          id: methodName,
           type:'object',
           properties:{}
       };
       for(var i = 0 ; i < method._parameters.length ; i++) {
          var p = method._parameters[i];
-         schemaIdentifierMap[method.name].properties[p.name] = p;
+         schemaIdentifierMap[methodName].properties[p.name] = p;
       }
    
       // Use the builder to build an inputEx form from the json-schema
@@ -77,7 +79,7 @@ inputEx.RPC = {
    	     'showMsg':true
    	  }
       });
-   	var options = builder.schemaToInputEx(schemaIdentifierMap[method.name]);
+   	var options = builder.schemaToInputEx(schemaIdentifierMap[methodName]);
 	
    	return options;
    }
@@ -130,6 +132,7 @@ inputEx.RPC.Service.prototype = {
 			throw new Error("WARNING: "+ serviceName+ " already exists for service. Unable to generate function");
 		}
 		method.name = serviceName;
+		method._methodName = serviceName;
 	
 		var self = this;
 		var func = function(data, opts) {
@@ -188,6 +191,7 @@ inputEx.RPC.Service.prototype = {
 		};
 		
 		func.name = serviceName;
+		func._methodName = serviceName;
 		func.description = method.description;
 		func._parameters = method.parameters;
 		
@@ -439,10 +443,11 @@ inputEx.RPC.Envelope = {
 		  * serialize
 		  */
        serialize: function(smd, method, data) {
+    	  var methodName = method.name || method._methodName;
           return {
              data: lang.JSON.stringify({
        	      "id": rpc.Service._requestId++,
-       	      "method": method.name,
+       	      "method": methodName,
        	      "params": data
        	   })
           };   
@@ -465,10 +470,11 @@ inputEx.RPC.Envelope = {
   	  	 * serialize
 		 */
       serialize: function(smd, method, data) {
+    	 var methodName = method.name || method._methodName;
          return {
             data: lang.JSON.stringify({
       	      "id": rpc.Service._requestId++,
-      	      "method": method.name,
+      	      "method": methodName,
       	      "version": "json-rpc-2.0",
       	      "params": data
       	   })
