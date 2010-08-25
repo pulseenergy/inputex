@@ -1434,6 +1434,13 @@ inputEx.Field.prototype = {
 	},
 
    /**
+    * Check if the field is diabled
+    */
+   isDisabled: function() {
+      return false;
+   },
+
+   /**
     * Focus the field
     */
    focus: function() {
@@ -1705,15 +1712,17 @@ lang.extend(inputEx.Group, inputEx.Field, {
     */
    validate: function() {
       var response = true;
-      
+
       // Validate all the sub fields
-      for (var i = 0 ; i < this.inputs.length ; i++) {
-   	   var input = this.inputs[i];
-   	   input.setClassFromState(); // update field classes (mark invalid fields...)
-   	   var state = input.getState();
-   	   if( state == inputEx.stateRequired || state == inputEx.stateInvalid ) {
-   		   response = false; // but keep looping on fields to set classes
-   	   }
+      for (var i = 0; i < this.inputs.length; i++) {
+         var input = this.inputs[i];
+         if (!input.isDisabled()) {
+            input.setClassFromState(); // update field classes (mark invalid fields...)
+            var state = input.getState();
+            if (state == inputEx.stateRequired || state == inputEx.stateInvalid) {
+               response = false; // but keep looping on fields to set classes
+            }
+         }
       }
       return response;
    },
@@ -2594,7 +2603,7 @@ inputEx.registerType("form", inputEx.Form, [
 })();
 (function() {
 	
-   var lang = YAHOO.lang, Dom = YAHOO.util.Dom;
+   var lang = YAHOO.lang, Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
 	
 /**
  * A meta field to put N fields on the same line, separated by separators
@@ -2732,7 +2741,33 @@ lang.extend( inputEx.CombineField, inputEx.Group, {
 	      this.divEl.appendChild(sep);
       }
 	},
-	
+
+   initEvents: function() {
+      var me = this,
+         blurTimeout;
+
+      inputEx.CombineField.superclass.initEvents.apply(this, arguments);
+
+      Event.addListener(this.divEl, "focusout", function( e ) {
+         // store local copy of the event to use in setTimeout
+         e = lang.merge(e);
+         blurTimeout = window.setTimeout(function() {
+            blurTimeout = null;
+            me.onBlur(e);
+         }, 25);
+      });
+
+      Event.addListener(this.divEl, "focusin", function( e ) {
+         if (blurTimeout !== null) {
+            window.clearTimeout(blurTimeout);
+            blurTimeout = null;
+         }
+         else {
+            me.onFocus(e);
+         }
+      });
+   },
+
 
 	   
 	/**
@@ -2946,6 +2981,13 @@ lang.extend(inputEx.StringField, inputEx.Field, {
     */
    enable: function() {
       this.el.disabled = false;
+   },
+
+   /**
+    * Check if the field is disabled
+    */
+   isDisabled: function() {
+      return this.el.disabled;
    },
 
    /**
