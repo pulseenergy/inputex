@@ -73,6 +73,14 @@ lang.extend(inputEx.StringField, inputEx.Field, {
       this.fieldContainer.appendChild(this.wrapEl);
    },
 
+	/**
+	 * Set the name of the field (or hidden field)
+	 */
+	setName: function(name) {
+		this.options.name = name;
+		this.el.name = name;
+	},
+
    /**
     * Register the change, focus and blur events
     */

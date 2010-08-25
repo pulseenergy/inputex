@@ -82,6 +82,14 @@ inputEx.Field.prototype = {
 	   this.options.required = lang.isUndefined(options.required) ? false : options.required;
 	   this.options.showMsg = lang.isUndefined(options.showMsg) ? false : options.showMsg;
 	},
+	
+	
+	/**
+	 * Set the name of the field (or hidden field)
+	 */
+	setName: function(name) {
+		this.options.name = name;
+	},
 
    /**
     * Default render of the dom element. Create a divEl that wraps the field.

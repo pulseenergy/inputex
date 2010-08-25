@@ -90,6 +90,41 @@
 </div>
 
 
+
+<!-- Example 3 -->
+<div class='exampleDiv'>
+ <h2>Field names</h2>
+ <p>The names are automatically set on sub-fields, so that standard forms can work. Click the button and check the URL</p>
+ <div class='demoContainer' id='container3'></div>
+ <div class='codeContainer'>
+  <textarea name="code" class="JScript">	
+    new inputEx.Form( {
+			fields: [
+			{
+				name: 'firstVar',
+				label: "First variable",
+				value: "my-custom-value"
+			},
+			{
+				type: 'combine',
+				label: 'Your name',
+				description: 'Please enter your name',
+				name: 'this_is_a_test',
+				fields: [
+					{ name: 'firstname', typeInvite: 'firstname' },
+					{ name: 'lastname', typeInvite: 'lastname' }
+				],
+				separators: [false,"&nbsp;&nbsp;&nbsp;",false],
+			}],
+      buttons: [{type: 'submit', value: 'Test to send the GET request'}],
+			method: 'GET',
+			parentEl: 'container3'
+		});
+  </textarea>
+ </div>
+</div>
+
+
 <!-- YUI Library -->
 <script type="text/javascript" src="../lib/yui/utilities/utilities.js"></script>
 <script type="text/javascript" src="../lib/yui/container/container-min.js"></script>
@@ -100,6 +135,8 @@
 <script src="../js/mixins/choice.js"  type='text/javascript'></script>
 <script src="../js/Field.js"  type='text/javascript'></script>
 <script src="../js/Group.js"  type='text/javascript'></script>
+<script src="../js/Form.js"  type='text/javascript'></script>
+<script src="../js/widgets/Button.js"  type='text/javascript'></script>
 <script src="../js/fields/StringField.js"  type='text/javascript'></script>
 <script src="../js/fields/SelectField.js"  type='text/javascript'></script>
 <script src="../js/fields/CombineField.js"  type='text/javascript'></script>
