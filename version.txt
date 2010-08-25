@@ -14,8 +14,8 @@ master branch: (not release)
 
  - Field enhancements:
 
-		* Field: adding the setName method in the API
-		* ListField: use setName on subFields for list to work in a browser form
+		* Field: adding the setFieldName method in the API
+		* ListField: use setFieldName on subFields for list to work in a browser form
  
 
 

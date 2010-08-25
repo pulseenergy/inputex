@@ -1222,8 +1222,7 @@ inputEx.Field.prototype = {
 	/**
 	 * Set the name of the field (or hidden field)
 	 */
-	setName: function(name) {
-		this.options.name = name;
+	setFieldName: function(name) {
 	},
 
    /**
@@ -2698,7 +2697,35 @@ lang.extend( inputEx.CombineField, inputEx.Group, {
       
       return inputEx.CombineField.superclass.renderField.call(this, fieldOptions);
    },
+
+	/**
+	 * Override to set the field names
+	 */
+	renderFields: function(parentEl) {
+		inputEx.CombineField.superclass.renderFields.call(this,parentEl);
+		
+		this.setFieldName(this.options.name);
+	},
 	
+	
+	setFieldName: function(name) {
+		if(name) {
+			for(var i = 0 ; i < this.inputs.length ; i++) {
+				var newName = "";
+				if(this.inputs[i].options.name) {
+					newName = name+"["+this.inputs[i].options.name+"]";
+				}
+				else {
+					newName = name+"["+i+"]";
+				}
+				this.inputs[i].setFieldName(newName);
+			}
+		}
+	},
+	
+	/**
+	 * Add a separator to the divEl
+	 */
 	appendSeparator: function(i) {
 	   if(this.options.separators && this.options.separators[i]) {
 	      var sep = inputEx.cn('div', {className: 'inputEx-CombineField-separator'}, null, this.options.separators[i]);
@@ -2828,8 +2855,7 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 	/**
 	 * Set the name of the field (or hidden field)
 	 */
-	setName: function(name) {
-		this.options.name = name;
+	setFieldName: function(name) {
 		this.el.name = name;
 	},
 
@@ -4972,7 +4998,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 	   var subFieldEl = this.renderSubField(value);
 	
 		if(this.options.name) {
-	   	subFieldEl.setName(this.options.name+"["+this.subFields.length+"]");
+	   	subFieldEl.setFieldName(this.options.name+"["+this.subFields.length+"]");
 		}
 	
 	   // Adds it to the local list
@@ -4988,7 +5014,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 		if(this.options.name) {
 			for(var i = 0 ; i < this.subFields.length ; i++) {
 				var subFieldEl = this.subFields[i];
-				subFieldEl.setName(this.options.name+"["+i+"]");
+				subFieldEl.setFieldName(this.options.name+"["+i+"]");
 			}
 		}
 	},

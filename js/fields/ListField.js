@@ -177,7 +177,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 	   var subFieldEl = this.renderSubField(value);
 	
 		if(this.options.name) {
-	   	subFieldEl.setName(this.options.name+"["+this.subFields.length+"]");
+	   	subFieldEl.setFieldName(this.options.name+"["+this.subFields.length+"]");
 		}
 	
 	   // Adds it to the local list
@@ -193,7 +193,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 		if(this.options.name) {
 			for(var i = 0 ; i < this.subFields.length ; i++) {
 				var subFieldEl = this.subFields[i];
-				subFieldEl.setName(this.options.name+"["+i+"]");
+				subFieldEl.setFieldName(this.options.name+"["+i+"]");
 			}
 		}
 	},

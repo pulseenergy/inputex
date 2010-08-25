@@ -76,8 +76,7 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 	/**
 	 * Set the name of the field (or hidden field)
 	 */
-	setName: function(name) {
-		this.options.name = name;
+	setFieldName: function(name) {
 		this.el.name = name;
 	},
 
