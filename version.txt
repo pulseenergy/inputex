@@ -16,7 +16,8 @@ master branch: (not release)
 
 		* Field: adding the setFieldName method in the API
 		* ListField: use setFieldName on subFields for list to work in a browser form
-		
+		* TypeField: fixed the setValue bug
+		* Group: adding the "addField" method
 
  - Fixes
  		* CombineField: focus and blur handlers
