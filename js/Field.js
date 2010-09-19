@@ -395,8 +395,8 @@ inputEx.Field.prototype = {
 };
 
 inputEx.Field.groupOptions = [
+	{ type: "string", label: "Name", name: "name", value: '', required: true },
    { type: "string", label: "Label", name: "label", value: '' },
-   { type: "string", label: "Name", name: "name", value: '' },
    { type: "string", label: "Description",name: "description", value: '' },
    { type: "boolean", label: "Required?",name: "required", value: false },
    { type: "boolean", label: "Show messages",name: "showMsg", value: false }

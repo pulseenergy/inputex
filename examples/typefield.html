@@ -28,7 +28,7 @@
 	<div class='demoContainer' id='container1'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-			new inputEx.TypeField({parentEl: 'container1'});
+			//new inputEx.TypeField({parentEl: 'container1'});
 		</textarea>
 	</div>
 </div>
@@ -48,7 +48,9 @@
 					label: 'Website', 
 					name:'website', 
 					typeInvite: 'Enter a URL', 
-					description: 'You can provide a default value to TypeField'
+					size: 30,
+					description: 'You can provide a default value to TypeField',
+					value: 'http://neyric.github.com/inputex'
 				}
 			});
 		</textarea>

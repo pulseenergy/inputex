@@ -158,7 +158,7 @@ lang.augmentObject(inputEx, {
       var opts = [];
       if(lang.isArray(groupOptions)) { opts = groupOptions; }
       if(fieldClass.superclass && !dontInherit && lang.isArray(fieldClass.superclass.constructor.groupOptions) ) {
-         opts = opts.concat(fieldClass.superclass.constructor.groupOptions);
+         opts = fieldClass.superclass.constructor.groupOptions.concat(opts);
       }
       fieldClass.groupOptions = opts;
    },
