@@ -15,9 +15,11 @@ master branch: (not release)
  - Field enhancements:
 
 		* Field: adding the setFieldName method in the API
-		* ListField: use setFieldName on subFields for list to work in a browser form
 		* TypeField: fixed the setValue bug
 		* Group: adding the "addField" method
+		* ListField
+			* use setFieldName on subFields for list to work in a browser form
+			* configurable colors for re-order animation
 
  - Fixes
  		* CombineField: focus and blur handlers
