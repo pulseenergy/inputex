@@ -24,6 +24,10 @@ master branch: (not release)
 		* Groups will no longer validate disabled sub-fields
 		* JsonTreeInspector now displays html content by replacing <> by html entities
 
+ - Other
+    * Adding inputEx.htmlEntities
+	  * Adding the SerializeField example page
+
 version 0.6.0 :
 ---------------
 

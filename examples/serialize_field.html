@@ -114,7 +114,7 @@
 			el.appendChild(logDiv);
 			field.updatedEvt.subscribe(function(e,params) {
 				var value = params[0].replace( new RegExp(String.fromCharCode(60),"g") , '&lt;' ).replace( new RegExp(String.fromCharCode(62),"g") , '&gt;' );
-				logDiv.innerHTML += "Updated at "+(new Date())+" with value "+value;
+				logDiv.innerHTML += "Updated at "+(new Date())+" with value "+inputEx.htmlEntities(value);
 				logDiv.appendChild(inputEx.cn('br'));
 			});
 		</textarea>

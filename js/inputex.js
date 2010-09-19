@@ -333,6 +333,16 @@ lang.augmentObject(inputEx, {
 					  replace(/[ç]/g,"c").
 					  replace(/[œ]/g,"oe").
 					  replace(/[æ]/g,"ae");
+	},
+	
+	/**
+	 * String replaced by some html entities
+	 * @static
+	 * @param {String} str The string
+	 * @return {String} String replaced by some html entities
+	 */
+	htmlEntities: function (str) {
+	   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 	}
    
 });
