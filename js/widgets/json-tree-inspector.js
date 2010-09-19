@@ -69,7 +69,7 @@ inputEx.widget.JsonTreeInspector.prototype = {
             else {
                var spanContent = '';
                if( lang.isString(value) ) {
-                  spanContent = '"'+value+'"';
+                  spanContent = '"'+inputEx.widget.JsonTreeInspector.htmlEntities(value)+'"';
                }
                else {
                   if(value === null) {
@@ -159,6 +159,11 @@ inputEx.widget.JsonTreeInspector.prototype = {
       }
    }
    
+};
+
+
+inputEx.widget.JsonTreeInspector.htmlEntities = function (str) {
+   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 };
 
 /**

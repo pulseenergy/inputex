@@ -22,7 +22,7 @@ master branch: (not release)
  - Fixes
  		* CombineField: focus and blur handlers
 		* Groups will no longer validate disabled sub-fields
-
+		* JsonTreeInspector now displays html content by replacing <> by html entities
 
 version 0.6.0 :
 ---------------
