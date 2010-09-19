@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+<title>inputEx - Guide</title>
+<link rel="alternate" type="application/rss+xml" title="neyric&#8217;s Javascript RSS Feed" href="http://javascript.neyric.com/blog/feed/" />
+<link rel="pingback" href="http://javascript.neyric.com/blog/xmlrpc.php" />
+<link href="res/style.css" media="screen" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" type="text/css" href="res/guide.css" />
+
+<link rel="stylesheet" type="text/css" href="res/SyntaxHighlighter/shCore.css" />	
+<link type="text/css" rel="stylesheet" href="res/SyntaxHighlighter/shThemeDefault.css" id="shTheme"/>
+
+<script type="text/javascript" src="res/SyntaxHighlighter/shCore.js"></script>
+<script type="text/javascript" src="res/SyntaxHighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="res/SyntaxHighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="res/SyntaxHighlighter/shBrushCss.js"></script>
+<script type="text/javascript">SyntaxHighlighter.config.clipboardSwf = 'res/SyntaxHighlighter/clipboard.swf';SyntaxHighlighter.all();</script>
+
+ </head>
+
+ <body>
+	
+<div id='headbar'>
+		
+	<ul class="navigation" style=" position: absolute; margin: 6px 0 0 380px;">
+		<li><a href="./">Home</a></li>
+		<li><a href="http://github.com/neyric/inputex/">GitHub[Git]</a></li>	
+		<li><a href="http://github.com/neyric/inputex/issues">Issues</a></li>
+		<li><a href="api/index.html">API Documentation</a></li>
+		<li><a href="guide.html">Guide</a></li>
+		<li><a href="http://neyric.com/category/inputex/">Blog</a> 
+				<a href="http://neyric.com/feed/"><img src="res/rss.png" alt="rss icon"/></a></li>
+		<li><a href="http://groups.google.com/group/inputex/">Forums</a></li>
+	</ul>
+	
+	
+	<div style="position: absolute; top: 50px; left: 850px; font-size: 90%; line-height: 30px;">
+		<img src='http://www.twitter.com/favicon.ico' /> follow <a href="http://twitter.com/inputex">inputEx on Twitter</a><br />
+		<img src="http://delicious.com/favicon.ico"> bookmark on <a href="http://delicious.com/url/3ec78b218716387ceb93dda7b5d0f84d">Del.icio.us</a><br />
+		<img src='http://github.com/favicon.ico'/> follow <a href="http://github.com/neyric/inputex/tree/master"> on GitHub</a>
+	</div>
+
+</div>
+	
+<div align="center">
+
+	<div style="text-align: left; width: 70%; position: relative;">
+
+
+
+	<!-- START OF THE GUIDE -->
+
+
+	<h1>inputEx Guide</h1>
+
+	<p>This guide tries to centralize everything that has been written on inputEx. If you think something is missing or need better explanation, please contact us through the <a href="http://groups.google.com/group/inputex/">forum</a>. Being written by a french, help in finding typos, technical errors, or poorly worded sentences is greatly appreciated.</p>
+
+
+	<div id='index'>
+
+		<h2>Chapters</h2>
+
+		<ol class="topLevel">
+			<li>
+				<a href="#overview"><span>Overview</span></a>
+
+				<ul class="secondLevel">
+		    	<li><a href="#presentation">Presentation</a></li>
+					<li><a href="#terminology">Terminology</a></li>
+					<li><a href="#components">Core components and widgets</a></li>
+					<li><a href="#plugins">Plugins</a></li>
+				</ul>
+			</li>	
+
+			<li>
+				<a href="#GettingStarted"><span>Getting Started</span></a>
+
+				<ul class="secondLevel">
+	    		<li><a href="#installation">Installation</a></li>
+					<li><a href="#directoryStructure">Directory structure</a></li>
+	    		<li><a href="#firstApp">Create Your First WireIt Application</a></li>
+				</ul>
+			</li>
+			
+		</ol>
+	</div>
+
+
+
+	<br /><br />
+
+
+	<a name="overview"><h1>1 Overview</h1></a>
+
+	<a name="presentation"><h2>1.1 Presentation</h2></a>
+
+	<p>inputEx is a javascript framework to build fields and forms.</p>
+
+	<p>It doesn’t use html (it is the opposite of obtrusive libraries): All the fields and forms are configured using json. It provides a very efficient abstraction for building interactive web applications. For detailed information, have a look at our complete API documentation.</p>
+
+	<p>The code for inputEx is provided under <a href="license.txt">MIT license</a>.</p>
+
+
+	<a name="terminology"><h2>1.2 Terminology</h2></a>
+
+	
+		<p>inputEx is built around the <b>Field</b> class. It is an <b>abstract</b> class (we <i>never</i> instantiate it).<br/>
+			 All the other field classes inherits directly or indirectly from this base class. (see diagram below)</p>
+
+		<p><u>Warning:</u> this diagram is not complete. See <a href="treeview.html">treeview</a> for the full class diagram</p>
+		<center>
+			<img src="../images/inputEx-class-diagram.png" />
+		</center>
+
+		<p></p>
+
+	<h2>Instantiating a Field / the "type" property :</h2>
+
+		<p>There are 3 ways to instantiate a Field :</p>
+	  <ul>
+			<li>Calling the class constructor (classic) :<br />
+<pre class="brush:js">
+	var field = new inputEx.StringField({name: 'test'});
+</pre></li><br />
+		  <li>Using the inputEx function with the "type" construction:<br /> 
+<pre class="brush:js">
+	var field = inputEx({ type: 'string', inputParams: {name: 'test'} });
+</pre></li><br/>
+
+			<li>Through a meta-field (see below)</li>
+		</ul>
+
+		<p>The default "type" associations : (<u>Warning:</u> this table is not complete, but each class follow the same naming conventions.)</p>
+
+	<style>
+	#associationTypes {
+		margin-left: 40px;
+	}
+	#associationTypes td {
+		width: 200px;
+		padding: 2px;
+	}
+	#associationTypes tr.odd {
+		background-color: #aaaaff;
+	}
+	#associationTypes th {
+		font-weight: bold;
+		text-align: center;
+		padding: 5px;
+		background-color: white;
+	}
+	</style>
+		<table id="associationTypes">
+			<thead>
+				<tr>
+					<th>type string</th>
+					<th>class</th>
+					<th>loader module</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="odd">
+					<td>boolean</td>
+					<td>inputEx.CheckBox</td>
+					<td>inputex-checkbox</td>
+				</tr>
+				<tr>
+					<td>color</td>
+					<td>inputEx.ColorField</td>
+					<td>inputex-colorfield</td>
+				</tr>
+				<tr class="odd">
+					<td>date</td>
+					<td>inputEx.DateField</td>
+					<td>inputex-datefield</td>
+				</tr>
+				<tr>
+					<td>email</td>
+					<td>inputEx.EmailField</td>
+					<td>inputex-emailfield</td>
+				</tr>
+				<tr class="odd">
+					<td>form</td>
+					<td>inputEx.Form</td>
+					<td>inputex-form</td>
+				</tr>
+				<tr>
+					<td>group</td>
+					<td>inputEx.Group</td>
+					<td>inputex-group</td>
+				</tr>
+				<tr class="odd">
+					<td>hidden</td>
+					<td>inputEx.HiddenField</td>
+					<td>inputex-hiddenfield</td>
+				</tr>
+				<tr>
+					<td>html</td>
+					<td>inputEx.RTEField</td>
+					<td>inputex-rtefield</td>
+				</tr>
+				<tr class="odd">
+					<td>inplaceedit</td>
+					<td>inputEx.InPlaceEdit</td>
+					<td>inputex-inplaceedit</td>
+				</tr>
+				<tr>
+					<td>IPv4</td>
+					<td>inputEx.IPv4Field</td>
+					<td>inputex-ipv4field</td>
+				</tr>
+				<tr class="odd"><td>list</td>
+					<td>inputEx.ListField</td>
+					<td>inputex-listfield</td>
+				</tr>
+				<tr class="odd">
+					<td>password</td>
+					<td>inputEx.PasswordField</td>
+					<td>inputex-passwordfield</td>
+				</tr>
+				<tr>
+					<td>select</td>
+					<td>inputEx.SelectField</td>
+					<td>inputex-selectfield</td>
+				</tr>
+				<tr class="odd"><td>string</td>
+					<td>inputEx.StringField</td>
+					<td>inputex-stringfield</td>
+				</tr>
+				<tr>
+					<td>text</td>
+					<td>inputEx.Textarea</td>
+					<td>inputex-textarea</td>
+				</tr>
+				<tr class="odd"><td>type</td>
+					<td>inputEx.TypeField</td>
+					<td>inputex-typefield</td>
+				</tr>
+				<tr>
+					<td>uneditable</td>
+					<td>inputEx.UneditableField</td>
+					<td>inputex-uneditablefield</td>
+				</tr>
+				<tr class="odd">
+					<td>url</td>
+					<td>inputEx.UrlField</td>
+					<td>inputex-urlfield</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<p>To link a class with a "type", we use :</p>
+<pre class="brush:js">
+	inputEx.registerType(inputEx.StringField, 'string');
+</pre>
+
+		<p></p>
+
+	<h2>Meta-Fields :</h2>
+
+		<p>Some special fields called meta-fields take one or multiple "type" construction objects as configuration.</p>
+
+		<ul>
+			<li><b>Group</b>: A group of fields. It is itself a Field so it can be combined with any other field.</li>
+
+			<li><b>Form</b>: A group that provide ajax form capabilities.</li>
+
+			 <li><b>List</b>: list of any subfield.</li>
+
+			 <li><b>InPlaceEdit</b>: Make any subfield inplace-editable.</li>
+
+	 		 <li><b>Typefield</b>: A special field that returns a config object to create an instance through the inputEx.buildField function. We create a form for each Field class to define the parameters for the specified field.</li>
+			</ul>
+
+			<p></p>
+
+	<h2>Insert a Field into the DOM :</h2>
+
+	<p></p>
+
+<pre class="brush:js">
+	var field = inputEx.FieldClass({...options...});
+	parentEl.appendChild( field.getEl() );
+
+	// or
+
+	var field = inputEx.FieldClass({...options..., parentEl: parentEl});
+
+	// or
+
+	var field = inputEx.FieldClass({...options..., parentEl: 'parentElId'});
+</pre>
+
+	<p></p>
+
+	<h2>The "updated" event :</h2>
+
+	<p>All the fields fire the same event when they are "updated".</p>
+
+	<p>To subscribe this event for a field, use : (see <a href="http://developer.yahoo.com/yui/event/#customevent" target="_new">YUI Custom Events</a> for more informations)</p>
+
+<pre class="brush:js">
+	myField.updatedEvt.subscribe(function(e,value) {
+		// value = new value returned by getValue
+		...code here...
+	}, scope, true);
+</pre>
+
+	<p>This event is fired when you use a setValue on the field. If you want to disable this behaviour, pass "false" as second argument to the setValue and the event won't be fired.</p>
+
+
+<pre class="brush:js">
+	// This setValue won't fire the updatedEvt
+	myField.setValue("My Value", false);
+</pre>
+	
+	
+	
+
+	<h2>Getting started</h2>
+
+	<h2>Installation into your project</h2>
+
+	<p>As usual, you will have to copy the javascript, images and css files into your project directory.</p>
+
+	<ul>
+		<li><a href="http://github.com/neyric/inputex/downloads" target="_new">Download</a> the latest inputEx zip file</li>
+		<li>Copy the <i>js,css,images</i> directories into your project corresponding directories</li>
+	</ul>
+
+
+	<h3>Add inputEx to your page</h3>
+
+	<p>3 ways of doing this :</p>
+
+	<ul>
+		<li>Using the YUI loader, include the inputEx loader (see <a href="../../examples/yuiloader.html">Using YUI loader</a> for requesting modules)
+<pre class="brush:js">
+	&lt;!-- YUI loader--&gt;
+	&lt;script src="http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader-min.js"&gt;&lt;/script&gt;
+	&lt;!-- inputEx loader --&gt;
+	&lt;script src="../js/inputex-loader.js"&gt;&lt;/script&gt;
+</pre>
+		</li>
+
+		<li>Insert the script and CSS into your page : (inputEx+YUI)
+<pre class="brush:js">
+	&lt;!-- YUI utilities --&gt;
+	&lt;script src="http://yui.yahooapis.com/2.7.0/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts/reset-fonts.css" /&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/skin.css" /&gt;
+	... and other yui dependencies...
+
+	&lt;!-- inputEx -->
+	&lt;link  href="inputex/css/inputEx.css" rel="stylesheet" type="text/css" /&gt;
+	&lt;script src="inputex/js/inputex.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="inputex/js/Field.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="inputex/js/Group.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="inputex/js/Form.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="inputex/js/fields/StringField.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;script src="inputex/js/fields/CheckBox.js" type="text/javascript"&gt;&lt;/script&gt;
+	... and the other fields you need ...				
+</pre>
+		</li>
+
+		<li>Use the minified files :
+<pre class="brush:js">
+	&lt;!-- YUI utilities --&gt;
+	&lt;script src="http://yui.yahooapis.com/2.7.0/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts/reset-fonts.css" /&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/skin.css" /&gt;
+	... and other yui dependencies...
+
+	&lt;!-- inputEx minified files --&gt;
+	&lt;script src="inputex/build/inputex-min.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;link  href="inputex/build/inputex-min.css" rel="stylesheet" type="text/css" /&gt;
+</pre>
+		</li>
+	</ul>
+
+	<h3>Basic example</h3>
+
+	<ul>
+		<li>Create a DOM element that will contain your form: 
+<pre class="brush:xml">
+	<div id='myFormContainer'></div>
+</pre>
+		</li>
+		<li>Create a basic form after loading:
+<pre class="brush:js">
+	YAHOO.util.Event.addListener(window, "load", function(){
+	  new inputEx.Form({
+	     parentEl: 'myFormContainer',
+	     fields: [],
+	     buttons: []
+	  });
+	});
+</pre>
+		</li>
+	</ul>
+
+
+	
+	<h2>Create your own fields</h2>
+	
+	
+	<p>Once you've grasped the main ideas behind inputEx, you'll probably want to create your own fields. Here are some hints  on how to do so :</p>
+
+
+	<div>
+		<p><b><u>Choose the right parent Class</u></b></p>
+
+		<p>Look at the classes to pick the "closest" one. (in terms of code)<br />
+			 If you want to start from scratch, you should inherit from inputEx.Field</p>
+
+		<p>use <i>YAHOO.extend</i> to extend classes</p>
+	</div>
+
+
+
+	<div>
+		<p><b><u>Override methods</u></b></p>
+
+		<p>Some methods have a precise role :</p>
+
+		<ul>
+			<li><i>setOptions</i> : declare the options and their default value</li>
+			<li><i>render</i> : create a wrapper around the field DOM and insert the component</li>
+			<li><i>renderComponent</i> : render the DOM for your field</li>
+			<li><i>initEvents</i> : subscribe to events once rendered</li>
+			<li><i>getValue</i> : get the value of your field</li>
+			<li><i>setValue</i> : set the value of your field</li>
+		</p>
+	</div>
+
+	<div>
+		<p><b><u>Send the updated event</u></b></p>
+
+		<p>Fire this event to indicate modifications (with <i>this.fireUpdatedEvt()</i>)</p>
+	</div>
+
+	<div>
+		<p><b><u>Register your type</u></b></p>
+
+		<p>After your class definition, you can associate your class to a type string. 
+			 You can either create a new type, or override a previous one.</p>
+
+		<p>use <i>inputEx.registerType("myType", inputEx.MyFieldClass);</i></p>
+
+	</div>
+
+	
+	<h2>Internationalization</h2>
+	
+	
+	<p><strong>Usage</strong></p>
+
+	<p>The basic messages are stored into the <i>inputEx.messages</i> object :</p>
+
+<pre class="brush:js">
+	inputEx.messages = {
+	   required: "This field is required",
+	   invalid: "This field is invalid",
+	   valid: "This field is valid"
+	};
+</pre>
+
+	<p>Additional fields should add their messages into the same object : </p>
+
+<pre class="brush:js">
+	// Specific message for the email field
+	inputEx.messages.invalidEmail = "Invalid email, ex: sample@test.com";
+</pre>
+
+	<p><strong>Contribute !</strong></p>
+
+	<p>We are looking for contributors to extend inputEx localizations. If you use inputEx in a foreign language, please contribute by sending the localization file <a href="http://groups.google.com/group/inputex/">on the forum</a>.</p>
+
+	<p><strong>Examples</strong></p>
+
+	<p>Then we only need one additional file, example with the <a href="fr.js.html">French translation file</a> :</p>
+
+<pre class="brush:js">
+		/**
+		 * InputEx French localization
+		 */
+		(function() {
+
+		   var msgs = YAHOO.inputEx.messages;
+
+		   msgs.required = "Ce champ est obligatoire";
+		   msgs.invalid = "Ce champ n'est pas valide";
+		   msgs.valid = "Ce champ est valide";
+		   msgs.invalidEmail = "Email non valide; ex: michel.dupont@fai.fr";
+		   msgs.selectColor = "Sélectionnez une couleur :";
+		   msgs.invalidPassword = ["Le mot de passe doit contenir au moins "," caractères (lettres ou chiffres)"];
+		   msgs.invalidPasswordConfirmation = "Les mots de passe entrés ne sont pas identiques !";
+		   msgs.capslockWarning = "Attention: touche majuscule activée";
+		   msgs.invalidDate = "Date non valide; ex: 25/01/2007";
+		   msgs.defaultDateFormat = "d/m/Y";
+		   msgs.shortMonths = ["Jan", "Fév", "Mars", "Avril", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"];
+		   msgs.months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+		   msgs.weekdays1char =  ["D", "L", "M", "M", "J", "V", "S"];
+		   msgs.shortWeekdays = ["Di","Lu","Ma","Me","Je","Ve","Sa"];
+		   msgs.selectMonth = "- Choisissez -";
+		   msgs.dayTypeInvite = "Jour";
+		   msgs.monthTypeInvite = "Mois";
+		   msgs.yearTypeInvite = "Année";
+		   msgs.cancelEditor = "annuler";
+		   msgs.okEditor = "Ok";
+		   msgs.defautCalendarOpts = {
+		      navigator: {
+		               strings : {
+		                   month: "Choisissez un mois",
+		                   year: "Entrez une année",
+		                   submit: "Ok",
+		                   cancel: "Annuler",
+		                   invalidYear: "Année non valide"
+		               }
+		      },
+		      start_weekday: 1 // la semaine commence un lundi
+		   };
+
+
+		   // Datatable
+		   msgs.saveText = "Sauver";
+		   msgs.cancelText = "Annuler";
+		   msgs.modifyText = "modifier";
+		   msgs.deleteText = "supprimer";
+		   msgs.insertItemText = "Ajouter";
+		   msgs.confirmDeletion = "Êtes-vous sûr ?"
+
+		})();
+</pre>
+	
+	
+	<h2>Markup Structure</h2>
+
+	<p>Getting familiar with the inputEx markup structure will help a lot if you want to change CSS.</p>
+
+<pre>
+		div.inputEx-fieldWrapper	(+ state CSS classes)
+
+				// Label floating left
+				div.inputEx-label
+						label
+
+				// Field floating left
+				div.inputEx-Field
+
+						// field wrapper
+						div.inputEx-AnyField
+
+						// Description
+						div.inputEx-description
+
+				// Messages floating left
+				div.inputEx-message
+
+				// clear left floating
+				div.breaker
+</pre>
+
+	<p>The "fieldWrapper" create a box that contains the entire field, labels, descriptions, widgets, etc...</p>
+
+	<p>The wrapper childNodes have the "float" css attribute set to "left" so you can decide where to break lines between them by using css: it gets much easier to put the label over the field, or the messages under etc...</p>
+
+	<p></p>
+
+	<h2>Adding things to fields</h2>
+
+	<p>Take a look at the <a href="../../examples/password_field.html">password field</a> to see how it adds a strength indicator widget between the div.inputEx-Field and the message.</p>
+	
+	
+	<h2>Visualization</h2>
+	
+	<h3>Introduction</h3>
+
+	<p>The use of a template engine in inputEx first appeared for the Autocompleter, InPlaceEdit and Uneditable fields.<br />
+		 It has also proven very useful in projects that use inputEx.</p>
+
+
+	<p>The library itself doesn't include a template engine, but provides a standard way to use different engines and define your templates within field configurations. It is also very simple to add interfaces to other template engines.</p>
+
+
+	<h3>Rendering</h3>
+
+	<p>The fields should use the <strong>inputEx.renderVisu</strong> method to use templates:</p>
+
+
+
+	<p>Templating methods are stored in the <strong>inputEx.visus</strong> object. Methods can return either a HTMLElement or a String, since inputEx.renderVisu handle both.</p>
+
+	<p>inputEx.visus contains 3 default methods (you can add your own) :</p>
+
+	<ul>
+		<li><strong>dump</strong>: uses <a href="http://developer.yahoo.com/yui/docs/YAHOO.lang.html#method_dump">YAHOO.lang.dump</a> to generate a string from any object</li>
+		<li><strong>trimpath</strong>: use <a href="http://code.google.com/p/trimpath/wiki/JavaScriptTemplates">Trimpath JST template engine</a> (requires lib/trimpath-template-v.v.v.js)</li>
+		<li><strong>func</strong>: any function, useful for building interactive templates, cannot be described in json</li>
+	</ul>
+
+
+	<p>inputEx.Visus methods are functions that take 2 parameters :</p>
+
+	<ul>
+		<li>options: template object passed to Object containing the "visuType" property and template specific parameters</li>
+		<li>data: the data sent to the template</li>
+	</ul>
+
+	<br />
+
+	<h3>Examples</h3>
+
+	<p>Check the following examples to see template usage:</p>
+
+	<ul>
+		<li><a href="../../examples/autocomplete.html">Autocompleter</a></li>
+		<li><a href="../../examples/inplaceedit.html">InPlaceEdit</a></li>
+		<li><a href="../../examples/uneditable_field.html">UneditableField</a></li>
+	</ul>
+
+	
+
+</div>
+
+
+<div style="font-size: 8pt; color: #999999; background-color: #222222; border-top: 2px solid black; padding: 10px; margin-top: 20px;">
+	
+	<ul class="navigation">
+		<li><a href="http://neyric.github.com/inputex">Home</a></li>
+		<li><a href="http://github.com/neyric/inputex/">GitHub[Git]</a></li>	
+		<li><a href="http://github.com/neyric/inputex/issues">Issues</a></li>
+		<li><a href="api/index.html">API Documentation</a></li>
+		<li><a href="guide.html">Guide</a></li>
+		<li><a href="http://neyric.com/category/inputex/">Blog</a> 
+				<a href="http://neyric.com/feed/"><img src="res/rss.png" alt="rss icon"/></a></li>
+		<li><a href="http://groups.google.com/group/inputex/">Forums</a></li>
+	</ul>
+	
+	<p style="font-size: 90%; margin-top: 20px;">inputEx is released under the <a href="license.txt" style="color: white;">MIT license</a>.</p>
+</div>
+
+</div>
+
+<script type="text/javascript">
+document.write(unescape("%3Cscript src='http://www.google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-567557-2");
+pageTracker._trackPageview();
+</script>
+
+ </body>
+</html>
