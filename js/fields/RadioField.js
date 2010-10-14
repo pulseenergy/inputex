@@ -75,7 +75,7 @@
 				if (lang.isArray(options.allowAny.separators)) { this.options.allowAny.separators = options.allowAny.separators;}
 				this.options.allowAny.validator = lang.isFunction(options.allowAny.validator) ? options.allowAny.validator : function (val) {return true;};
 				this.options.allowAny.value = !lang.isUndefined(options.allowAny.value) ? options.allowAny.value : "";
-				this.options.allowAny.field = lang.isUndefined(options.allowAny.field) ? { type: "string", value: (this.options.value || this.options.allowAny.value) } : options.allowAny.field;
+				this.options.allowAny.field = lang.isUndefined(options.allowAny.field) ? { type: "string", value: this.options.allowAny.value } : options.allowAny.field;
 			}
 			
 		},
@@ -100,7 +100,7 @@
 			// Build a "any" radio combined with a StringField
 			if (this.options.allowAny) {
 				
-				this.allowAnyChoice = this.addChoice({ value: (this.options.value || this.options.allowAny.value), label:'' });
+				this.allowAnyChoice = this.addChoice({ value: this.options.allowAny.value, label:'' });
 				
 				this.radioAny = this.allowAnyChoice.node.firstChild;
 				
@@ -294,8 +294,9 @@
 		 * @param {boolean} [sendUpdatedEvt] (optional) Wether this clear should fire the updatedEvt or not (default is true, pass false to NOT send the event)
 		 */
 		clear: function (sendUpdatedEvt) {
-			if(this.radioAny){
-				this.anyField.setValue((this.options.value || this.options.allowAny.value), false);
+			
+			if (this.radioAny){
+				this.anyField.setValue(this.options.allowAny.value, false);
 			}
 		
 			inputEx.RadioField.superclass.clear.call(this, sendUpdatedEvt);
