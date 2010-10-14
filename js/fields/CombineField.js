@@ -87,6 +87,9 @@ lang.extend( inputEx.CombineField, inputEx.Group, {
       	
       	this.appendSeparator(i+1);
 	   }
+	
+		this.setFieldName(this.options.name);
+	
 	      
 	},
 	
@@ -103,15 +106,6 @@ lang.extend( inputEx.CombineField, inputEx.Group, {
       
       return inputEx.CombineField.superclass.renderField.call(this, fieldOptions);
    },
-
-	/**
-	 * Override to set the field names
-	 */
-	renderFields: function(parentEl) {
-		inputEx.CombineField.superclass.renderFields.call(this,parentEl);
-		
-		this.setFieldName(this.options.name);
-	},
 	
 	
 	setFieldName: function(name) {
