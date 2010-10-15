@@ -127,6 +127,38 @@
 			<li>Usage of a "hidden" field</li>
 			<li>Naming conventions for objects</li>
 		</ul>
+		
+		
+		<h2>Quick Intro</h2>
+		
+		<p>The important difference between "fields" and "widgets" is simple :</p>
+
+		<p><b>All fields inherit from the inputEx.Field class</b>
+		(some inherits it indirectly through other field classes...)</p>
+
+		<p>The inputEx.Field class provides a common set of methods that are expected to work on all fields.
+		This common abstraction makes it possible to nest standard fields into "meta"-fields (such as form, inplace-edit, ...)</p>
+
+		<p>The widgets are not meant to be inserted into forms. They are simply helpers to provide frequently-used
+		user interface using inputEx forms.</p>
+
+		<p>For example :
+			<ul>
+				<li>the dialog widget create a YUI dialog containing an inputEx Form.</li>
+				<li>the datatable extends the YUI datatable to use inputEx fields</li>
+			</ul>
+		</p>
+
+		<p>Finally inputEx.register only register fields.
+		This is necessary if you want to create a field using json: </p>
+
+		<pre class="brush:js">
+		fields: [
+		   {type: "text", label:"name"},
+		   {type: "my-custom-type", label: "test" }
+		]
+		</pre>
+		
 
 
 	<h2>Instantiating a Field / the "type" property :</h2>
