@@ -29,6 +29,7 @@ master branch: (not release)
  - Other
     * Adding inputEx.htmlEntities
 	  * Adding the SerializeField example page
+	  * Catalan localization by llistes correu
 
 version 0.6.0 :
 ---------------
