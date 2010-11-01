@@ -27,6 +27,7 @@ master branch: (not release)
 		* JsonTreeInspector now displays html content by replacing <> by html entities
 
  - Other
+    * Upgrading to YUI 2.8.2r1
     * Adding inputEx.htmlEntities
 	  * Adding the SerializeField example page
 	  * Catalan localization by llistes correu
