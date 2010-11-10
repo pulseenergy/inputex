@@ -65,7 +65,7 @@
 				
 				this.ddlist.addItem({ value: value, label: choice.label });
 				
-				// hide choice (+ select first choice)
+				// hide choice that has just been selected (+ select first choice)
 				this.hideChoice({ position : position });
 				this.el.selectedIndex = 0;
 				
@@ -100,7 +100,7 @@
 				
 				ddlistValue.push({ value: choice.value, label: choice.label });
 				
-				this.disableChoice({ position: position });
+				this.hideChoice({ position: position });
 			}
 			
 			// set ddlist value
