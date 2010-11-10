@@ -25,6 +25,8 @@ master branch: (not release)
  		* CombineField: focus and blur handlers
 		* Groups will no longer validate disabled sub-fields
 		* JsonTreeInspector now displays html content by replacing <> by html entities
+		* ddlist widget: fix updateItem method
+		* MultiSelectField: fix bugs due to mix up between enable/disable and hide/show of choices
 
  - Other
     * Upgrading to YUI 2.8.2r1
