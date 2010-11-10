@@ -257,7 +257,7 @@ lang.augmentObject(inputEx, {
     * @return {HTMLElement} The created node
     */
    cn: function(tag, domAttributes, styleAttributes, innerHTML) {
-        if (tag == 'input' && YAHOO.env.ua.ie) { //only limit to input tag that has no tag body
+        if (tag == 'input' && YAHOO.env.ua.ie && YAHOO.env.ua.ie < 9) { //only limit to input tag that has no tag body
             var strDom = '<' + tag;
             if (domAttributes!=='undefined'){
                 for (var k in domAttributes){

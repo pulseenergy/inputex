@@ -18,8 +18,8 @@ master branch: (not release)
 		* TypeField: fixed the setValue bug
 		* Group: adding the "addField" method
 		* ListField
-			* use setFieldName on subFields for list to work in a browser form
-			* configurable colors for re-order animation
+		* use setFieldName on subFields for list to work in a browser form
+		* configurable colors for re-order animation
 
  - Fixes
  		* CombineField: focus and blur handlers
@@ -27,6 +27,7 @@ master branch: (not release)
 		* JsonTreeInspector now displays html content by replacing <> by html entities
 		* ddlist widget: fix updateItem method
 		* MultiSelectField: fix bugs due to mix up between enable/disable and hide/show of choices
+		* inputEx.cn: IE9 doesn't need a special way to treat "input" tags as required for IE<8, hurray !
 
  - Other
     * Upgrading to YUI 2.8.2r1
