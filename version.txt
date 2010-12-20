@@ -9,7 +9,7 @@
 Release Notes:
 ==============
 
-master branch: (not release)
+master branch: (not released)
 --------------
 
  - Field enhancements:
@@ -20,6 +20,11 @@ master branch: (not release)
 		* ListField
 		* use setFieldName on subFields for list to work in a browser form
 		* configurable colors for re-order animation
+		* All fields : allow label option to be an empty string,
+		               (creating <div class="inputEx-label"><label>&nbps;</label></div> structure),
+		               which provides a way not to break the alignment of fields within a group or form
+		               when not having a label on a field.
+		* All fields : allow label option to contain HTML (Ex : { label: "Your <b>name</b><sup>*</sup>" })
 
  - Fixes
  		* CombineField: focus and blur handlers
