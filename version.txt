@@ -26,6 +26,10 @@ master branch: (not released)
 		               when not having a label on a field.
 		* All fields : allow label option to contain HTML (Ex : { label: "Your <b>name</b><sup>*</sup>" })
 
+ - Added Fields:
+    * SelectTwiceField : two step selector (2nd selector choices depending on first selector selected value)
+
+
  - Fixes
  		* CombineField: focus and blur handlers
 		* Groups will no longer validate disabled sub-fields
