@@ -2,7 +2,7 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: inputEx  inputEx.widget.JsonTreeInspector   (YUI Library)</title>
+	<title>API: inputEx   ca.js  (YUI Library)</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/api.css" />
@@ -19,8 +19,8 @@
         <h3>inputEx&nbsp; <span class="subtitle">0.7.0</span></h3>
         <a href="./index.html" title="inputEx-library">inputEx-library</a> 
             &gt; <a href="./module_inputex.html" title="inputEx">inputEx</a>
-                 &gt; inputEx.widget.JsonTreeInspector 
                 
+                 &gt; ca.js (source view) 
         <form onsubmit="return false">
             <div id="propertysearch">
                 Search: <input autocomplete="off" id="searchinput" />
@@ -43,426 +43,84 @@
                 </fieldset>
             </form>
 
-                    <h2>
-                        
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+                        <div class="highlight"><pre><span class="c1">// InputEx Catalan localization</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-                        
-                        
-                            Class <b property="yui:name">inputEx.widget.JsonTreeInspector</b>
-                        <span class="extends">
-                        </span>
+  <span class="kd">var</span> <span class="nx">msgs</span> <span class="o">=</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">messages</span><span class="p">;</span>
 
-                    </h2>
-                    <!-- class tree goes here -->
-                    
-                
-  
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">required</span> <span class="o">=</span> <span class="s2">&quot;Aquest camp és obligatori&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">invalid</span> <span class="o">=</span> <span class="s2">&quot;Aquest camp no és obligatori&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="s2">&quot;Aquest camp és vàlid&quot;</span><span class="p">;</span>
 
-                    <div class="summary description" property="yui:description">
-                        Create a treeview to inspect a javascript object
-                    </div>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">invalidEmail</span> <span class="o">=</span> <span class="s2">&quot;Correu electrònic no vàlid; ex:nom@correu.cat&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">selectColor</span> <span class="o">=</span> <span class="s2">&quot;Seleccioni un color:&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">invalidPassword</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;La contrasenya ha de tenir almenys&quot;</span><span class="p">,</span><span class="s2">&quot;números o lletres&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">invalidPasswordConfirmation</span> <span class="o">=</span> <span class="s2">&quot;Les contrasenyes són diferents!&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">passwordStrength</span> <span class="o">=</span> <span class="s2">&quot;La contrasenya és massa senzilla&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">capslockWarning</span> <span class="o">=</span> <span class="s2">&quot;Atenció: bloqueig de majúscules activat&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">invalidDate</span> <span class="o">=</span> <span class="s2">&quot;Data no vàlida; ej: 25/01/2007&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">defaultDateFormat</span> <span class="o">=</span> <span class="s2">&quot;d/m/Y&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">shortMonths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Gen&quot;</span><span class="p">,</span> <span class="s2">&quot;Feb&quot;</span><span class="p">,</span> <span class="s2">&quot;Mar&quot;</span><span class="p">,</span> <span class="s2">&quot;Abr&quot;</span><span class="p">,</span> <span class="s2">&quot;May&quot;</span><span class="p">,</span> <span class="s2">&quot;Jun&quot;</span><span class="p">,</span> <span class="s2">&quot;Jul&quot;</span><span class="p">,</span> <span class="s2">&quot;Ago&quot;</span><span class="p">,</span> <span class="s2">&quot;Set&quot;</span><span class="p">,</span> <span class="s2">&quot;Oct&quot;</span><span class="p">,</span> <span class="s2">&quot;Nov&quot;</span><span class="p">,</span> <span class="s2">&quot;Dec&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">months</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Gener&quot;</span><span class="p">,</span> <span class="s2">&quot;Febrer&quot;</span><span class="p">,</span> <span class="s2">&quot;Març&quot;</span><span class="p">,</span> <span class="s2">&quot;Abril&quot;</span><span class="p">,</span> <span class="s2">&quot;Maig&quot;</span><span class="p">,</span> <span class="s2">&quot;Juny&quot;</span><span class="p">,</span> <span class="s2">&quot;Juliol&quot;</span><span class="p">,</span> <span class="s2">&quot;Agost&quot;</span><span class="p">,</span> <span class="s2">&quot;Setembre&quot;</span><span class="p">,</span> <span class="s2">&quot;Octubre&quot;</span><span class="p">,</span> <span class="s2">&quot;Novembre&quot;</span><span class="p">,</span> <span class="s2">&quot;Decembre&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">weekdays1char</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;J&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">shortWeekdays</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dg&quot;</span><span class="p">,</span> <span class="s2">&quot;Dl&quot;</span><span class="p">,</span> <span class="s2">&quot;Dt&quot;</span><span class="p">,</span> <span class="s2">&quot;Dc&quot;</span><span class="p">,</span> <span class="s2">&quot;Dj&quot;</span><span class="p">,</span> <span class="s2">&quot;Dv&quot;</span><span class="p">,</span> <span class="s2">&quot;Ds&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">selectMonth</span> <span class="o">=</span> <span class="s2">&quot;- Seleccioni un mes -&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">dayTypeInvite</span> <span class="o">=</span> <span class="s2">&quot;Dia&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">monthTypeInvite</span> <span class="o">=</span> <span class="s2">&quot;Mes&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">yearTypeInvite</span> <span class="o">=</span> <span class="s2">&quot;Any&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">cancelEditor</span> <span class="o">=</span> <span class="s2">&quot;Cancel·la&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">okEditor</span> <span class="o">=</span> <span class="s2">&quot;D&#39;acord&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">defautCalendarOpts</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="nx">navigator</span><span class="o">:</span> <span class="p">{</span>
+       <span class="nx">strings</span> <span class="o">:</span> <span class="p">{</span>
+           <span class="nx">month</span><span class="o">:</span> <span class="s2">&quot;Seleccioni un mes&quot;</span><span class="p">,</span>
+           <span class="nx">year</span><span class="o">:</span> <span class="s2">&quot;Introdueixi un any&quot;</span><span class="p">,</span>
+           <span class="nx">submit</span><span class="o">:</span> <span class="s2">&quot;D&#39;acord&quot;</span><span class="p">,</span>
+           <span class="nx">cancel</span><span class="o">:</span> <span class="s2">&quot;Cancel·la&quot;</span><span class="p">,</span>
+           <span class="nx">invalidYear</span><span class="o">:</span> <span class="s2">&quot;Any no vàlid&quot;</span>
+        <span class="p">}</span>
+     <span class="p">},</span>
+     <span class="nx">start_weekday</span><span class="o">:</span> <span class="mi">1</span> <span class="c1">// la setmana comença el Dilluns</span>
+  <span class="p">};</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">stringTooShort</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Aquest camp ha de tenir, almenys, &quot;</span><span class="p">,</span><span class="s2">&quot; caràcters (lletres o números)&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">stringTooLong</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Aquest camp ha de tenir, com a molt, &quot;</span><span class="p">,</span><span class="s2">&quot; caràcters (lletres o números)&quot;</span><span class="p">];</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">ajaxWait</span> <span class="o">=</span> <span class="s2">&quot;Enviant...&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">menuTypeInvite</span> <span class="o">=</span> <span class="s2">&quot;Fes clic aquí per seleccionar&quot;</span><span class="p">;</span>
 
-                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
-                        <h3 id="constructor">Constructor</h3>
-                        <div class="content">
-                            <div class="detail">
-                                <strong property="yui:name">inputEx.widget.JsonTreeInspector</strong>
-                                <code>
-                                    (
-  
-                                        
-                                                
-                                                parentEl
-
-                                                , 
-                                                object
-
-                                                , 
-                                                jsonPath
-                                    )
-                                </code>
-                                <div class="description">
-                                        <dl rel="yui:parameters">
-                                            <dt>Parameters:</dt>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">parentEl</span>
-                                                    &lt;<span property="yui:type">String|HTMLElement</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> where to append the tree</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">object</span>
-                                                    &lt;<span property="yui:type">Object</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> the object to inspect</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">jsonPath</span>
-                                                    &lt;<span property="yui:type">String</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> JSON Path string (optional) (http://code.google.com/p/jsonpath/wiki/Javascript)</span>
-                                                </dd>
-                                        </dl>
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div rel="yui:properties" resource="#properties">
-                        <div class="section field details">
-                            <h3 id="properties">Properties</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:property" resource="#property_el">
-                                    <h4><a name="property_el" property="yui:name">el</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Main div element
-                                        </div>
-                                    </div>
-     
-                                        
+  <span class="c1">// List</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">listAddLink</span> <span class="o">=</span> <span class="s2">&quot;Afegir&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">listRemoveLink</span> <span class="o">=</span> <span class="s2">&quot;Eliminar&quot;</span><span class="p">;</span>
 
 
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:property" resource="#property_hash">
-                                    <h4><a name="property_hash" property="yui:name">hash</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Hash to contain the values indexed by li ids
-                                        </div>
-                                    </div>
-     
-                                        
+  <span class="c1">// Datatable</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">saveText</span> <span class="o">=</span> <span class="s2">&quot;Desa&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">cancelText</span> <span class="o">=</span> <span class="s2">&quot;Cancel·la&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">modifyText</span> <span class="o">=</span> <span class="s2">&quot;Modifica&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">deleteText</span> <span class="o">=</span> <span class="s2">&quot;Elimina&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">insertItemText</span> <span class="o">=</span> <span class="s2">&quot;Insereix&quot;</span><span class="p">;</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">confirmDeletion</span> <span class="o">=</span> <span class="s2">&quot;Està segur que vol esborrar?&quot;</span><span class="p">;</span>
 
 
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
+  <span class="c1">// TimeInterval</span>
+  <span class="nx">msgs</span><span class="p">.</span><span class="nx">timeUnits</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="nx">SECOND</span><span class="o">:</span> <span class="s2">&quot;segons&quot;</span><span class="p">,</span>
+     <span class="nx">MINUTE</span><span class="o">:</span> <span class="s2">&quot;minuts&quot;</span><span class="p">,</span>
+     <span class="nx">HOUR</span><span class="o">:</span> <span class="s2">&quot;hores&quot;</span><span class="p">,</span>
+     <span class="nx">DAY</span><span class="o">:</span> <span class="s2">&quot;dies&quot;</span><span class="p">,</span>
+     <span class="nx">MONTH</span><span class="o">:</span> <span class="s2">&quot;mesos&quot;</span><span class="p">,</span>
+     <span class="nx">YEAR</span><span class="o">:</span> <span class="s2">&quot;anys&quot;</span>
+  <span class="p">};</span>
+
+  <span class="c1">// for YUI loader</span>
+  <span class="nx">inputEx</span><span class="p">.</span><span class="nx">lang_ca</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">})();</span>
+</pre></div>
 
                     </div>
-
-                    <div rel="yui:methods" resource="#methods">
-                        <div class="section method details">
-                            <h3 id="methods">Methods</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:method" resource="#method_addItem">
-                                    <h4>
-                                        <a name="method_addItem">addItem</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">addItem</strong>
-                                           (
-                                                
-                                                        
-                                                         item
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Add an item to the list
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">item</span>
-                                                        &lt;<span property="yui:type">String|Object</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"> Either a string with the given value or an object with "label" and "value" attributes</span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_buildBranch">
-                                    <h4>
-                                        <a name="method_buildBranch">buildBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">buildBranch</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Build the sub-branch for obj
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_destroy">
-                                    <h4>
-                                        <a name="method_destroy">destroy</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">destroy</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Destroy the widget
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandAll">
-                                    <h4>
-                                        <a name="method_expandAll">expandAll</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandAll</strong>
-                                           (
-                                                
-                                                        
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand the root node
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandBranch">
-                                    <h4>
-                                        <a name="method_expandBranch">expandBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandBranch</strong>
-                                           (
-                                                
-                                                        
-                                                         li
-                                                    
-                                                
-                                                        , 
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand a branch given a li element
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">li</span>
-                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandElement">
-                                    <h4>
-                                        <a name="method_expandElement">expandElement</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandElement</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            expand the node given the li element
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_jsonPath">
-                                    <h4>
-                                        <a name="method_jsonPath">jsonPath</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">jsonPath</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            JSONPath 0.8.0 - XPath for JSON
-http://code.google.com/p/jsonpath/
-http://code.google.com/p/jsonpath/wiki/Javascript
-Copyright (c) 2007 Stefan Goessner (goessner.net)
-Licensed under the MIT (MIT-LICENSE.txt) licence.
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_onItemClick">
-                                    <h4>
-                                        <a name="method_onItemClick">onItemClick</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">onItemClick</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            When the user click on a node
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div rel="yui:events" resource="#events">
-
-
-                    </div>
-
-                    <div rel="yui:attributes" resource="#configattributes">
-
-                    </div>
-
 			</div>
 		</div>
 		<div class="yui-b">
@@ -551,7 +209,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                                 <li class=""><a href="inputEx.widget.DDListItem.html" title="inputEx.widget.DDListItem">inputEx.widget.DDListItem</a></li>
                                 <li class=""><a href="inputEx.widget.Dialog.html" title="inputEx.widget.Dialog">inputEx.widget.Dialog</a></li>
                                 <li class=""><a href="inputEx.widget.dtInPlaceEdit.html" title="inputEx.widget.dtInPlaceEdit">inputEx.widget.dtInPlaceEdit</a></li>
-                                <li class="selected"><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
+                                <li class=""><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
                                 <li class=""><a href="inputEx.YQL.html" title="inputEx.YQL">inputEx.YQL</a></li>
                         </ul>
                     </div>
@@ -561,7 +219,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                         <ul class="content">        
                                 <li class=""><a href="AutoComplete.js.html" title="AutoComplete.js">AutoComplete.js</a></li>
                                 <li class=""><a href="Button.js.html" title="Button.js">Button.js</a></li>
-                                <li class=""><a href="ca.js.html" title="ca.js">ca.js</a></li>
+                                <li class="selected"><a href="ca.js.html" title="ca.js">ca.js</a></li>
                                 <li class=""><a href="CheckBox.js.html" title="CheckBox.js">CheckBox.js</a></li>
                                 <li class=""><a href="choice.js.html" title="choice.js">choice.js</a></li>
                                 <li class=""><a href="ColorField.js.html" title="ColorField.js">ColorField.js</a></li>
@@ -635,27 +293,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                         </ul>
                     </div>
 
-                    <div id="propertyList" class="module">
-                        <h4>Properties</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#property_el" title="el">el</a></li>
-                                <li class=""><a href="#property_hash" title="hash">hash</a></li>
-                        </ul>
-                    </div>
 
-                    <div id="methodsList" class="module">
-                        <h4>Methods</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#method_addItem" title="addItem">addItem</a></li>
-                                <li class=""><a href="#method_buildBranch" title="buildBranch">buildBranch</a></li>
-                                <li class=""><a href="#method_destroy" title="destroy">destroy</a></li>
-                                <li class=""><a href="#method_expandAll" title="expandAll">expandAll</a></li>
-                                <li class=""><a href="#method_expandBranch" title="expandBranch">expandBranch</a></li>
-                                <li class=""><a href="#method_expandElement" title="expandElement">expandElement</a></li>
-                                <li class=""><a href="#method_jsonPath" title="jsonPath">jsonPath</a></li>
-                                <li class=""><a href="#method_onItemClick" title="onItemClick">onItemClick</a></li>
-                        </ul>
-                    </div>
 
 
 
