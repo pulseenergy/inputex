@@ -114,7 +114,7 @@
 			// when first select is modified
 			this.selects[0].updatedEvt.subscribe(function (e, args) {
 				
-				this.updateSecondSelectChoices(args[0]); // refresh list of choices in second select
+				this.updateSecondSelectChoices(); // refresh list of choices in second select
 				this.selects[1].fireUpdatedEvt(); // trigger global field update (see below)
 				
 			}, this, true);
@@ -134,12 +134,12 @@
 		
 		
 		// adapt choices of 2nd select relatively to 1st select value
-		updateSecondSelectChoices: function(firstSelectValue) {
+		updateSecondSelectChoices: function() {
 			
 			var i, length, choicesList, secondSelectValues, testValue;
 			
 			// allowed values in second select
-			secondSelectValues = this.valuesMatching[firstSelectValue];
+			secondSelectValues = this.valuesMatching[this.selects[0].getValue()];
 			
 			// all choices in second select
 			choicesList = this.selects[1].choicesList;
@@ -170,7 +170,7 @@
 			a = value.split(this.options.valueSeparator);
 			
 			this.selects[0].setValue(a[0], false);
-			this.updateSecondSelectChoices(a[0]);
+			this.updateSecondSelectChoices();
 			this.selects[1].setValue(a[1], false);
 			
 			// Call Field.setValue to set class and fire updated event
