@@ -80,7 +80,37 @@
 				<ul class="secondLevel">
 	    		<li><a href="#installation">Installation</a></li>
 					<li><a href="#directoryStructure">Directory structure</a></li>
-	    		<li><a href="#firstApp">Create Your First WireIt Application</a></li>
+	    		<li><a href="#Instantiating">Instantiating a Field / the "type" property</a></li>
+	    		<li><a href="#installation">Meta Fields</a></li>
+	    		<li><a href="#installation">Insert a Field into the DOM</a></li>
+          <li><a href="#installation">The "updated" event</a></li>
+					
+				</ul>
+			</li>
+			
+			<li>
+				<a href="#AdvancedUsage"><span>Advanced Usage</span></a>
+
+				<ul class="secondLevel">
+	    		<li><a href="#visualization">Visualization</a></li>
+				</ul>
+			</li>
+			
+			<li>
+				<a href="#CustomFields"><span>Create custom fields</span></a>
+
+				<ul class="secondLevel">
+	    		<li><a href="#customfieldsintro">Introduction</a></li>
+	    		<li><a href="#createfirstfield">Create your first field</a></li>
+	    		<li><a href="#MarkupStructure">Markup Structure</a></li>
+				</ul>
+			</li>
+			
+			<li>
+				<a href="#Contribute"><span>Contribute</span></a>
+
+				<ul class="secondLevel">
+	    		<li><a href="#Internationalization">Internationalization</a></li>
 				</ul>
 			</li>
 			
@@ -98,7 +128,7 @@
 
 	<p>inputEx is a javascript framework to build fields and forms.</p>
 
-	<p>It doesn’t use html (it is the opposite of obtrusive libraries): All the fields and forms are configured using json. It provides a very efficient abstraction for building interactive web applications. For detailed information, have a look at our complete API documentation.</p>
+	<p>It doesn’t use html markup (it is the opposite of obtrusive libraries): All the fields and forms are configured using json or javascript literal objects. It provides a very efficient abstraction for building interactive web applications. For detailed information, have a look at our complete <a href="api/index.html">API documentation</a>.</p>
 
 	<p>The code for inputEx is provided under <a href="license.txt">MIT license</a>.</p>
 
@@ -109,14 +139,17 @@
 		<p>inputEx is built around the <b>Field</b> class. It is an <b>abstract</b> class (we <i>never</i> instantiate it).<br/>
 			 All the other field classes inherits directly or indirectly from this base class. (see diagram below)</p>
 
-		<p><u>Warning:</u> this diagram is not complete. See <a href="treeview.html">treeview</a> for the full class diagram</p>
+		<p><u>Warning:</u> this diagram is not complete. See the API Doc for more information</p>
 		<center>
-			<img src="../images/inputEx-class-diagram.png" />
+			<img src="res/inputEx-class-diagram.png" />
 		</center>
 
 		<p></p>
 
 
+		
+		
+  	<a name="usage"><h1>2 Usage</h1></a>
 
 
 		<h2>Standard HTML forms VS. JS/Ajax</h2>
@@ -385,7 +418,7 @@
 		<li>Using the YUI loader, include the inputEx loader (see <a href="../../examples/yuiloader.html">Using YUI loader</a> for requesting modules)
 <pre class="brush:js">
 	&lt;!-- YUI loader--&gt;
-	&lt;script src="http://yui.yahooapis.com/2.7.0/build/yuiloader/yuiloader-min.js"&gt;&lt;/script&gt;
+	&lt;script src="http://yui.yahooapis.com/2.8.2r1/build/yuiloader/yuiloader-min.js"&gt;&lt;/script&gt;
 	&lt;!-- inputEx loader --&gt;
 	&lt;script src="../js/inputex-loader.js"&gt;&lt;/script&gt;
 </pre>
@@ -394,9 +427,9 @@
 		<li>Insert the script and CSS into your page : (inputEx+YUI)
 <pre class="brush:js">
 	&lt;!-- YUI utilities --&gt;
-	&lt;script src="http://yui.yahooapis.com/2.7.0/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
-	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts/reset-fonts.css" /&gt;
-	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/skin.css" /&gt;
+	&lt;script src="http://yui.yahooapis.com/2.8.2r1/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts/reset-fonts.css" /&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/assets/skins/sam/skin.css" /&gt;
 	... and other yui dependencies...
 
 	&lt;!-- inputEx -->
@@ -414,9 +447,9 @@
 		<li>Use the minified files :
 <pre class="brush:js">
 	&lt;!-- YUI utilities --&gt;
-	&lt;script src="http://yui.yahooapis.com/2.7.0/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
-	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts/reset-fonts.css" /&gt;
-	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/skin.css" /&gt;
+	&lt;script src="http://yui.yahooapis.com/2.8.2r1/build/utilities/utilities.js" type="text/javascript"&gt;&lt;/script&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts/reset-fonts.css" /&gt;
+	&lt;link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/assets/skins/sam/skin.css" /&gt;
 	... and other yui dependencies...
 
 	&lt;!-- inputEx minified files --&gt;

@@ -9,15 +9,17 @@
 Release Notes:
 ==============
 
-master branch: (not released)
---------------
+version 0.7.0 :
+---------------
+
+released on January, 7th 2011
 
  - Field enhancements:
 
 		* Field: adding the setFieldName method in the API
 		* TypeField: fixed the setValue bug
 		* Group: adding the "addField" method
-		* ListField
+		* ListField: use setName on subFields for list to work in a browser-sent form
 		* use setFieldName on subFields for list to work in a browser form
 		* configurable colors for re-order animation
 		* All fields : allow label option to be an empty string,

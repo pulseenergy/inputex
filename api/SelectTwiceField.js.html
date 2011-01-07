@@ -2,7 +2,7 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: inputEx  inputEx.widget.JsonTreeInspector   (YUI Library)</title>
+	<title>API: inputEx   SelectTwiceField.js  (YUI Library)</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/api.css" />
@@ -19,8 +19,8 @@
         <h3>inputEx&nbsp; <span class="subtitle">0.7.0</span></h3>
         <a href="./index.html" title="inputEx-library">inputEx-library</a> 
             &gt; <a href="./module_inputex.html" title="inputEx">inputEx</a>
-                 &gt; inputEx.widget.JsonTreeInspector 
                 
+                 &gt; SelectTwiceField.js (source view) 
         <form onsubmit="return false">
             <div id="propertysearch">
                 Search: <input autocomplete="off" id="searchinput" />
@@ -43,426 +43,252 @@
                 </fieldset>
             </form>
 
-                    <h2>
-                        
-
-                        
-                        
-                            Class <b property="yui:name">inputEx.widget.JsonTreeInspector</b>
-                        <span class="extends">
-                        </span>
-
-                    </h2>
-                    <!-- class tree goes here -->
-                    
-                
-  
-
-                    <div class="summary description" property="yui:description">
-                        Create a treeview to inspect a javascript object
-                    </div>
-
-                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
-                        <h3 id="constructor">Constructor</h3>
-                        <div class="content">
-                            <div class="detail">
-                                <strong property="yui:name">inputEx.widget.JsonTreeInspector</strong>
-                                <code>
-                                    (
-  
-                                        
-                                                
-                                                parentEl
-
-                                                , 
-                                                object
-
-                                                , 
-                                                jsonPath
-                                    )
-                                </code>
-                                <div class="description">
-                                        <dl rel="yui:parameters">
-                                            <dt>Parameters:</dt>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">parentEl</span>
-                                                    &lt;<span property="yui:type">String|HTMLElement</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> where to append the tree</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">object</span>
-                                                    &lt;<span property="yui:type">Object</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> the object to inspect</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">jsonPath</span>
-                                                    &lt;<span property="yui:type">String</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> JSON Path string (optional) (http://code.google.com/p/jsonpath/wiki/Javascript)</span>
-                                                </dd>
-                                        </dl>
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div rel="yui:properties" resource="#properties">
-                        <div class="section field details">
-                            <h3 id="properties">Properties</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:property" resource="#property_el">
-                                    <h4><a name="property_el" property="yui:name">el</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Main div element
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:property" resource="#property_hash">
-                                    <h4><a name="property_hash" property="yui:name">hash</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Hash to contain the values indexed by li ids
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div rel="yui:methods" resource="#methods">
-                        <div class="section method details">
-                            <h3 id="methods">Methods</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:method" resource="#method_addItem">
-                                    <h4>
-                                        <a name="method_addItem">addItem</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">addItem</strong>
-                                           (
-                                                
-                                                        
-                                                         item
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Add an item to the list
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">item</span>
-                                                        &lt;<span property="yui:type">String|Object</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"> Either a string with the given value or an object with "label" and "value" attributes</span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_buildBranch">
-                                    <h4>
-                                        <a name="method_buildBranch">buildBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">buildBranch</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Build the sub-branch for obj
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_destroy">
-                                    <h4>
-                                        <a name="method_destroy">destroy</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">destroy</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Destroy the widget
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandAll">
-                                    <h4>
-                                        <a name="method_expandAll">expandAll</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandAll</strong>
-                                           (
-                                                
-                                                        
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand the root node
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandBranch">
-                                    <h4>
-                                        <a name="method_expandBranch">expandBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandBranch</strong>
-                                           (
-                                                
-                                                        
-                                                         li
-                                                    
-                                                
-                                                        , 
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand a branch given a li element
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">li</span>
-                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandElement">
-                                    <h4>
-                                        <a name="method_expandElement">expandElement</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandElement</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            expand the node given the li element
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_jsonPath">
-                                    <h4>
-                                        <a name="method_jsonPath">jsonPath</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">jsonPath</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            JSONPath 0.8.0 - XPath for JSON
-http://code.google.com/p/jsonpath/
-http://code.google.com/p/jsonpath/wiki/Javascript
-Copyright (c) 2007 Stefan Goessner (goessner.net)
-Licensed under the MIT (MIT-LICENSE.txt) licence.
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_onItemClick">
-                                    <h4>
-                                        <a name="method_onItemClick">onItemClick</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">onItemClick</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            When the user click on a node
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+                        <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+	<span class="kd">var</span> <span class="nx">Event</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Event</span><span class="p">,</span> <span class="nx">lang</span> <span class="o">=</span> <span class="nx">YAHOO</span><span class="p">.</span><span class="nx">lang</span><span class="p">;</span>
+
+	<span class="cm">/**</span>
+<span class="cm">	 * Create a select field</span>
+<span class="cm">	 * @class inputEx.SelectTwiceField</span>
+<span class="cm">	 * @extends inputEx.Field</span>
+<span class="cm">	 * @constructor</span>
+<span class="cm">	 * @param {Object} options Added options:</span>
+<span class="cm">	 * &lt;ul&gt;</span>
+<span class="cm">	 *    &lt;li&gt;choices: contains the list of nested choices ([{ value: &quot;&quot;, choices: [&quot;&quot;] }, { value: &quot;BMW Z Series&quot;, choices: [&quot;Z1&quot;, &quot;Z3&quot;, &quot;Z4&quot;, &quot;Z8&quot;] }, ...])&lt;/li&gt;</span>
+<span class="cm">	 *    &lt;li&gt;valueSeperator: &lt;/li&gt;</span>
+<span class="cm">	 * &lt;/ul&gt;</span>
+<span class="cm">	 */</span>
+	<span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+		
+		<span class="c1">// Hack to init choices in second select (when no default value is provided)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">lang</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getValue</span><span class="p">(),</span> <span class="kc">false</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="nx">lang</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">Field</span><span class="p">,</span> <span class="p">{</span>
+		
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * Set the default values of the options</span>
+<span class="cm">		 * @param {Object} options Options object as passed to the constructor</span>
+<span class="cm">		 */</span>
+		<span class="nx">setOptions</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+			
+			<span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span><span class="p">.</span><span class="nx">choices</span> <span class="o">:</span> <span class="p">[];</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">valueSeparator</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">valueSeparator</span> <span class="o">||</span> <span class="s2">&quot;_&quot;</span><span class="p">;</span>
+			
+		<span class="p">},</span>
+	
+	
+		<span class="cm">/**</span>
+<span class="cm">		 * Build two select fields</span>
+<span class="cm">		 */</span>
+		<span class="nx">renderComponent</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+			
+			<span class="kd">var</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">ilength</span><span class="p">,</span> <span class="nx">jlength</span><span class="p">,</span> <span class="nx">currentSubChoices</span><span class="p">,</span> <span class="nx">currentSubChoice</span><span class="p">,</span> <span class="nx">currentValue</span><span class="p">,</span>
+			    <span class="nx">testValue</span><span class="p">,</span> <span class="nx">isDuplicateChoice</span><span class="p">,</span> <span class="nx">secondSelectChoices</span><span class="p">;</span>
+			
+			
+			<span class="c1">// object used in updateSecondSelectChoices</span>
+			<span class="c1">//</span>
+			<span class="c1">//   * key   : string representing a value in 1st select</span>
+			<span class="c1">//   * value : array of values available in 2nd select when key is selected in first select</span>
+			<span class="c1">//</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">valuesMatching</span> <span class="o">=</span> <span class="p">{};</span>
+			
+			
+			<span class="c1">// helper to filter 2nd select choices to find duplicates</span>
+			<span class="nx">isDuplicateChoice</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">elt</span><span class="p">,</span> <span class="nx">arrElt</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">elt</span>    <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">elt</span><span class="p">)</span>    <span class="o">?</span> <span class="nx">elt</span><span class="p">.</span><span class="nx">value</span>    <span class="o">:</span> <span class="nx">elt</span><span class="p">;</span>
+				<span class="nx">arrElt</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">arrElt</span><span class="p">)</span> <span class="o">?</span> <span class="nx">arrElt</span><span class="p">.</span><span class="nx">value</span> <span class="o">:</span> <span class="nx">arrElt</span><span class="p">;</span>
+				<span class="k">return</span> <span class="nx">elt</span> <span class="o">===</span> <span class="nx">arrElt</span><span class="p">;</span>
+			<span class="p">};</span>
+			
+			<span class="c1">// collect 2nd level choices + ensure uniqueness of values</span>
+			<span class="nx">secondSelectChoices</span> <span class="o">=</span> <span class="p">[];</span>
+			
+			<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">ilength</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">ilength</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+				
+				<span class="nx">currentValue</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">value</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+				<span class="nx">currentSubChoices</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">choices</span><span class="p">;</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">valuesMatching</span><span class="p">[</span><span class="nx">currentValue</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+				
+				<span class="c1">// maybe no sub choices ???</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nx">currentSubChoices</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">for</span> <span class="p">(</span><span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">jlength</span> <span class="o">=</span> <span class="nx">currentSubChoices</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">jlength</span><span class="p">;</span> <span class="nx">j</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					
+						<span class="nx">currentSubChoice</span> <span class="o">=</span> <span class="nx">currentSubChoices</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
+					
+						<span class="nx">testValue</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">currentSubChoice</span><span class="p">)</span> <span class="o">?</span> <span class="nx">currentSubChoice</span><span class="p">.</span><span class="nx">value</span> <span class="o">:</span> <span class="nx">currentSubChoice</span><span class="p">;</span>
+					
+						<span class="k">this</span><span class="p">.</span><span class="nx">valuesMatching</span><span class="p">[</span><span class="nx">currentValue</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">testValue</span><span class="p">);</span>
+					
+						<span class="k">if</span> <span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">testValue</span><span class="p">,</span> <span class="nx">secondSelectChoices</span><span class="p">,</span> <span class="nx">isDuplicateChoice</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+							<span class="nx">secondSelectChoices</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">currentSubChoices</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span>
+						<span class="p">}</span>
+					
+					<span class="p">}</span>
+				<span class="p">}</span>
+				
+			<span class="p">}</span>
+			
+			
+			<span class="c1">// create and store selects</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span> <span class="o">=</span> <span class="p">[];</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectField</span><span class="p">({</span> <span class="nx">choices</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">choices</span> <span class="p">}));</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectField</span><span class="p">({</span> <span class="nx">choices</span><span class="o">:</span> <span class="nx">secondSelectChoices</span> <span class="p">}));</span>
+			
+			<span class="c1">// append &lt;select&gt;s to DOM tree</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">fieldContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getEl</span><span class="p">());</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">fieldContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">getEl</span><span class="p">());</span>
+			
+		<span class="p">},</span>
+		
+		
+		<span class="nx">initEvents</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+			
+			<span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">initEvents</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+			
+			
+			<span class="c1">// when first select is modified</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">updatedEvt</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">updateSecondSelectChoices</span><span class="p">();</span> <span class="c1">// refresh list of choices in second select</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">fireUpdatedEvt</span><span class="p">();</span> <span class="c1">// trigger global field update (see below)</span>
+				
+			<span class="p">},</span> <span class="k">this</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+			
+			
+			<span class="c1">// when second select is modified</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">updatedEvt</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+				
+				<span class="c1">// set field style</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">setClassFromState</span><span class="p">();</span>
+				<span class="c1">// fire field updatedEvt</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">fireUpdatedEvt</span><span class="p">();</span>
+				
+			<span class="p">},</span> <span class="k">this</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+			
+		<span class="p">},</span>
+		
+		
+		<span class="c1">// adapt choices of 2nd select relatively to 1st select value</span>
+		<span class="nx">updateSecondSelectChoices</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			
+			<span class="kd">var</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">choicesList</span><span class="p">,</span> <span class="nx">secondSelectValues</span><span class="p">,</span> <span class="nx">testValue</span><span class="p">;</span>
+			
+			<span class="c1">// allowed values in second select</span>
+			<span class="nx">secondSelectValues</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">valuesMatching</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getValue</span><span class="p">()];</span>
+			
+			<span class="c1">// all choices in second select</span>
+			<span class="nx">choicesList</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">choicesList</span><span class="p">;</span>
+			
+			<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">length</span> <span class="o">=</span> <span class="nx">choicesList</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+				
+				<span class="nx">testValue</span> <span class="o">=</span> <span class="nx">choicesList</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">value</span><span class="p">;</span>
+				
+				<span class="k">if</span> <span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">testValue</span><span class="p">,</span> <span class="nx">secondSelectValues</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">hideChoice</span><span class="p">({</span> <span class="nx">position</span><span class="o">:</span> <span class="nx">i</span> <span class="p">},</span> <span class="kc">false</span><span class="p">);</span> <span class="c1">// no updatedEvt in case of clear (because multiple clear could happen...)</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">showChoice</span><span class="p">({</span> <span class="nx">position</span><span class="o">:</span> <span class="nx">i</span> <span class="p">});</span>
+				<span class="p">}</span>
+				
+			<span class="p">}</span>
+			
+		<span class="p">},</span>
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * Set the value</span>
+<span class="cm">		 * @param {String} value The value to set</span>
+<span class="cm">		 * @param {boolean} [sendUpdatedEvt] (optional) Whether this setValue should fire the updatedEvt or not (default is true, pass false to NOT send the event)</span>
+<span class="cm">		 */</span>
+		<span class="nx">setValue</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">sendUpdatedEvt</span><span class="p">)</span> <span class="p">{</span>
+			
+			<span class="kd">var</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">firstVal</span><span class="p">,</span> <span class="nx">secondVal</span><span class="p">,</span> <span class="nx">i</span><span class="p">;</span>
+			
+			<span class="nx">a</span> <span class="o">=</span> <span class="nx">value</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">valueSeparator</span><span class="p">);</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">setValue</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">false</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">updateSecondSelectChoices</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">setValue</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="kc">false</span><span class="p">);</span>
+			
+			<span class="c1">// Call Field.setValue to set class and fire updated event</span>
+			<span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">setValue</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">sendUpdatedEvt</span><span class="p">);</span>
+		<span class="p">},</span>
+		
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * Return the value</span>
+<span class="cm">		 * @return {Any} the selected value</span>
+<span class="cm">		 */</span>
+		<span class="nx">getValue</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getValue</span><span class="p">()</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">valueSeparator</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">selects</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">getValue</span><span class="p">();</span>
+		<span class="p">},</span>
+		
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * HACK because empty state value is this.options.valueSeparator</span>
+<span class="cm">		 */</span>
+		<span class="nx">getState</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> 
+			<span class="c1">// if the field is empty :</span>
+			<span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">getValue</span><span class="p">()</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">valueSeparator</span> <span class="p">)</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">required</span> <span class="o">?</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">stateRequired</span> <span class="o">:</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">stateEmpty</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">validate</span><span class="p">()</span> <span class="o">?</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">stateValid</span> <span class="o">:</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">stateInvalid</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+	<span class="p">});</span>
+	
+	<span class="c1">// Augment prototype with choice mixin (functions : addChoice, removeChoice, etc.)</span>
+	<span class="nx">lang</span><span class="p">.</span><span class="nx">augmentObject</span><span class="p">(</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">mixin</span><span class="p">.</span><span class="nx">choice</span><span class="p">);</span>
+	
+	
+	<span class="c1">// Register this class as &quot;select&quot; type</span>
+	<span class="nx">inputEx</span><span class="p">.</span><span class="nx">registerType</span><span class="p">(</span><span class="s2">&quot;selecttwice&quot;</span><span class="p">,</span> <span class="nx">inputEx</span><span class="p">.</span><span class="nx">SelectTwiceField</span><span class="p">,</span> <span class="p">[</span>
+		<span class="p">{</span>
+			<span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span>
+			<span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span>
+			<span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Choices&#39;</span><span class="p">,</span>
+			<span class="nx">elementType</span><span class="o">:</span> <span class="p">{</span>
+				<span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;group&#39;</span><span class="p">,</span>
+				<span class="nx">fields</span><span class="o">:</span> <span class="p">[</span>
+					<span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="c1">// not required to allow &#39;&#39; value (which is default)</span>
+					<span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;label&#39;</span> <span class="p">},</span> <span class="c1">// optional : if left empty, label is same as value</span>
+					<span class="p">{</span> 
+						<span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span>
+						<span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span>
+						<span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Choices&#39;</span><span class="p">,</span>
+						<span class="nx">elementType</span><span class="o">:</span> <span class="p">{</span>
+							<span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;group&#39;</span><span class="p">,</span>
+							<span class="nx">fields</span><span class="o">:</span> <span class="p">[</span>
+								<span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">},</span> <span class="c1">// not required to allow &#39;&#39; value (which is default)</span>
+								<span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;label&#39;</span> <span class="p">}</span> <span class="c1">// optional : if left empty, label is same as value</span>
+							<span class="p">]</span>
+						<span class="p">},</span>
+						<span class="nx">value</span><span class="o">:</span> <span class="p">[],</span>
+						<span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+					<span class="p">}</span>
+				<span class="p">]</span>
+			<span class="p">},</span>
+			<span class="nx">value</span><span class="o">:</span> <span class="p">[],</span>
+			<span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+		<span class="p">}</span>
+	<span class="p">]);</span>
+
+<span class="p">}());</span>
+</pre></div>
 
                     </div>
-
-                    <div rel="yui:events" resource="#events">
-
-
-                    </div>
-
-                    <div rel="yui:attributes" resource="#configattributes">
-
-                    </div>
-
 			</div>
 		</div>
 		<div class="yui-b">
@@ -551,7 +377,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                                 <li class=""><a href="inputEx.widget.DDListItem.html" title="inputEx.widget.DDListItem">inputEx.widget.DDListItem</a></li>
                                 <li class=""><a href="inputEx.widget.Dialog.html" title="inputEx.widget.Dialog">inputEx.widget.Dialog</a></li>
                                 <li class=""><a href="inputEx.widget.dtInPlaceEdit.html" title="inputEx.widget.dtInPlaceEdit">inputEx.widget.dtInPlaceEdit</a></li>
-                                <li class="selected"><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
+                                <li class=""><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
                                 <li class=""><a href="inputEx.YQL.html" title="inputEx.YQL">inputEx.YQL</a></li>
                         </ul>
                     </div>
@@ -613,7 +439,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                                 <li class=""><a href="RadioField.js.html" title="RadioField.js">RadioField.js</a></li>
                                 <li class=""><a href="RTEField.js.html" title="RTEField.js">RTEField.js</a></li>
                                 <li class=""><a href="SelectField.js.html" title="SelectField.js">SelectField.js</a></li>
-                                <li class=""><a href="SelectTwiceField.js.html" title="SelectTwiceField.js">SelectTwiceField.js</a></li>
+                                <li class="selected"><a href="SelectTwiceField.js.html" title="SelectTwiceField.js">SelectTwiceField.js</a></li>
                                 <li class=""><a href="SerializeField-beta.js.html" title="SerializeField-beta.js">SerializeField-beta.js</a></li>
                                 <li class=""><a href="SliderField.js.html" title="SliderField.js">SliderField.js</a></li>
                                 <li class=""><a href="smdTester.js.html" title="smdTester.js">smdTester.js</a></li>
@@ -635,27 +461,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                         </ul>
                     </div>
 
-                    <div id="propertyList" class="module">
-                        <h4>Properties</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#property_el" title="el">el</a></li>
-                                <li class=""><a href="#property_hash" title="hash">hash</a></li>
-                        </ul>
-                    </div>
 
-                    <div id="methodsList" class="module">
-                        <h4>Methods</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#method_addItem" title="addItem">addItem</a></li>
-                                <li class=""><a href="#method_buildBranch" title="buildBranch">buildBranch</a></li>
-                                <li class=""><a href="#method_destroy" title="destroy">destroy</a></li>
-                                <li class=""><a href="#method_expandAll" title="expandAll">expandAll</a></li>
-                                <li class=""><a href="#method_expandBranch" title="expandBranch">expandBranch</a></li>
-                                <li class=""><a href="#method_expandElement" title="expandElement">expandElement</a></li>
-                                <li class=""><a href="#method_jsonPath" title="jsonPath">jsonPath</a></li>
-                                <li class=""><a href="#method_onItemClick" title="onItemClick">onItemClick</a></li>
-                        </ul>
-                    </div>
 
 
 
