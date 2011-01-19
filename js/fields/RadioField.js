@@ -257,13 +257,16 @@
 		 */
 		setValue: function (value, sendUpdatedEvt) {
 			
-			var checkAny = true, i, length;
+			var checkAny = true, valueFound = false, i, length;
 			
 			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
 				
-				if (value === this.choicesList[i].value) {
+				// valueFound is a useful when "real" choice has a value equal to allowAny choice default value
+				// so we check only the first value-matching radio button
+				if (value === this.choicesList[i].value && !valueFound) {
 					
 					this.choicesList[i].node.firstChild.checked = true;
+					valueFound = true;
 					checkAny = false;
 					
 				} else {

@@ -9,6 +9,16 @@
 Release Notes:
 ==============
 
+version 0.7.1 :
+---------------
+
+not released yet
+
+- Fixes
+		* RadioField: fix rare bug when a classic choice has a value equal to
+		              allowAny field default value
+
+
 version 0.7.0 :
 ---------------
 
