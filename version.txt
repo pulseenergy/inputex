@@ -14,6 +14,9 @@ version 0.7.1 :
 
 not released yet
 
+- Field enhancements:
+		* DateSplitField: inputs are now trimed by default
+		
 - Fixes
 		* RadioField: fix rare bug when a classic choice has a value equal to
 		              allowAny field default value
