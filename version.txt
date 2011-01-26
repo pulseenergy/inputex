@@ -17,6 +17,7 @@ not released yet
 - Fixes
 		* RadioField: fix rare bug when a classic choice has a value equal to
 		              allowAny field default value
+		* IntegerField / NumberField: fix trim option which didn't work
 
 
 version 0.7.0 :
