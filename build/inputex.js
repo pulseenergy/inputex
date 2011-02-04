@@ -5149,8 +5149,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 	   var el = inputEx(opts,this);
 	   
 	   var subFieldEl = el.getEl();
-	   Dom.setStyle(subFieldEl, 'margin-left', '4px');
-	   Dom.setStyle(subFieldEl, 'float', 'left');
+		YAHOO.util.Dom.addClass(subFieldEl, 'inputEx-ListField-subFieldEl');
 	   newDiv.appendChild( subFieldEl );
 	   
 	   // Subscribe the onChange event to resend it 
