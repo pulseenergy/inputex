@@ -2,7 +2,7 @@
 Distributed under the MIT License :
 Visit http://neyric.github.com/inputex for more informations
 
-Copyright (c) 2007-2010, Eric Abouaf <eric.abouaf at gmail.com>
+Copyright (c) 2007-2011, Eric Abouaf <eric.abouaf at gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -83,7 +83,7 @@ inputEx = function(fieldOptions, parentField) {
 
 lang.augmentObject(inputEx, {
    
-   VERSION: "0.7.0",
+   VERSION: "0.7.1",
    
    /**
     * Url to the spacer image. This url schould be changed according to your project directories
@@ -3979,13 +3979,13 @@ inputEx.DateSplitField = function(options) {
    options.fields = [];
    for(var i = 0 ; i < 3 ; i++) {
       if(i == this.dayIndex) {
-         options.fields.push({type: 'integer', typeInvite: inputEx.messages.dayTypeInvite, size: 2 });
+         options.fields.push({type: 'integer', typeInvite: inputEx.messages.dayTypeInvite, size: 2, trim: true });
       }
       else if(i == this.yearIndex) {
-         options.fields.push({type: 'integer', typeInvite: inputEx.messages.yearTypeInvite, size: 4 });
+         options.fields.push({type: 'integer', typeInvite: inputEx.messages.yearTypeInvite, size: 4, trim: true });
       }
       else {
-         options.fields.push({type: 'integer', typeInvite: inputEx.messages.monthTypeInvite, size: 2 });
+         options.fields.push({type: 'integer', typeInvite: inputEx.messages.monthTypeInvite, size: 2, trim: true });
       }
    }
 
@@ -4820,7 +4820,7 @@ inputEx.registerType("inplaceedit", inputEx.InPlaceEdit, [
  * @constructor
  * @param {Object} options Added options:
  * <ul>
- *    <li>negative: boolean indicating if we accept boolean numbers</li>
+ *    <li>negative: boolean indicating if we accept negative numbers</li>
  * </ul>
  */
 inputEx.IntegerField = function(options) {
@@ -4844,19 +4844,26 @@ YAHOO.lang.extend(inputEx.IntegerField, inputEx.StringField, {
     * @return {int} The integer value
     */
    getValue: function() {
+      
+      var str_value;
+      
+      // StringField getValue (handles typeInvite and trim options)
+      str_value = inputEx.IntegerField.superclass.getValue.call(this);
+      
       // don't return NaN if empty field
-      if ((this.options.typeInvite && this.el.value == this.options.typeInvite) || this.el.value == '') {
+      if (str_value === '') {
          return '';
       }
       
-      return parseInt(this.el.value, 10);
+      return parseInt(str_value, 10);
    },
    
    /**
     * Validate  if is a number
     */
    validate: function() {
-      var v = this.getValue();
+      
+      var v = this.getValue(), str_value = inputEx.IntegerField.superclass.getValue.call(this);
       
       // empty field
       if (v === '') {
@@ -4864,8 +4871,12 @@ YAHOO.lang.extend(inputEx.IntegerField, inputEx.StringField, {
          return !this.options.required;
       }
       
-      if(isNaN(v)) return false;
-      return !!this.el.value.match(new RegExp(this.options.negative ? "^[+-]?[0-9]*$" : "^\\+?[0-9]*$") ) && v >= this.options.min && v <= this.options.max;
+      if (isNaN(v)) {
+         return false;
+      }
+      
+      return !!str_value.match(/^[\+\-]?[0-9]+$/) && (this.options.negative ? true : v >= 0) && v >= this.options.min && v <= this.options.max;
+      
    }
    
 });
@@ -5138,8 +5149,7 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 	   var el = inputEx(opts,this);
 	   
 	   var subFieldEl = el.getEl();
-	   Dom.setStyle(subFieldEl, 'margin-left', '4px');
-	   Dom.setStyle(subFieldEl, 'float', 'left');
+		YAHOO.util.Dom.addClass(subFieldEl, 'inputEx-ListField-subFieldEl');
 	   newDiv.appendChild( subFieldEl );
 	   
 	   // Subscribe the onChange event to resend it 
@@ -5358,19 +5368,26 @@ YAHOO.lang.extend(inputEx.NumberField, inputEx.StringField, {
     * @return {Number} The parsed float
     */
    getValue: function() {
+	
+      var str_value;
+      
+      // StringField getValue (handles typeInvite and trim options)
+      str_value = inputEx.NumberField.superclass.getValue.call(this);
+      
       // don't return NaN if empty field
-      if ((this.options.typeInvite && this.el.value == this.options.typeInvite) || this.el.value == '') {
+      if (str_value === '') {
          return '';
       }
       
-      return parseFloat(this.el.value);
+      return parseFloat(str_value);
    },
    
    /**
     * Check if the entered number is a float
     */
    validate: function() { 
-      var v = this.getValue();
+      
+      var v = this.getValue(), str_value = inputEx.NumberField.superclass.getValue.call(this);
       
       // empty field
       if (v === '') {
@@ -5378,10 +5395,13 @@ YAHOO.lang.extend(inputEx.NumberField, inputEx.StringField, {
          return !this.options.required;
       }
       
-      if(isNaN(v)) return false;
-	   
-	   // We have to check the number with a regexp, otherwise "0.03a" is parsed to a valid number 0.03
-	   return !!this.el.value.match(/^([\+\-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+-]?[0-9]+)?))$/) && v >= this.options.min && v <= this.options.max;
+      if (isNaN(v)) {
+         return false;
+      }
+      
+      // We have to check the number with a regexp, otherwise "0.03a" is parsed to a valid number 0.03
+      return !!str_value.match(/^([\+\-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+-]?[0-9]+)?))$/) && v >= this.options.min && v <= this.options.max;
+      
    }
 
 });
@@ -5912,13 +5932,16 @@ inputEx.registerType("password", inputEx.PasswordField, [
 		 */
 		setValue: function (value, sendUpdatedEvt) {
 			
-			var checkAny = true, i, length;
+			var checkAny = true, valueFound = false, i, length;
 			
 			for (i = 0, length = this.choicesList.length ; i < length ; i += 1) {
 				
-				if (value === this.choicesList[i].value) {
+				// valueFound is a useful when "real" choice has a value equal to allowAny choice default value
+				// so we check only the first value-matching radio button
+				if (value === this.choicesList[i].value && !valueFound) {
 					
 					this.choicesList[i].node.firstChild.checked = true;
+					valueFound = true;
 					checkAny = false;
 					
 				} else {

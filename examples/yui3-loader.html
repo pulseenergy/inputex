@@ -1,0 +1,223 @@
+<html>
+<head>
+  <title>YUI3 loader test</title>
+    
+<script type="text/javascript" src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="../js/yui3-loader.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/dpSyntaxHighlighter.css">
+<style>
+.main { margin: 20px auto; width: 900px; }
+.main h1 { font-size: 16pt; margin: 20px 0; font-weight: bold; }
+.main h2 { font-size: 14pt; margin: 20px 0; font-weight: bold; }
+.main ul li { list-style: disc; margin-left: 20px; }
+.main p { margin: 10px 0;}
+</style>
+</head>
+<body class="yui-skin-sam">
+
+<div class="main">
+
+<h1>Using inputEx with YUI3</h1>
+
+<p>This page describe a way to use inputEx with YUI3. It's kind of hack, so pay attention to the instructions on this page. It is made to be a compatibility layer before the inputEx YUI3 native implementation.</p>
+
+<h2>Step 1 - Seed files</h2>
+
+<p>First, we obviously need to insert YUI3 seed file to the page, and the js/yui3-loader.js file which declares inputEx modules to YUI3.</p>
+
+<textarea name="code" class="JScript">
+  <script type="text/javascript" src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+  <script type="text/javascript" src="path/to/js/yui3-loader.js"></script>
+</textarea>
+
+<h2>Step 2 - two-stage loading</h2>
+
+<p>The latest version of inputEx doesn't use YUI2 modules. For this reason, we have to :
+  <ul>
+    <li><b>Make the YUI2 instance global</b> <i>(so it's not compatible with sandboxing)</i></li>
+    <li><b>load YUI2 before requiring any inputEx module</b> <i>(inputEx code is not wrapped in function calls, so the YAHOO global object must be present before loading the files)</i></li>
+  </ul>
+</p>
+
+<textarea name="code" class="JScript">  
+
+  // FIXME: set the path to inputEx
+  YUI_config.groups.inputex.base = '../path/to/inputex';
+  
+  YUI().use( "yui3-global-yui2", function(Y) {
+    
+    // IMPORTANT: Note the two-stage loading !  
+    
+    YUI().use(  "inputex-form", "inputex-string", function(Y) {
+        // Y.inputEx ready to use
+    });
+    
+  });
+</textarea>
+
+<p>That's it ! Note that the module names have changed from the YUI2 loader: it's not <i>inputex-stringfield</i> anymore, but <i>inputex-string</i> instead.</p>
+
+
+<h2>How does it work ?</h2>
+
+<p>To achieve this, inputEx's yui3-loader.js declares two additional modules, which :
+  <ul>
+    <li>make the YUI2 instance global (first stage)</li>
+    <li>load inputEx & alias inputEx to Y.inputEx (second stage)</li>
+  </ul>
+</p>
+
+<textarea name="code" class="JScript">
+  YUI.add('yui3-global-yui2', function(Y) {
+  	window.YAHOO = Y.YUI2;	
+  }, '0.7.1', {
+      requires: ['yui2-yahoo','yui2-dom','yui2-event']
+  });
+
+  YUI.add('inputex-yui3', function(Y) {
+  	Y.inputEx = window.inputEx;
+  	// fix the spacerUrl thx to the inputEx path
+  	Y.inputEx.spacerUrl = YUI_config.groups.inputex.base+"/images/space.gif";
+  }, '0.7.1', {
+      requires: ['yui3-global-yui2']
+  });
+</textarea>
+
+<h2>Loading from a local yui2in3 directory</h2>
+
+<p>If you want to serve the YUI2 library locally, the classic YUI2 distribution won't work. You will need to download <a href="https://github.com/yui/2in3">yui2in3</a> and setup the loader as below :</p>
+
+<textarea name="code" class="JScript">  
+  YUI({
+      groups: {
+          yui2: {
+              base: 'local/path/to/2in3/dist/2.8.0/build/', // FIXME: setup the path to 2in3 build
+              patterns:  { 
+                  'yui2-': {
+                      configFn: function(me) {
+                          if(/-skin|reset|fonts|grids|base/.test(me.name)) {
+                              me.type = 'css';
+                              me.path = me.path.replace(/\.js/, '.css');
+                              me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
+                          }
+                      }
+                  } 
+              }
+          }
+      }
+  }).use( "yui3-global-yui2", function(Y) {
+
+    YUI().use(  "inputex-form",
+                "inputex-string",      
+                // ...
+    function(Y) {
+
+      // Y.inputEx ready to use
+
+    });
+  });
+  
+</textarea>
+
+
+
+
+
+<h2>Example</h2>
+
+
+<textarea name="code" class="JScript">  
+  YUI().use( "yui3-global-yui2", function(Y) {
+
+    // IMPORTANT: Note the two-stage loading !  
+    YUI().use(  "inputex-form",
+                "inputex-string",
+                "inputex-email",
+                "inputex-url",
+                "inputex-select",
+                "inputex-datetime",
+                "inputex-colorpicker",
+                "inputex-rte",             
+                "inputex-list",
+    function(Y) {
+
+      new Y.inputEx.Form( { 
+  			fields: [ 
+  				{type: 'select', label: 'Title', name: 'title', choices: ['Mr','Mrs','Ms'] },
+  				{label: 'Firstname', name: 'firstname', required: true, value:'Jacques' },
+  				{label: 'Lastname', name: 'lastname', value:'Dupont' },
+  				{type:'email', label: 'Email', name: 'email'},
+  				{type:'url', label: 'Website',name:'website'},
+  				{type:'datetime', label: 'Date', name: 'date'},
+  				{type:'colorpicker', label: 'Color', name: 'color'},
+  				{type:'html', label: 'Text', name: 'any'},
+  				{type: 'list', label: 'Test',	listLabel: 'Websites', elementType: { type: 'select', choices:  ['http://www.neyric.com', 'http://www.ajaxian.com', 'http://www.google.com', 'http://www.yahoo.com', 'http://javascript.neyric.com/blog', 'http://javascript.neyric.com/wireit', 'http://neyric.github.com/inputex']	}, value: ['http://www.neyric.com', 'http://www.ajaxian.com', 'http://www.google.com', 'http://www.yahoo.com'], useButtons: true  }
+  			], 
+  			buttons: [{type: 'submit', value: 'Change'}], 	
+  			parentEl: 'container1' 
+  		});
+
+    });
+  });
+  
+</textarea>
+
+
+  
+<div id="container1"></div></div>
+
+<script>
+
+YUI_config.groups.inputex.base = '../';
+
+YUI().use( "yui3-global-yui2", function(Y) {
+  
+  // IMPORTANT: Note the two-stage loading !  
+  YUI().use(  "inputex-form",
+              "inputex-string",
+              "inputex-email",
+              "inputex-url",
+              "inputex-select",
+              "inputex-datetime",
+              "inputex-colorpicker",
+              "inputex-rte",             
+              "inputex-list",
+  function(Y) {
+		
+    new Y.inputEx.Form( { 
+			fields: [ 
+				{type: 'select', label: 'Title', name: 'title', choices: ['Mr','Mrs','Ms'] },
+				{label: 'Firstname', name: 'firstname', required: true, value:'Jacques' },
+				{label: 'Lastname', name: 'lastname', value:'Dupont' },
+				{type:'email', label: 'Email', name: 'email'},
+				{type:'url', label: 'Website',name:'website'},
+				{type:'datetime', label: 'Date', name: 'date'},
+				{type:'colorpicker', label: 'Color', name: 'color'},
+				{type:'html', label: 'Text', name: 'any'},
+				{type: 'list', label: 'Test',
+    			listLabel: 'Websites',
+    			elementType: {
+    				type: 'select', 
+    				choices:  ['http://www.neyric.com', 'http://www.ajaxian.com', 'http://www.google.com', 'http://www.yahoo.com', 'http://javascript.neyric.com/blog', 'http://javascript.neyric.com/wireit', 'http://neyric.github.com/inputex']
+    			},
+    			value: ['http://www.neyric.com', 'http://www.ajaxian.com', 'http://www.google.com', 'http://www.yahoo.com'], 
+    			useButtons: true // set to true to display buttons instead of links
+    		}
+			], 
+			buttons: [{type: 'submit', value: 'Change'}], 	
+			parentEl: 'container1' 
+		});
+
+  });
+});
+</script>
+
+
+<script src="js/dpSyntaxHighlighter.js"></script>
+<script language="javascript"> 
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+
+</body>
+</html>

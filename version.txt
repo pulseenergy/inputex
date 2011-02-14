@@ -9,6 +9,23 @@
 Release Notes:
 ==============
 
+version 0.7.1 :
+---------------
+
+released on February, 14th 2011
+
+ - Field enhancements:
+		* DateSplitField: inputs are now trimed by default
+
+ - Fixes
+		* RadioField: fix rare bug when a classic choice has a value equal to
+		              allowAny field default value
+		* IntegerField / NumberField: fix trim option which didn't work
+		* missing DE translations
+		* fixes inputEx Form Builder LoadPanel
+
+ - Adding the YUI3 loader using yui2in3
+
 version 0.7.0 :
 ---------------
 

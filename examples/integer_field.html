@@ -47,7 +47,7 @@
 	<div id='valueContainer2'></div>
 	<div class='codeContainer'>
 		<textarea name="code" class="JScript">
-			var field = new inputEx.IntegerField({parentEl: 'container2', showMsg: true, required:true, typeInvite:"Enter a number"});
+			var field = new inputEx.IntegerField({parentEl: 'container2', showMsg: true, required:true, typeInvite:"Enter a number", trim: true});
 			field.updatedEvt.subscribe(function(e, params) {
 				YAHOO.util.Dom.get('valueContainer2').innerHTML = "value: "+params[0]+", type: "+typeof(params[0]);
 			});

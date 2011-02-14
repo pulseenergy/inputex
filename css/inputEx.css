@@ -233,6 +233,11 @@ div.inputEx-ListField-ArrowDown {
    background: transparent url(../images/bullet_arrow_down.png) no-repeat scroll 0%;
 }
 
+div.inputEx-ListField-subFieldEl {
+  float:left;
+  margin-left:4px;
+}
+
 a.inputEx-List-link {
    color: blue;
    cursor: pointer;
