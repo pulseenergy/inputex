@@ -22,6 +22,7 @@ not released yet
 		              allowAny field default value
 		* IntegerField / NumberField: fix trim option which didn't work
 
+- Adding the YUI3 loader using yui2in3
 
 version 0.7.0 :
 ---------------
