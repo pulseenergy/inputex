@@ -2,7 +2,7 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: inputEx  inputEx.widget.JsonTreeInspector   (YUI Library)</title>
+	<title>API: inputEx   yui3-loader.js  (YUI Library)</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/api.css" />
@@ -19,8 +19,8 @@
         <h3>inputEx&nbsp; <span class="subtitle">0.7.1</span></h3>
         <a href="./index.html" title="inputEx-library">inputEx-library</a> 
             &gt; <a href="./module_inputex.html" title="inputEx">inputEx</a>
-                 &gt; inputEx.widget.JsonTreeInspector 
                 
+                 &gt; yui3-loader.js (source view) 
         <form onsubmit="return false">
             <div id="propertysearch">
                 Search: <input autocomplete="off" id="searchinput" />
@@ -43,426 +43,325 @@
                 </fieldset>
             </form>
 
-                    <h2>
-                        
-
-                        
-                        
-                            Class <b property="yui:name">inputEx.widget.JsonTreeInspector</b>
-                        <span class="extends">
-                        </span>
-
-                    </h2>
-                    <!-- class tree goes here -->
-                    
-                
-  
-
-                    <div class="summary description" property="yui:description">
-                        Create a treeview to inspect a javascript object
-                    </div>
-
-                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
-                        <h3 id="constructor">Constructor</h3>
-                        <div class="content">
-                            <div class="detail">
-                                <strong property="yui:name">inputEx.widget.JsonTreeInspector</strong>
-                                <code>
-                                    (
-  
-                                        
-                                                
-                                                parentEl
-
-                                                , 
-                                                object
-
-                                                , 
-                                                jsonPath
-                                    )
-                                </code>
-                                <div class="description">
-                                        <dl rel="yui:parameters">
-                                            <dt>Parameters:</dt>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">parentEl</span>
-                                                    &lt;<span property="yui:type">String|HTMLElement</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> where to append the tree</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">object</span>
-                                                    &lt;<span property="yui:type">Object</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> the object to inspect</span>
-                                                </dd>
-                                                <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">jsonPath</span>
-                                                    &lt;<span property="yui:type">String</span>&gt;
-                                                    </code>
-                                                    <span property="yui:description"> JSON Path string (optional) (http://code.google.com/p/jsonpath/wiki/Javascript)</span>
-                                                </dd>
-                                        </dl>
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div rel="yui:properties" resource="#properties">
-                        <div class="section field details">
-                            <h3 id="properties">Properties</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:property" resource="#property_el">
-                                    <h4><a name="property_el" property="yui:name">el</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Main div element
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:property" resource="#property_hash">
-                                    <h4><a name="property_hash" property="yui:name">hash</a>
-                                        - <code><span property="yui:type">object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Hash to contain the values indexed by li ids
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div rel="yui:methods" resource="#methods">
-                        <div class="section method details">
-                            <h3 id="methods">Methods</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:method" resource="#method_addItem">
-                                    <h4>
-                                        <a name="method_addItem">addItem</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">addItem</strong>
-                                           (
-                                                
-                                                        
-                                                         item
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Add an item to the list
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">item</span>
-                                                        &lt;<span property="yui:type">String|Object</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"> Either a string with the given value or an object with "label" and "value" attributes</span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_buildBranch">
-                                    <h4>
-                                        <a name="method_buildBranch">buildBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">buildBranch</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Build the sub-branch for obj
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_destroy">
-                                    <h4>
-                                        <a name="method_destroy">destroy</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">destroy</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Destroy the widget
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandAll">
-                                    <h4>
-                                        <a name="method_expandAll">expandAll</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandAll</strong>
-                                           (
-                                                
-                                                        
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand the root node
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandBranch">
-                                    <h4>
-                                        <a name="method_expandBranch">expandBranch</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandBranch</strong>
-                                           (
-                                                
-                                                        
-                                                         li
-                                                    
-                                                
-                                                        , 
-                                                         maxLevel
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Expand a branch given a li element
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">li</span>
-                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">maxLevel</span>
-                                                        &lt;<span property="yui:type">Integer</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"></span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_expandElement">
-                                    <h4>
-                                        <a name="method_expandElement">expandElement</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">expandElement</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            expand the node given the li element
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_jsonPath">
-                                    <h4>
-                                        <a name="method_jsonPath">jsonPath</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">jsonPath</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            JSONPath 0.8.0 - XPath for JSON
-http://code.google.com/p/jsonpath/
-http://code.google.com/p/jsonpath/wiki/Javascript
-Copyright (c) 2007 Stefan Goessner (goessner.net)
-Licensed under the MIT (MIT-LICENSE.txt) licence.
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_onItemClick">
-                                    <h4>
-                                        <a name="method_onItemClick">onItemClick</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">onItemClick</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            When the user click on a node
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+                        <div class="highlight"><pre><span class="nx">YUI</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;yui3-global-yui2&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Y</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nb">window</span><span class="p">.</span><span class="nx">YAHOO</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">YUI2</span><span class="p">;</span>	
+<span class="p">},</span> <span class="s1">&#39;0.7.1&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-yahoo&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-dom&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-event&#39;</span><span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">YUI</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;inputex-yui3&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Y</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">Y</span><span class="p">.</span><span class="nx">inputEx</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">inputEx</span><span class="p">;</span>
+	<span class="c1">// fix the spacerUrl thx to the inputEx path</span>
+	<span class="nx">Y</span><span class="p">.</span><span class="nx">inputEx</span><span class="p">.</span><span class="nx">spacerUrl</span> <span class="o">=</span> <span class="nx">YUI_config</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">inputex</span><span class="p">.</span><span class="nx">base</span><span class="o">+</span><span class="s2">&quot;/images/space.gif&quot;</span><span class="p">;</span>
+<span class="p">},</span> <span class="s1">&#39;0.7.1&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui3-global-yui2&#39;</span><span class="p">]</span>
+<span class="p">});</span>
+
+<span class="nx">YUI</span><span class="p">().</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">Y</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="cm">/**</span>
+<span class="cm"> 	 * YUI 3 module metadata</span>
+<span class="cm">	 */</span>
+	<span class="kd">var</span> <span class="nx">CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="nx">groups</span><span class="o">:</span> <span class="p">{</span>
+			<span class="s1">&#39;inputex&#39;</span><span class="o">:</span> <span class="p">{</span>
+				<span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;inputex/&#39;</span><span class="p">,</span>
+				<span class="nx">combine</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+				<span class="nx">modules</span><span class="o">:</span> <span class="p">{</span>
+					
+					<span class="cm">/**</span>
+<span class="cm">					 * Setup</span>
+<span class="cm">					 */</span>
+					<span class="s1">&#39;yui3-global-yui2&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/yui3-loader.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-yahoo&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-dom&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-event&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-yui3&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/yui3-loader.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui3-global-yui2&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					
+					<span class="cm">/**</span>
+<span class="cm">					 * Standard inputEx components</span>
+<span class="cm">					 */</span>
+					<span class="s1">&#39;inputex-css&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;css&#39;</span><span class="p">,</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;css/inputEx.css&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-reset&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-fonts&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+				   <span class="s1">&#39;inputex&#39;</span><span class="o">:</span> <span class="p">{</span>
+				   	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/inputex.js&#39;</span><span class="p">,</span>
+				      <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-yui3&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-css&#39;</span><span class="p">]</span>
+				   <span class="p">},</span>
+				
+					<span class="c1">// inputEx base</span>
+					<span class="s1">&#39;inputex-field&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/Field.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-visus&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/Visus.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-jsonschema&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/json-schema.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// RPC</span>
+					<span class="s1">&#39;inputex-rpc&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/rpc/inputex-rpc.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-connection&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-jsonschema&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-smdtester&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/rpc/smdTester.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-rpc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-jsontreeinspector&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-yql&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/rpc/yql.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// Mixins</span>
+					<span class="s1">&#39;inputex-choice&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/mixins/choice.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// Widgets</span>
+					<span class="s1">&#39;inputex-ddlist&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/ddlist.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-dragdrop&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-dialog&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/Dialog.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-group&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-dragdrop&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-container&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-datatable&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/DataTable.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-datatable&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-dialog&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-inplace-datatable&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/dtInPlaceEdit.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-datatable&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-jsontreeinspector&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/json-tree-inspector.js&#39;</span><span class="p">,</span>
+					  	<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-button&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/widgets/Button.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// MetaFields</span>
+					<span class="s1">&#39;inputex-group&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/Group.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-form&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/Form.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-group&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-button&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-list&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/ListField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-tree&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/TreeField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-listfield&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-combine&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/CombineField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-group&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-inplaceedit&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/InPlaceEdit.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-button&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-animation&#39;</span><span class="p">]</span> <span class="c1">// animation is optional, required if animColors option</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-lens&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/Lens-beta.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-group&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// Fields</span>
+					<span class="s1">&#39;inputex-string&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/StringField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-autocomplete&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/AutoComplete.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-autocomplete&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-checkbox&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/CheckBox.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-color&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/ColorField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-colorpicker&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/ColorPickerField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-colorpicker&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-container&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-menu&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-date&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DateField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-datepicker&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DatePickerField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;yui2-calendar&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-button&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-date&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-container&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-dateselectmonth&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DateSelectMonthField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-integer&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/IntegerField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-datesplit&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DateSplitField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-integer&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-select&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/SelectField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-choice&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-time&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/TimeField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-select&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-datetime&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DateTimeField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-datepicker&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-combine&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-time&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-timeinterval&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/TimeIntervalField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-select&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-dsselect&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DSSelectField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-select&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-datasource&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-email&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/EmailField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-hidden&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/HiddenField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-keyvalue&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/KeyValueField-beta.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-keyopvalue&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/KeyOpValueField-beta.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-keyvalue&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-multiautocomplete&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/MultiAutoComplete.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-autocomplete&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-ddlist&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-multiselect&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/MultiSelectField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-select&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-ddlist&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-number&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/NumberField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-password&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/PasswordField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-radio&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/RadioField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;selector&#39;</span><span class="p">,</span><span class="s1">&#39;event-delegate&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-choice&#39;</span><span class="p">,</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-rte&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/RTEField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-editor&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-slider&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/SliderField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span> <span class="s1">&#39;yui2-slider&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-textarea&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/Textarea.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-type&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/TypeField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-uneditable&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/UneditableField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-visus&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-url&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/UrlField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-dateselectmonth&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/DateSelectMonthField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-string&#39;</span><span class="p">,</span> <span class="s1">&#39;inputex-select&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-ipv4&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/IPv4Field.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-string&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-vector&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/VectorField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-combine&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-map&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/MapField.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-menu&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/MenuField.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">,</span><span class="s1">&#39;yui2-menu&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-file&#39;</span><span class="o">:</span> <span class="p">{</span>
+					 	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/fields/FileField.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex-field&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="c1">// Locals</span>
+					<span class="s1">&#39;inputex-lang-fr&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/locals/fr.js&#39;</span><span class="p">,</span>
+						<span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-lang-it&#39;</span><span class="o">:</span> <span class="p">{</span>
+					  	<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/locals/it.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-lang-nl&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/locals/nl.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-lang-es&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/locals/es.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">},</span>
+					<span class="s1">&#39;inputex-lang-de&#39;</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;js/locals/de.js&#39;</span><span class="p">,</span>
+					   <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;inputex&#39;</span><span class="p">]</span>
+					<span class="p">}</span>
+					
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">YUI_config</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">YUI_config</span> <span class="o">=</span> <span class="p">{};</span> <span class="p">}</span>
+	<span class="nx">Y</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">YUI_config</span><span class="p">,</span> <span class="nx">CONFIG</span><span class="p">);</span>
+
+<span class="p">});</span>
+</pre></div>
 
                     </div>
-
-                    <div rel="yui:events" resource="#events">
-
-
-                    </div>
-
-                    <div rel="yui:attributes" resource="#configattributes">
-
-                    </div>
-
 			</div>
 		</div>
 		<div class="yui-b">
@@ -551,7 +450,7 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                                 <li class=""><a href="inputEx.widget.DDListItem.html" title="inputEx.widget.DDListItem">inputEx.widget.DDListItem</a></li>
                                 <li class=""><a href="inputEx.widget.Dialog.html" title="inputEx.widget.Dialog">inputEx.widget.Dialog</a></li>
                                 <li class=""><a href="inputEx.widget.dtInPlaceEdit.html" title="inputEx.widget.dtInPlaceEdit">inputEx.widget.dtInPlaceEdit</a></li>
-                                <li class="selected"><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
+                                <li class=""><a href="inputEx.widget.JsonTreeInspector.html" title="inputEx.widget.JsonTreeInspector">inputEx.widget.JsonTreeInspector</a></li>
                                 <li class=""><a href="inputEx.YQL.html" title="inputEx.YQL">inputEx.YQL</a></li>
                         </ul>
                     </div>
@@ -632,31 +531,11 @@ Licensed under the MIT (MIT-LICENSE.txt) licence.
                                 <li class=""><a href="VectorField.js.html" title="VectorField.js">VectorField.js</a></li>
                                 <li class=""><a href="Visus.js.html" title="Visus.js">Visus.js</a></li>
                                 <li class=""><a href="yql.js.html" title="yql.js">yql.js</a></li>
-                                <li class=""><a href="yui3-loader.js.html" title="yui3-loader.js">yui3-loader.js</a></li>
+                                <li class="selected"><a href="yui3-loader.js.html" title="yui3-loader.js">yui3-loader.js</a></li>
                         </ul>
                     </div>
 
-                    <div id="propertyList" class="module">
-                        <h4>Properties</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#property_el" title="el">el</a></li>
-                                <li class=""><a href="#property_hash" title="hash">hash</a></li>
-                        </ul>
-                    </div>
 
-                    <div id="methodsList" class="module">
-                        <h4>Methods</h4>
-                        <ul class="content">        
-                                <li class=""><a href="#method_addItem" title="addItem">addItem</a></li>
-                                <li class=""><a href="#method_buildBranch" title="buildBranch">buildBranch</a></li>
-                                <li class=""><a href="#method_destroy" title="destroy">destroy</a></li>
-                                <li class=""><a href="#method_expandAll" title="expandAll">expandAll</a></li>
-                                <li class=""><a href="#method_expandBranch" title="expandBranch">expandBranch</a></li>
-                                <li class=""><a href="#method_expandElement" title="expandElement">expandElement</a></li>
-                                <li class=""><a href="#method_jsonPath" title="jsonPath">jsonPath</a></li>
-                                <li class=""><a href="#method_onItemClick" title="onItemClick">onItemClick</a></li>
-                        </ul>
-                    </div>
 
 
 

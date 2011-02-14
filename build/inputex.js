@@ -83,7 +83,7 @@ inputEx = function(fieldOptions, parentField) {
 
 lang.augmentObject(inputEx, {
    
-   VERSION: "0.7.0",
+   VERSION: "0.7.1",
    
    /**
     * Url to the spacer image. This url schould be changed according to your project directories

@@ -1,6 +1,6 @@
 YUI.add('yui3-global-yui2', function(Y) {
 	window.YAHOO = Y.YUI2;	
-}, '0.7.0', {
+}, '0.7.1', {
     requires: ['yui2-yahoo','yui2-dom','yui2-event']
 });
 
@@ -8,7 +8,7 @@ YUI.add('inputex-yui3', function(Y) {
 	Y.inputEx = window.inputEx;
 	// fix the spacerUrl thx to the inputEx path
 	Y.inputEx.spacerUrl = YUI_config.groups.inputex.base+"/images/space.gif";
-}, '0.7.0', {
+}, '0.7.1', {
     requires: ['yui3-global-yui2']
 });
 
