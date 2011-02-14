@@ -314,8 +314,9 @@ YAHOO.util.Event.onDOMReady(function() {
 					}
 				],
        buttons: [
-          {type: 'button', value: 'Load', onClick: function() { 
+          {type: 'submit', value: 'Load', onClick: function() { 
 
+            try {
 						  var value = Example1.myPanel.getForm().getValue();
 						
 							try {
@@ -345,12 +346,20 @@ YAHOO.util.Event.onDOMReady(function() {
 								
 							} // OR standard inputEx JSON
 							else { // value.format == "inputEx JSON"
-								g.setValue(value);
+								g.setValue(code);
 							}
 							
 							Example1.myPanel.hide();
+							
+						}catch(ex) {
+						  if(window.console && YAHOO.lang.isFunction(console.log)) {
+						    console.log(ex);
+					    }
+						}
+							
+							return false;
 				 }},
-          {type: 'button', value: 'Cancel', onClick: function() { Example1.myPanel.hide(); } }
+          {type: 'link', value: 'Cancel', onClick: function() { Example1.myPanel.hide(); return false; } }
        ]
     };
 		Example1.myPanel = new inputEx.widget.Dialog({
