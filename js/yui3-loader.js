@@ -306,7 +306,7 @@ YUI().use(function(Y) {
 		}
 	};
 
-	if(typeof YUI_config === 'undefined') { YUI_config = {}; }
-	Y.mix(YUI_config, CONFIG);
+	if(typeof YUI_config === 'undefined') { YUI_config = {groups: {}}; }
+	Y.mix(YUI_config.groups, CONFIG.groups);
 
 });
