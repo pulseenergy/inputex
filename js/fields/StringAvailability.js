@@ -31,6 +31,9 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		
 		// Must hide default Msg to do it custom
 		this.options.showMsg = false;
+		
+		// Status of AJAX
+		this.isRequesting = false;
 	},
 	
 	renderComponent: function() {
@@ -53,10 +56,16 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		DOM.insertAfter(this.availabilityDiv, this.fieldContainer);
 	},
 	
-	onKeyPress: function() {
+	onKeyPress: function(e) {
+		
+		// Dont listen for TAB key
+		if ( e.keyCode === 9 ) { return; }
+		
+		this.isRequesting = true;
+		
 		// Must do this to wait that value is updated (for the getValue())
 		lang.later(0, this, function(){
-			
+		
 		// If field is empty
 		if(this.getValue() === ''){
 			this.stopTimer();
@@ -76,6 +85,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	},
 	
 	startTimer: function() {
+		
 		var that = this;
 		this.timerId = setTimeout(function(){
 			that.getAvailability(that.getValue());
@@ -95,6 +105,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	onAvailable: function(){
 		this.setAvailabilityState("available");
 		this.isAvailable = true;
+		this.isRequesting = false;
 	},
 	
 	/**
@@ -103,6 +114,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	onUnavailable: function(){
 		this.setAvailabilityState("unavailable");
 		this.isAvailable = false;
+		this.isRequesting = false;
 	},
 	
 	setAvailabilityState: function(state) {
@@ -128,12 +140,11 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		
 		DOM.setAttribute(this.availabilityDiv, 'class', 'availabilityDiv '+state);
 		this.availabilityDiv.style.display = 'block';
-
+		
 	},
 	
-	
 	setClassFromState: function(){
-		inputEx.StringAvailability.superclass.setClassFromState.call(this);		
+		inputEx.StringAvailability.superclass.setClassFromState.call(this);
 		
 		var state = this.getState();
 		
@@ -142,7 +153,11 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 		}
 	},
 	
-	validate: function(){
+	validate: function() {
+		
+		// If AJAX request running
+		if ( !!this.isRequesting ) { return false; }
+		
 		var valid = inputEx.StringAvailability.superclass.validate.call(this);
 		if(!lang.isUndefined(this.isAvailable)){
 			valid = this.isAvailable && valid;
@@ -155,9 +170,11 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 	 * Perform the Ajax request
 	 */
 	getAvailability: function(string) {
+				
 		// TODO split params ? &
 		YAHOO.util.Connect.asyncRequest('GET', this.options.uri+'?availabilityRequest='+string, {
 			success: function(o) {
+								
 				var obj = lang.JSON.parse(o.responseText);
 				if(obj === "true" || !!obj){
 					this.onAvailable();
@@ -171,6 +188,7 @@ lang.extend(inputEx.StringAvailability, inputEx.StringField, {
 			},
 			failure: function(o) {
 				// TODO ?
+				this.isRequesting = false;
 			},
 			scope: this
 		});
