@@ -429,7 +429,7 @@ lang.extend(inputEx.widget.CellEditor, YAHOO.widget.BaseCellEditor,{
 	 */
 	save: function() {
 		// Save only if cell is validated
-		if(this._inputExField.validate()) {	    
+		if (this._inputExField.validate() && this._inputExField.getState() !== inputEx.stateRequired) {
 			inputEx.widget.CellEditor.superclass.save.call(this);	    
 		}
 	},
