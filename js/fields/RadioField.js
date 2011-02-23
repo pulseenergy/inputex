@@ -265,9 +265,14 @@
 				// so we check only the first value-matching radio button
 				if (value === this.choicesList[i].value && !valueFound) {
 					
+					// check the radio
 					this.choicesList[i].node.firstChild.checked = true;
+					
+					// radioAny should not be checked (unless current choice is radioAny !)
+					checkAny = this.radioAny && (i === length - 1) ? true : false;
+					
+					// raise valueFound flag, all other radios should be unchecked now
 					valueFound = true;
-					checkAny = false;
 					
 				} else {
 					this.choicesList[i].node.firstChild.checked = false;

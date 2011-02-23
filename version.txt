@@ -9,6 +9,13 @@
 Release Notes:
 ==============
 
+next version :
+--------------
+
+ - Fixes :
+    * RadioField: fix remaining bug when radio default value option is equal to
+                  allowAny field default value
+
 version 0.7.1 :
 ---------------
 
